@@ -12,11 +12,13 @@ The webservice is self-documented. Once installed, go to the webservice document
 ## Image types
 
 Five different images types are generated depending on the plugin's execution:
-* ![Quality Gate passed](https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/blob/master/images/passing.svg) indicates that the project passes the quality gate (QG)
-* ![Quality Gate warning](https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/blob/master/images/warning.svg) indicates that the project does not pass the quality gate due to QG warnings
-* ![Quality Gate failed](https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/blob/master/images/failing.svg) indicates that the project does not pass the quality gate due to QG errors
-* ![No Quality Gate](https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/blob/master/images/no_gate.svg) indicates that no quality gate has been set for the specified project
-* ![Server error](https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/blob/master/images/server_error.svg) indicates that a server error occured while generating the image
+* [Passing](images/passing.svg) indicates that the project passes the quality gate (QG)
+* [Warning](images/warning.svg) indicates that the project does not pass the quality gate due to QG warnings
+* [Failing](images/failing.svg) indicates that the project does not pass the quality gate due to QG errors
+* [No Gate](images/no_gate.svg) indicates that no quality gate has been set for the specified project
+* [Server error](images/server_error.svg) indicates that a server error occured while generating the image
+
+_Note 1:_ Unfortunately it appears that GitHub does not render SVG images in ``README.md`` file due to potential cross site scripting vulnerabilities. To display the different images you have thus to click on them.
 
 ## Build status
 
