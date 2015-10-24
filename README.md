@@ -1,9 +1,13 @@
 # SVG Status plugin for SonarQube
-Plugin for SonraQube that provides a webservice to retrieve projects' quality gate status as an SVG image similarily to travis-ci build status images.
+Plugin for SonarQube that provides a webservice to retrieve projects' quality gate status as an SVG image similarily to travis-ci build status images.
 
-## Documentation
+## Configuration
 
-The webservice is self-documented. Once installed, go to the webseervice documentation page of your SonarQube instance and look at the documentation for ``/api/status``.
+If your SonarQube instance is ``http://localhost:9000/``, will work out of the box. If the ``baseURL`` of your SonarQube instance is different from the standard one, you need first to configure the plugin (SVG Status section on the settings page.) 
+
+## Webservice API
+
+The webservice is self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/status``.
 
 ## Image types
 
