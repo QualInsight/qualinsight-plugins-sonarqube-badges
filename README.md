@@ -12,11 +12,11 @@ The webservice is self-documented. Once installed, go to the webservice document
 ## Image types
 
 Five different images types are generated depending on the plugin's execution:
-* ![Quality Gate passed](images/passing.svg) indicates that the project passes the quality gate (QG)
-* ![Quality Gate warning](images/warning.svg) indicates that the project does not pass the quality gate due to QG warnings
-* ![Quality Gate failed](images/failing.svg) indicates that the project does not pass the quality gate due to QG errors
-* ![No Quality Gate](images/no_gate.svg) indicates that no quality gate has been set for the specified project
-* ![Server error](images/server_error.svg) indicates that a server error occured while generating the image
+* ![Quality Gate passed](https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/blob/master/images/passing.svg) indicates that the project passes the quality gate (QG)
+* ![Quality Gate warning](https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/blob/master/images/warning.svg) indicates that the project does not pass the quality gate due to QG warnings
+* ![Quality Gate failed](https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/blob/master/images/failing.svg) indicates that the project does not pass the quality gate due to QG errors
+* ![No Quality Gate](https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/blob/master/images/no_gate.svg) indicates that no quality gate has been set for the specified project
+* ![Server error](https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/blob/master/images/server_error.svg) indicates that a server error occured while generating the image
 
 ## Build status
 
