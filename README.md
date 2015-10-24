@@ -3,7 +3,7 @@ Plugin for SonarQube that provides a webservice to retrieve projects' quality ga
 
 ## Configuration
 
-If your SonarQube instance is ``http://localhost:9000/``, will work out of the box. If the ``baseURL`` of your SonarQube instance is different from the standard one, you need first to configure the plugin (SVG Status section on the settings page.) 
+This plugin requires no manual configuration. It auto-configures itself using SonarQube ``sonar.core.serverBaseURL`` property value.
 
 ## Webservice API
 

@@ -29,6 +29,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -47,28 +48,10 @@ public class QualityGateStatusRetriever implements ServerExtension {
 
     private final HttpGet httpGet;
 
-    private final String uriScheme;
+    private final URIBuilder uriBuilder;
 
-    private final String uriHost;
-
-    private final int uriPort;
-
-    private final String uriContextRoot;
-
-    public QualityGateStatusRetriever(final Settings settings) {
-        this.uriScheme = settings.getString("sonar.status.server.scheme");
-        this.uriHost = settings.getString("sonar.status.server.host");
-        this.uriPort = settings.getInt("sonar.status.server.port");
-        final String tempUriContextRoot = StringUtils.removeEnd(settings.getString("sonar.status.server.contextRoot"), URI_SEPARATOR);
-        if (tempUriContextRoot != null) {
-            if (!tempUriContextRoot.startsWith(URI_SEPARATOR)) {
-                this.uriContextRoot = URI_SEPARATOR + tempUriContextRoot;
-            } else {
-                this.uriContextRoot = tempUriContextRoot;
-            }
-        } else {
-            this.uriContextRoot = "";
-        }
+    public QualityGateStatusRetriever(final Settings settings) throws URISyntaxException {
+        this.uriBuilder = new URIBuilder(settings.getString("sonar.core.serverBaseURL"));
         this.httpclient = HttpClients.createDefault();
         this.httpGet = new HttpGet();
         this.responseHandler = new ResponseHandler<String>() {
@@ -95,7 +78,8 @@ public class QualityGateStatusRetriever implements ServerExtension {
             .append("&metrics=quality_gate_details&format=json")
             .toString();
         try {
-            this.httpGet.setURI(new URI(this.uriScheme, null, this.uriHost, this.uriPort, this.uriContextRoot + "/api/resources/index/", uriQuery, null));
+            this.httpGet.setURI(new URI(this.uriBuilder.getScheme(), null, this.uriBuilder.getHost(), this.uriBuilder.getPort(), StringUtils.removeEnd(this.uriBuilder.getPath(), URI_SEPARATOR)
+                + "/api/resources/index/", uriQuery, null));
             final String responseBody = this.httpclient.execute(this.httpGet, this.responseHandler);
             final JSONArray resources = new JSONArray(responseBody);
             if (!resources.isNull(0)) {

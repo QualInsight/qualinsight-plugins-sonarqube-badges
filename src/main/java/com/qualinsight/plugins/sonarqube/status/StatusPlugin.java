@@ -21,8 +21,6 @@ package com.qualinsight.plugins.sonarqube.status;
 
 import java.util.List;
 import com.google.common.collect.ImmutableList;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
 import org.sonar.api.SonarPlugin;
 import com.qualinsight.plugins.sonarqube.status.extension.StatusWebService;
 import com.qualinsight.plugins.sonarqube.status.internal.QualityGateStatusRetriever;
@@ -33,12 +31,6 @@ import com.qualinsight.plugins.sonarqube.status.internal.SVGImageGenerator;
  *
  * @author Michel Pawlak
  */
-@Properties({
-    @Property(key = "sonar.status.server.scheme", name = "SonarQube connection scheme", defaultValue = "http"),
-    @Property(key = "sonar.status.server.host", name = "SonarQube host", defaultValue = "localhost"),
-    @Property(key = "sonar.status.server.port", name = "SonarQube port", defaultValue = "9000"),
-    @Property(key = "sonar.status.server.contextRoot", name = "SonarQube context root", defaultValue = "")
-})
 public final class StatusPlugin extends SonarPlugin {
 
     @SuppressWarnings("rawtypes")
