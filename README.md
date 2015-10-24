@@ -12,11 +12,11 @@ The webservice is self-documented. Once installed, go to the webservice document
 ## Image types
 
 Five different images types are generated depending on the plugin's execution:
-* "Passing" indicates that the project passes the quality gate (QG)
-* "Warning" indicates that the project does not pass the quality gate due to QG warnings
-* "Failing" indicates that the project does not pass the quality gate due to QG errors
-* "No gate" indicates that no quality gate has been set for the specified project
-* "Server error" indicates that a server error occured while generating the image
+* ![Quality Gate passed](images/passing.svg) indicates that the project passes the quality gate (QG)
+* ![Quality Gate warning](images/warning.svg) indicates that the project does not pass the quality gate due to QG warnings
+* ![Quality Gate failed](images/failing.svg) indicates that the project does not pass the quality gate due to QG errors
+* ![No Quality Gate](images/no_gate.svg) indicates that no quality gate has been set for the specified project
+* ![Server error](images/server_error.svg) indicates that a server error occured while generating the image
 
 ## Build status
 
