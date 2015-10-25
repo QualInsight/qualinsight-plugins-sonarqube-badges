@@ -22,19 +22,28 @@ package com.qualinsight.plugins.sonarqube.status.internal;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.util.EnumMap;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
-import org.apache.batik.svggen.SVGGraphics2DIOException;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
 public class SVGImageGenerator implements ServerExtension {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SVGImageGenerator.class);
 
     private static final String SVG_NAMESPACE_URI = "http://www.w3.org/2000/svg";
 
@@ -62,6 +71,8 @@ public class SVGImageGenerator implements ServerExtension {
 
     private static final Color COLOR_TEXT = new Color(255, 255, 255, 255);
 
+    private final EnumMap<QualityGateStatus, InputStream> qualityGateStatusImagesMap = new EnumMap<QualityGateStatus, InputStream>(QualityGateStatus.class);
+
     private SVGGeneratorContext svgGeneratorContext;
 
     public SVGImageGenerator() {
@@ -69,9 +80,39 @@ public class SVGImageGenerator implements ServerExtension {
         final Document document = domImplementation.createDocument(SVG_NAMESPACE_URI, QUALIFIED_NAME, null);
         this.svgGeneratorContext = SVGGeneratorContext.createDefault(document);
         this.svgGeneratorContext.setComment(COMMENT_STRING);
+        LOGGER.info("SVGImageGenerator is now ready.");
     }
 
-    public void generate(final QualityGateStatus status, final OutputStream responseOutputStream) throws SVGGraphics2DIOException {
+    public void generateToStream(final QualityGateStatus status, final OutputStream responseOutputStream) throws IOException {
+        InputStream svgImageInputStream;
+        if (this.qualityGateStatusImagesMap.containsKey(status)) {
+            LOGGER.debug("Found SVG image for {} status in cache, reusing it.");
+            svgImageInputStream = this.qualityGateStatusImagesMap.get(status);
+        } else {
+            SVGGraphics2D svgGraphics2D;
+            LOGGER.debug("Generating SVG image for {} status, then caching it.");
+            svgGraphics2D = generateFor(status);
+            // create a svgImageOutputStream to write svgGraphics2D content to
+            final ByteArrayOutputStream svgImageOutputStream = new ByteArrayOutputStream();
+            final Writer out = new OutputStreamWriter(svgImageOutputStream, StandardCharsets.UTF_8);
+            // stream out the content of svgGraphics2D to svgImageOutputStream using CSS styling
+            final boolean useCSS = true;
+            svgGraphics2D.stream(out, useCSS);
+            // create a svgImageInputStream from svgImageOutputStream content
+            svgImageInputStream = new ByteArrayInputStream(svgImageOutputStream.toByteArray());
+            // mark svgImageInputStream position to make it reusable
+            svgImageInputStream.mark(Integer.MAX_VALUE);
+            // put it into cache
+            this.qualityGateStatusImagesMap.put(status, svgImageInputStream);
+        }
+        LOGGER.debug("Writing SVG image to response OutpoutStream.");
+        // write SVG image to response output stream
+        IOUtils.copy(svgImageInputStream, responseOutputStream);
+        // reset InpuStream position for future usage
+        svgImageInputStream.reset();
+    }
+
+    private SVGGraphics2D generateFor(final QualityGateStatus status) {
         // new SVG graphics
         final SVGGraphics2D svgGraphics2D = new SVGGraphics2D(this.svgGeneratorContext, false);
         // set SVG canvas size
@@ -98,11 +139,6 @@ public class SVGImageGenerator implements ServerExtension {
         // draw result text
         svgGraphics2D.setColor(COLOR_TEXT);
         svgGraphics2D.drawString(status.displayText(), LABEL_WIDTH + X_MARGIN, 14);
-        // use CSS styling
-        final boolean useCSS = true;
-        // stream out SVG to the standard output using UTF-8 encoding.
-        final Writer out = new OutputStreamWriter(responseOutputStream, StandardCharsets.UTF_8);
-        svgGraphics2D.stream(out, useCSS);
+        return svgGraphics2D;
     }
-
 }

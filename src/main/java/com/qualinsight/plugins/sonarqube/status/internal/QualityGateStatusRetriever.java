@@ -35,10 +35,14 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.config.Settings;
 
 public class QualityGateStatusRetriever implements ServerExtension {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(QualityGateStatusRetriever.class);
 
     private static final String URI_SEPARATOR = "/";
 
@@ -69,6 +73,7 @@ public class QualityGateStatusRetriever implements ServerExtension {
             }
 
         };
+        LOGGER.info("QualityGateStatusRetriever is now ready.");
     }
 
     public QualityGateStatus retrieveFor(final String key) {
@@ -80,7 +85,9 @@ public class QualityGateStatusRetriever implements ServerExtension {
         try {
             this.httpGet.setURI(new URI(this.uriBuilder.getScheme(), null, this.uriBuilder.getHost(), this.uriBuilder.getPort(), StringUtils.removeEnd(this.uriBuilder.getPath(), URI_SEPARATOR)
                 + "/api/resources/index/", uriQuery, null));
+            LOGGER.debug("Http GET request line: {}", this.httpGet.getRequestLine());
             final String responseBody = this.httpclient.execute(this.httpGet, this.responseHandler);
+            LOGGER.debug("Http GET response body: {}", responseBody);
             final JSONArray resources = new JSONArray(responseBody);
             if (!resources.isNull(0)) {
                 final JSONObject resource = resources.getJSONObject(0);
@@ -93,6 +100,8 @@ public class QualityGateStatusRetriever implements ServerExtension {
             }
         } catch (URISyntaxException | IOException | JSONException e) {
             status = QualityGateStatus.SERVER_ERROR;
+            // We do not want to spam server logs with malformed requests, therefor we only log in debug mode
+            LOGGER.debug("An error occurred while retrieving quality gate status for key '{}': {}", key, e.getMessage());
         }
         return status;
     }

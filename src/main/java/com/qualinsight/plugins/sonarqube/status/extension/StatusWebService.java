@@ -53,7 +53,7 @@ public class StatusWebService implements WebService {
                     final OutputStream responseOutputStream = response.stream()
                         .setMediaType("image/svg+xml")
                         .output();
-                    StatusWebService.this.svgImageGenerator.generate(status, responseOutputStream);
+                    StatusWebService.this.svgImageGenerator.generateToStream(status, responseOutputStream);
                     responseOutputStream.close();
                 }
             })
