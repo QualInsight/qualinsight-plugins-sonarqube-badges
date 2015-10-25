@@ -37,7 +37,7 @@ import com.qualinsight.plugins.sonarqube.status.internal.SVGImageGenerator;
  *
  * @author Michel Pawlak
  */
-public class StatusWebService implements WebService {
+public final class StatusWebService implements WebService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StatusWebService.class);
 

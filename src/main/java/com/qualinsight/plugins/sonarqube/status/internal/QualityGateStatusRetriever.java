@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.config.Settings;
 
-public class QualityGateStatusRetriever implements ServerExtension {
+public final class QualityGateStatusRetriever implements ServerExtension {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(QualityGateStatusRetriever.class);
 
@@ -67,7 +67,7 @@ public class QualityGateStatusRetriever implements ServerExtension {
         this.responseHandler = new ResponseHandler<String>() {
 
             @Override
-            public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+            public String handleResponse(final HttpResponse response) throws IOException {
                 final int status = response.getStatusLine()
                     .getStatusCode();
                 if ((status >= 200) && (status < 300)) {
@@ -95,12 +95,12 @@ public class QualityGateStatusRetriever implements ServerExtension {
         } catch (URISyntaxException | IOException | JSONException e) {
             status = QualityGateStatus.SERVER_ERROR;
             // We do not want to spam server logs with malformed requests, therefore we only log in debug mode
-            LOGGER.debug("An error occurred while retrieving quality gate status for key '{}': {}", key, e.getMessage());
+            LOGGER.debug("An error occurred while retrieving quality gate status for key '{}': {}", key, e);
         }
         return status;
     }
 
-    private String responseBodyForKey(final String key) throws ClientProtocolException, IOException, URISyntaxException {
+    private String responseBodyForKey(final String key) throws IOException, URISyntaxException {
         final String uriQuery = new StringBuilder().append("resource=")
             .append(key)
             .append("&metrics=quality_gate_details&format=json")
@@ -113,7 +113,7 @@ public class QualityGateStatusRetriever implements ServerExtension {
         return responseBody;
     }
 
-    private QualityGateStatus statusFromReponseBody(final String responseBody) {
+    private static QualityGateStatus statusFromReponseBody(final String responseBody) {
         final JSONArray resources = new JSONArray(responseBody);
         if (!resources.isNull(0)) {
             final JSONObject resource = resources.getJSONObject(0);
