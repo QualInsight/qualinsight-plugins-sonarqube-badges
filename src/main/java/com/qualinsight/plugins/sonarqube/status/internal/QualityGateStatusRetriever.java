@@ -54,6 +54,12 @@ public class QualityGateStatusRetriever implements ServerExtension {
 
     private final URIBuilder uriBuilder;
 
+    /**
+     * {@link QualityGateStatusRetriever} IoC constructor.
+     *
+     * @param settings SonarQube {@link Settings}, required to retrieve the "sonar.core.serverBaseURL" property.
+     * @throws URISyntaxException if "sonar.core.serverBaseURL" in SonarQube settings is a malformed URI.
+     */
     public QualityGateStatusRetriever(final Settings settings) throws URISyntaxException {
         this.uriBuilder = new URIBuilder(settings.getString("sonar.core.serverBaseURL"));
         this.httpclient = HttpClients.createDefault();
@@ -76,34 +82,49 @@ public class QualityGateStatusRetriever implements ServerExtension {
         LOGGER.info("QualityGateStatusRetriever is now ready.");
     }
 
+    /**
+     * Enables the retrieval of the quality gate status for project or view with specified key.
+     *
+     * @param key key of the project or view for which the quality gate status needs to be retrieved.
+     * @return current {@link QualityGateStatus} for the specified key
+     */
     public QualityGateStatus retrieveFor(final String key) {
-        QualityGateStatus status = QualityGateStatus.NONE;
+        QualityGateStatus status;
+        try {
+            status = statusFromReponseBody(responseBodyForKey(key));
+        } catch (URISyntaxException | IOException | JSONException e) {
+            status = QualityGateStatus.SERVER_ERROR;
+            // We do not want to spam server logs with malformed requests, therefore we only log in debug mode
+            LOGGER.debug("An error occurred while retrieving quality gate status for key '{}': {}", key, e.getMessage());
+        }
+        return status;
+    }
+
+    private String responseBodyForKey(final String key) throws ClientProtocolException, IOException, URISyntaxException {
         final String uriQuery = new StringBuilder().append("resource=")
             .append(key)
             .append("&metrics=quality_gate_details&format=json")
             .toString();
-        try {
-            this.httpGet.setURI(new URI(this.uriBuilder.getScheme(), null, this.uriBuilder.getHost(), this.uriBuilder.getPort(), StringUtils.removeEnd(this.uriBuilder.getPath(), URI_SEPARATOR)
-                + "/api/resources/index/", uriQuery, null));
-            LOGGER.debug("Http GET request line: {}", this.httpGet.getRequestLine());
-            final String responseBody = this.httpclient.execute(this.httpGet, this.responseHandler);
-            LOGGER.debug("Http GET response body: {}", responseBody);
-            final JSONArray resources = new JSONArray(responseBody);
-            if (!resources.isNull(0)) {
-                final JSONObject resource = resources.getJSONObject(0);
-                final JSONArray measures = resource.getJSONArray("msr");
-                final JSONObject measure = measures.getJSONObject(0);
-                final String dataString = measure.getString("data");
-                final JSONObject data = new JSONObject(dataString);
-                final String statusString = (String) data.get("level");
-                status = QualityGateStatus.valueOf(statusString);
-            }
-        } catch (URISyntaxException | IOException | JSONException e) {
-            status = QualityGateStatus.SERVER_ERROR;
-            // We do not want to spam server logs with malformed requests, therefor we only log in debug mode
-            LOGGER.debug("An error occurred while retrieving quality gate status for key '{}': {}", key, e.getMessage());
+        this.httpGet.setURI(new URI(this.uriBuilder.getScheme(), null, this.uriBuilder.getHost(), this.uriBuilder.getPort(), StringUtils.removeEnd(this.uriBuilder.getPath(), URI_SEPARATOR)
+            + "/api/resources/index/", uriQuery, null));
+        LOGGER.debug("Http GET request line: {}", this.httpGet.getRequestLine());
+        final String responseBody = this.httpclient.execute(this.httpGet, this.responseHandler);
+        LOGGER.debug("Http GET response body: {}", responseBody);
+        return responseBody;
+    }
+
+    private QualityGateStatus statusFromReponseBody(final String responseBody) {
+        final JSONArray resources = new JSONArray(responseBody);
+        if (!resources.isNull(0)) {
+            final JSONObject resource = resources.getJSONObject(0);
+            final JSONArray measures = resource.getJSONArray("msr");
+            final JSONObject measure = measures.getJSONObject(0);
+            final String dataString = measure.getString("data");
+            final JSONObject data = new JSONObject(dataString);
+            final String statusString = (String) data.get("level");
+            return QualityGateStatus.valueOf(statusString);
         }
-        return status;
+        return QualityGateStatus.NONE;
     }
 
 }

@@ -9,7 +9,7 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
   <name>SonarQube Status Image Plugin</name>
-  <description>Provides a webservice that allows SonarQube project's quality gate status retrieval as an SVG image.</description>
+  <description>This plugin provides a webservice that allows projects' and views' quality gate status retrieval as a SVG image.</description>
   <url>https://github.com/QualInsight/qualinsight-plugins-sonarqube-status</url>
   <organization>
     <url>http://www.qualinsight.com/</url>

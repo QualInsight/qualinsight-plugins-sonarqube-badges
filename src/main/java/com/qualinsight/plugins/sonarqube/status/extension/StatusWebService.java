@@ -19,7 +19,11 @@
  */
 package com.qualinsight.plugins.sonarqube.status.extension;
 
+import java.io.InputStream;
 import java.io.OutputStream;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
@@ -28,12 +32,25 @@ import com.qualinsight.plugins.sonarqube.status.internal.QualityGateStatus;
 import com.qualinsight.plugins.sonarqube.status.internal.QualityGateStatusRetriever;
 import com.qualinsight.plugins.sonarqube.status.internal.SVGImageGenerator;
 
+/**
+ * WebService extension that provides the plugins' webservice controller and action for generating SVG quality gate status images.
+ *
+ * @author Michel Pawlak
+ */
 public class StatusWebService implements WebService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StatusWebService.class);
 
     private QualityGateStatusRetriever qualityGateStatusRetriever;
 
     private SVGImageGenerator svgImageGenerator;
 
+    /**
+     * {@link StatusWebService} IoC constructor
+     *
+     * @param qualityGateStatusRetriever helper extension to retrieve quality gate status
+     * @param svgImageGenerator helper extension to generate SVG images
+     */
     public StatusWebService(final QualityGateStatusRetriever qualityGateStatusRetriever, final SVGImageGenerator svgImageGenerator) {
         this.qualityGateStatusRetriever = qualityGateStatusRetriever;
         this.svgImageGenerator = svgImageGenerator;
@@ -49,12 +66,19 @@ public class StatusWebService implements WebService {
 
                 @Override
                 public void handle(final Request request, final Response response) throws Exception {
-                    final QualityGateStatus status = StatusWebService.this.qualityGateStatusRetriever.retrieveFor(request.mandatoryParam("key"));
+                    final String key = request.mandatoryParam("key");
+                    LOGGER.debug("Retrieving quality gate status for key '{}'.", key);
+                    final QualityGateStatus status = StatusWebService.this.qualityGateStatusRetriever.retrieveFor(key);
+                    // we prepare the response OutputStream
                     final OutputStream responseOutputStream = response.stream()
                         .setMediaType("image/svg+xml")
                         .output();
-                    StatusWebService.this.svgImageGenerator.generateToStream(status, responseOutputStream);
+                    LOGGER.debug("Retrieving SVG image for for quality gate status '{}'.", status);
+                    final InputStream svgImageInputStream = StatusWebService.this.svgImageGenerator.svgImageInputStreamFor(status);
+                    LOGGER.debug("Writing SVG image to response OutputStream.");
+                    IOUtils.copy(svgImageInputStream, responseOutputStream);
                     responseOutputStream.close();
+                    // don't close svgImageInputStream, we want it to be reusable
                 }
             })
             .createParam("key")

@@ -21,19 +21,39 @@ package com.qualinsight.plugins.sonarqube.status.internal;
 
 import java.awt.Color;
 
+/**
+ * Possible statuses when trying to retrieve the quality gate status for a SonarQube project or view. Each status holds information about how it has to be displayed in a SVG image.
+ *
+ * @author Michel Pawlak
+ */
 public enum QualityGateStatus {
+    /**
+     * No gate is active for the project or view.
+     */
     NONE("no gate",
         new Color(150, 150, 150, 255),
         50),
+    /**
+     * A server error occurred while retrieving the quality gate status.
+     */
     SERVER_ERROR("server error",
         new Color(224, 93, 68, 255),
         76),
+    /**
+     * The project / view passes the quality gate.
+     */
     OK("passing",
         new Color(86, 209, 41, 255),
         50),
+    /**
+     * The project / view does not pass the quality gate due to gate warnings.
+     */
     WARN("warning",
         new Color(255, 165, 0, 255),
         52),
+    /**
+     * The project / view does not pass the quality gate due to gate errors.
+     */
     ERROR("failing",
         new Color(224, 93, 68, 255),
         44);
@@ -50,15 +70,15 @@ public enum QualityGateStatus {
         this.displayWidth = displayWidth;
     }
 
-    public String displayText() {
+    String displayText() {
         return this.displayText;
     }
 
-    public Color displayBackgroundColor() {
+    Color displayBackgroundColor() {
         return this.displayBackgroundColor;
     }
 
-    public int displayWidth() {
+    int displayWidth() {
         return this.displayWidth;
     }
 
