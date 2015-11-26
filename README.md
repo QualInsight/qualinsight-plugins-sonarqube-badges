@@ -50,6 +50,10 @@ Example:
 
 The webservice is self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/status``.
 
+## Conclusion
+
+New feature ideas and contributions are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-status) named [SVG Status](https://groups.google.com/forum/#!forum/svg-status) has been created in order to facilitate discussions about this plugin.
+
 ## Build status
 
 ![Travis build status](https://travis-ci.org/QualInsight/qualinsight-plugins-sonarqube-status.svg?branch=master)
