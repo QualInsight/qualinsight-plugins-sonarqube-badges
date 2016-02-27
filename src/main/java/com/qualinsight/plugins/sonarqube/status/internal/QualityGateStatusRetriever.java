@@ -46,13 +46,15 @@ public final class QualityGateStatusRetriever implements ServerExtension {
 
     private static final String URI_SEPARATOR = "/";
 
+    private static final String SERVER_BASE_URL_KEY = "sonar.core.serverBaseURL";
+
     private final HttpClient httpclient;
 
     private final ResponseHandler<String> responseHandler;
 
     private final HttpGet httpGet;
 
-    private final URIBuilder uriBuilder;
+    private final Settings settings;
 
     /**
      * {@link QualityGateStatusRetriever} IoC constructor.
@@ -61,7 +63,7 @@ public final class QualityGateStatusRetriever implements ServerExtension {
      * @throws URISyntaxException if "sonar.core.serverBaseURL" in SonarQube settings is a malformed URI.
      */
     public QualityGateStatusRetriever(final Settings settings) throws URISyntaxException {
-        this.uriBuilder = new URIBuilder(settings.getString("sonar.core.serverBaseURL"));
+        this.settings = settings;
         this.httpclient = HttpClients.createDefault();
         this.httpGet = new HttpGet();
         this.responseHandler = new ResponseHandler<String>() {
@@ -101,12 +103,20 @@ public final class QualityGateStatusRetriever implements ServerExtension {
     }
 
     private String responseBodyForKey(final String key) throws IOException, URISyntaxException {
+        final String serverBaseUrl = this.settings.getString(SERVER_BASE_URL_KEY);
+        if (StringUtils.isBlank(serverBaseUrl)) {
+            throw new URISyntaxException(serverBaseUrl, "'" + SERVER_BASE_URL_KEY + "' property is blank, make sure that you've set a correct value for this property.");
+        } else if (this.settings.getString(SERVER_BASE_URL_KEY)
+            .equals(this.settings.getDefaultValue(SERVER_BASE_URL_KEY))) {
+            LOGGER.warn("'{}' property has default value which may lead to unexpected behavior, make sure that you've set a correct value for this property.", SERVER_BASE_URL_KEY);
+        }
+        final URIBuilder uriBuilder = new URIBuilder(this.settings.getString(SERVER_BASE_URL_KEY));
         final String uriQuery = new StringBuilder().append("resource=")
             .append(key)
             .append("&metrics=quality_gate_details&format=json")
             .toString();
-        this.httpGet.setURI(new URI(this.uriBuilder.getScheme(), null, this.uriBuilder.getHost(), this.uriBuilder.getPort(), StringUtils.removeEnd(this.uriBuilder.getPath(), URI_SEPARATOR)
-            + "/api/resources/index/", uriQuery, null));
+        this.httpGet.setURI(new URI(uriBuilder.getScheme(), null, uriBuilder.getHost(), uriBuilder.getPort(), StringUtils.removeEnd(uriBuilder.getPath(), URI_SEPARATOR) + "/api/resources/index/",
+            uriQuery, null));
         LOGGER.debug("Http GET request line: {}", this.httpGet.getRequestLine());
         final String responseBody = this.httpclient.execute(this.httpGet, this.responseHandler);
         LOGGER.debug("Http GET response body: {}", responseBody);
