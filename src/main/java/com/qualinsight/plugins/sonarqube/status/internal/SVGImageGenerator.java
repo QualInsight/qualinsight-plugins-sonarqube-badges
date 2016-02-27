@@ -78,7 +78,7 @@ public final class SVGImageGenerator implements ServerExtension {
 
     private static final int Y_OFFSET_TEXT = 14;
 
-    private final EnumMap<QualityGateStatus, InputStream> qualityGateStatusImagesMap = new EnumMap<QualityGateStatus, InputStream>(QualityGateStatus.class);
+    private final EnumMap<QualityGateStatus, InputStream> qualityGateStatusImagesMap = new EnumMap<>(QualityGateStatus.class);
 
     private SVGGeneratorContext svgGeneratorContext;
 
