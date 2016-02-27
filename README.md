@@ -52,7 +52,7 @@ The webservice is self-documented. Once installed, go to the webservice document
 
 ## Conclusion
 
-New feature ideas and contributions are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-status) named [SVG Status](https://groups.google.com/forum/#!forum/svg-status) has been created in order to facilitate discussions about this plugin.
+New feature ideas and contributions are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-status) named [SVG Status](https://groups.google.com/forum/#!forum/svg-status) has been created in order to facilitate discussions about this plugin. This project's quality can be followed on [Nemo](https://nemo.sonarqube.org/overview?id=com.qualinsight.plugins.sonarqube%3Aqualinsight-plugins-sonarqube-status).
 
 ## Build status
 
