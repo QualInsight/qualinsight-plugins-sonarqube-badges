@@ -1,8 +1,6 @@
 # SVG Status plugin for SonarQube
 Plugin for SonarQube that provides a webservice to retrieve projects' quality gate status as an SVG image similarily to travis-ci build status images. 
 
-_Note 1:_ Generated images are cached in order to lower computing time.
-
 ## Image types
 
 Five different images types are generated depending on the plugin's execution:
@@ -12,11 +10,13 @@ Five different images types are generated depending on the plugin's execution:
 * [No Gate](images/no_gate.svg) indicates that no quality gate has been set for the specified project
 * [Server error](images/server_error.svg) indicates that a server error occured while generating the image
 
-_Note 2:_ Unfortunately it appears that GitHub does not render SVG images in ``README.md`` file due to potential cross site scripting vulnerabilities. To display the different images you have thus to click on them.
+Unfortunately it appears that GitHub does not render SVG images in ``README.md`` file due to potential cross site scripting vulnerabilities. To display the different images you have thus to click on them.
 
 ## Usage
 
-This plugin requires no manual configuration. It auto-configures itself using SonarQube ``sonar.core.serverBaseURL`` property value. 
+In order to use this plugin, you need to install it, then set SonarQube's ``sonar.core.serverBaseURL`` property to the URL of your SonarQube's server instance.
+
+This configuration step is mandatory. If the ``sonar.core.serverBaseURL`` property is not set, an exception will be thrown and be logged in ``SONAR_HOME/logs/sonar.log`` file. If you're using the default value for the property (i.e. ``http://localhost:9000/``), a warning message will be logged instead.
 
 ### Adding an image link
 
