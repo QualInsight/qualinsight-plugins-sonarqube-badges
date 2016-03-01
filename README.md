@@ -16,7 +16,7 @@ Unfortunately it appears that GitHub does not render SVG images in ``README.md``
 
 In order to use this plugin, you need to install it, then set SonarQube's ``sonar.core.serverBaseURL`` property to the URL of your SonarQube's server instance.
 
-This configuration step is mandatory. If the ``sonar.core.serverBaseURL`` property is not set, an exception will be thrown and be logged in ``SONAR_HOME/logs/sonar.log`` file. If you're using the default value for the property (i.e. ``http://localhost:9000/``), a warning message will be logged instead.
+This configuration step is mandatory. If the ``sonar.core.serverBaseURL`` property is not set (i.e. default value is used) the plugin may behave incorrectly as SonarQube REST API may be unreachable. 
 
 ### Adding an image link
 
