@@ -108,7 +108,7 @@ public final class QualityGateStatusRetriever implements ServerExtension {
             throw new URISyntaxException(serverBaseUrl, "'" + SERVER_BASE_URL_KEY + "' property is blank, make sure that you've set a correct value for this property.");
         } else if (this.settings.getString(SERVER_BASE_URL_KEY)
             .equals(this.settings.getDefaultValue(SERVER_BASE_URL_KEY))) {
-            LOGGER.warn("'{}' property has default value which may lead to unexpected behavior, make sure that you've set a correct value for this property.", SERVER_BASE_URL_KEY);
+            LOGGER.debug("'{}' property has default value which may lead to unexpected behavior, make sure that you've set a correct value for this property.", SERVER_BASE_URL_KEY);
         }
         final URIBuilder uriBuilder = new URIBuilder(this.settings.getString(SERVER_BASE_URL_KEY));
         final String uriQuery = new StringBuilder().append("resource=")
