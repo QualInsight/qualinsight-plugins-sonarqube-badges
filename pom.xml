@@ -6,7 +6,7 @@
     <version>1.0.1</version>
   </parent>
   <artifactId>qualinsight-plugins-sonarqube-status</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
+  <version>1.1.1-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
   <name>SVG Status Plugin</name>
   <description>This plugin adds a webservice to SonarQube in order to allow the retrieval of projects' and views' quality gate status as a SVG image.</description>
@@ -50,7 +50,7 @@
     <!-- Libraries versions -->
     <lib.version.batik>1.8</lib.version.batik>
     <lib.version.httpclient>4.5.1</lib.version.httpclient>
-    <lib.version.json>20150729</lib.version.json>
+    <lib.version.json>20160212</lib.version.json>
   </properties>
   <build>
     <plugins>
@@ -72,6 +72,33 @@
           <pluginUrl>https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/</pluginUrl>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-bytecode-version</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <enforceBytecodeVersion>
+                  <maxJdkVersion>1.7</maxJdkVersion>
+                </enforceBytecodeVersion>
+              </rules>
+              <fail>true</fail>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>extra-enforcer-rules</artifactId>
+            <version>1.0-beta-4</version>
+          </dependency>
+        </dependencies>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -80,7 +107,7 @@
       <artifactId>sonar-plugin-api</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency> 
+    <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>batik-svg-dom</artifactId>
       <version>${lib.version.batik}</version>
