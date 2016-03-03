@@ -6,7 +6,7 @@
     <version>1.0.1</version>
   </parent>
   <artifactId>qualinsight-plugins-sonarqube-status</artifactId>
-  <version>1.1.1-SNAPSHOT</version>
+  <version>1.1.1</version>
   <packaging>sonar-plugin</packaging>
   <name>SVG Status Plugin</name>
   <description>This plugin adds a webservice to SonarQube in order to allow the retrieval of projects' and views' quality gate status as a SVG image.</description>
@@ -38,7 +38,7 @@
     <connection>scm:git:git@github.com:QualInsight/qualinsight-plugins-sonarqube-status.git</connection>
     <developerConnection>scm:git:git@github.com:QualInsight/qualinsight-plugins-sonarqube-status.git</developerConnection>
     <url>https://github.com/QualInsight/qualinsight-plugins-sonarqube-status.git</url>
-    <tag>HEAD</tag>
+    <tag>qualinsight-plugins-sonarqube-status-1.1.1</tag>
   </scm>
   <properties>
     <!-- License properties -->
