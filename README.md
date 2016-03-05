@@ -1,7 +1,7 @@
-# SVG Status plugin for SonarQube
-Plugin for SonarQube that provides a webservice to retrieve projects' quality gate status as an SVG image similarily to travis-ci build status images. 
+# SVG Badges plugin for SonarQube
+Plugin for SonarQube that provides a webservice to retrieve projects' quality gate status as a SVG badge similarily to travis-ci build status badges. 
 
-## Image types
+## Badges types
 
 Five different images types are generated depending on the plugin's execution:
 * [Passing](images/passing.svg) indicates that the project passes the quality gate (QG)
@@ -18,9 +18,9 @@ In order to use this plugin, you need to install it, then set SonarQube's ``sona
 
 This configuration step is mandatory. If the ``sonar.core.serverBaseURL`` property is not set (i.e. default value is used) the plugin may behave incorrectly as SonarQube REST API may be unreachable. 
 
-### Adding an image link
+### Linking your badge to a project's page
 
-Once the plugin is installed, you can display generated status image and link to your SonarQube project's or view's page as follows.
+Once the plugin is installed, you can display generated badge and link to your SonarQube project's or view's page as follows.
 
 ##### HTML Link:
 
@@ -31,7 +31,7 @@ Once the plugin is installed, you can display generated status image and link to
 Example:
 
 ```
-<a href="http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-status"><img src="http://localhost:9000/api/status/image?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-status"/></a>
+<a href="http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badge"><img src="http://localhost:9000/api/status/image?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badge"/></a>
 ```
 
 ##### Markdown Link:
@@ -43,7 +43,7 @@ Example:
 Example:
 
 ```
-[![Quality Gate](http://localhost:9000/api/status/image?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-status)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-status)
+[![Quality Gate](http://localhost:9000/api/status/image?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badge)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badge)
 ```
 
 ### Direct Webservice API usage
@@ -52,8 +52,8 @@ The webservice is self-documented. Once installed, go to the webservice document
 
 ## Conclusion
 
-New feature ideas and contributions are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-status) named [SVG Status](https://groups.google.com/forum/#!forum/svg-status) has been created in order to facilitate discussions about this plugin. This project's quality can be followed on [Nemo](https://nemo.sonarqube.org/overview?id=com.qualinsight.plugins.sonarqube%3Aqualinsight-plugins-sonarqube-status).
+New feature ideas and contributions are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-badges) named [SVG Bagdes](https://groups.google.com/forum/#!forum/svg-badges) has been created in order to facilitate discussions about this plugin. This project's quality can be followed on [Nemo](https://nemo.sonarqube.org/overview?id=com.qualinsight.plugins.sonarqube%3Aqualinsight-plugins-sonarqube-badges).
 
 ## Build status
 
-![Travis build status](https://travis-ci.org/QualInsight/qualinsight-plugins-sonarqube-status.svg?branch=master)
+![Travis build status](https://travis-ci.org/QualInsight/qualinsight-plugins-sonarqube-badges.svg?branch=master)
