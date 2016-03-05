@@ -1,5 +1,5 @@
 /*
- * qualinsight-plugins-sonarqube-status
+ * qualinsight-plugins-sonarqube-badges
  * Copyright (c) 2015, QualInsight
  * http://www.qualinsight.com/
  *

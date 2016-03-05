@@ -1,5 +1,5 @@
 # SVG Badges plugin for SonarQube
-Plugin for SonarQube that provides a webservice to retrieve projects' quality gate status as a SVG badge similarily to travis-ci build status badges. 
+Plugin for SonarQube that provides a webservice to retrieve projects' quality gate status as a SVG image similarily to travis-ci build status badges. 
 
 ## Badges types
 
@@ -18,6 +18,8 @@ In order to use this plugin, you need to install it, then set SonarQube's ``sona
 
 This configuration step is mandatory. If the ``sonar.core.serverBaseURL`` property is not set (i.e. default value is used) the plugin may behave incorrectly as SonarQube REST API may be unreachable. 
 
+Note that if authentication is required on your SonarQube instance in order to access a project's page, then the plugin is currently unable to work due to a SonarQube limitation (see issue #15.) 
+
 ### Linking your badge to a project's page
 
 Once the plugin is installed, you can display generated badge and link to your SonarQube project's or view's page as follows.
@@ -25,30 +27,30 @@ Once the plugin is installed, you can display generated badge and link to your S
 ##### HTML Link:
 
 ```
-<a href="<serverBaseURL>/dashboard/index/<key>"><img src="<serverBaseURL>/api/status/image?key=<key>"/></a>
+<a href="<serverBaseURL>/dashboard/index/<key>"><img src="<serverBaseURL>/api/badges/image?key=<key>"/></a>
 ```
 
 Example:
 
 ```
-<a href="http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badge"><img src="http://localhost:9000/api/status/image?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badge"/></a>
+<a href="http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges"><img src="http://localhost:9000/api/badges/image?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges"/></a>
 ```
 
 ##### Markdown Link:
 
 ```
-[![Quality Gate](<serverBaseURL>/api/status/image?key=<key>)](<serverBaseURL>/dashboard/index/<key>)
+[![Quality Gate](<serverBaseURL>/api/badges/image?key=<key>)](<serverBaseURL>/dashboard/index/<key>)
 ```
 
 Example:
 
 ```
-[![Quality Gate](http://localhost:9000/api/status/image?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badge)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badge)
+[![Quality Gate](http://localhost:9000/api/badges/image?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
 ```
 
 ### Direct Webservice API usage
 
-The webservice is self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/status``.
+The webservice is self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/badges``.
 
 ## Conclusion
 

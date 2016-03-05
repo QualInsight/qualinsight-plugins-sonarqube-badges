@@ -5,12 +5,12 @@
     <artifactId>qualinsight-plugins-sonarqube-parent</artifactId>
     <version>1.0.1</version>
   </parent>
-  <artifactId>qualinsight-plugins-sonarqube-status</artifactId>
+  <artifactId>qualinsight-plugins-sonarqube-badges</artifactId>
   <version>1.2.0-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
-  <name>SVG Status Plugin</name>
-  <description>This plugin adds a webservice to SonarQube in order to allow the retrieval of projects' and views' quality gate status as a SVG image.</description>
-  <url>https://github.com/QualInsight/qualinsight-plugins-sonarqube-status</url>
+  <name>SVG Badges Plugin</name>
+  <description>This plugin adds a webservice to SonarQube that allows the retrieval of projects' and views' quality gate status as a SVG image (so called badge.)</description>
+  <url>https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges</url>
   <organization>
     <url>http://www.qualinsight.com/</url>
     <name>QualInsight</name>
@@ -35,15 +35,15 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:git@github.com:QualInsight/qualinsight-plugins-sonarqube-status.git</connection>
-    <developerConnection>scm:git:git@github.com:QualInsight/qualinsight-plugins-sonarqube-status.git</developerConnection>
-    <url>https://github.com/QualInsight/qualinsight-plugins-sonarqube-status.git</url>
+    <connection>scm:git:git@github.com:QualInsight/qualinsight-plugins-sonarqube-badges.git</connection>
+    <developerConnection>scm:git:git@github.com:QualInsight/qualinsight-plugins-sonarqube-badges.git</developerConnection>
+    <url>https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges.git</url>
     <tag>HEAD</tag>
   </scm>
   <properties>
     <!-- License properties -->
     <license.name>QualInsight-LGPL3</license.name>
-    <license.project>qualinsight-plugins-sonarqube-status</license.project>
+    <license.project>qualinsight-plugins-sonarqube-badges</license.project>
     <license.period>${project.inceptionYear}</license.period>
     <license.owner>${project.organization.name}</license.owner>
     <license.url>${project.organization.url}</license.url>
@@ -63,13 +63,13 @@
         <artifactId>sonar-packaging-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <pluginClass>com.qualinsight.plugins.sonarqube.status.StatusPlugin</pluginClass>
-          <pluginKey>status</pluginKey>
-          <pluginName>SVG Status</pluginName>
-          <finalName>qualinsight-sonarqube-status-${project.version}</finalName>
+          <pluginClass>com.qualinsight.plugins.sonarqube.status.BadgesPlugin</pluginClass>
+          <pluginKey>badges</pluginKey>
+          <pluginName>SVG Badges</pluginName>
+          <finalName>qualinsight-sonarqube-badges-${project.version}</finalName>
           <pluginDescription />
           <pluginTermsConditionsUrl>https://www.gnu.org/licenses/lgpl-3.0.txt</pluginTermsConditionsUrl>
-          <pluginUrl>https://github.com/QualInsight/qualinsight-plugins-sonarqube-status/</pluginUrl>
+          <pluginUrl>https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/</pluginUrl>
         </configuration>
       </plugin>
     </plugins>

@@ -1,5 +1,5 @@
 /*
- * qualinsight-plugins-sonarqube-status
+ * qualinsight-plugins-sonarqube-badges
  * Copyright (c) 2015, QualInsight
  * http://www.qualinsight.com/
  *
@@ -22,16 +22,16 @@ package com.qualinsight.plugins.sonarqube.status;
 import java.util.List;
 import com.google.common.collect.ImmutableList;
 import org.sonar.api.SonarPlugin;
-import com.qualinsight.plugins.sonarqube.status.extension.StatusWebService;
+import com.qualinsight.plugins.sonarqube.status.extension.BadgesWebService;
 import com.qualinsight.plugins.sonarqube.status.internal.QualityGateStatusRetriever;
 import com.qualinsight.plugins.sonarqube.status.internal.SVGImageGenerator;
 
 /**
- * Core StatusPlugin class. It declares all extensions used by the plugin.
+ * Core BadgesPlugin class. It declares all extensions used by the plugin.
  *
  * @author Michel Pawlak
  */
-public final class StatusPlugin extends SonarPlugin {
+public final class BadgesPlugin extends SonarPlugin {
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -39,7 +39,7 @@ public final class StatusPlugin extends SonarPlugin {
         return ImmutableList.builder()
             .add(QualityGateStatusRetriever.class)
             .add(SVGImageGenerator.class)
-            .add(StatusWebService.class)
+            .add(BadgesWebService.class)
             .build();
     }
 }
