@@ -18,7 +18,8 @@ In order to use this plugin, you need to install it, then set SonarQube's ``sona
 
 This configuration step is mandatory. If the ``sonar.core.serverBaseURL`` property is not set (i.e. default value is used) the plugin may behave incorrectly as SonarQube REST API may be unreachable. 
 
-Note that if authentication is required on your SonarQube instance in order to access a project's page, then the plugin is currently unable to work due to a SonarQube limitation (see issue #15.) 
+Notes:
+- if authentication is required on your SonarQube instance in order to access a project's page, then the plugin is currently unable to work due to a SonarQube limitation (see issue #15.) 
 
 ### Linking your badge to a project's page
 
