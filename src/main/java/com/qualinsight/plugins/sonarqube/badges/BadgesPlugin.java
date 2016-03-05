@@ -17,14 +17,14 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.status;
+package com.qualinsight.plugins.sonarqube.badges;
 
 import java.util.List;
 import com.google.common.collect.ImmutableList;
 import org.sonar.api.SonarPlugin;
-import com.qualinsight.plugins.sonarqube.status.extension.BadgesWebService;
-import com.qualinsight.plugins.sonarqube.status.internal.QualityGateStatusRetriever;
-import com.qualinsight.plugins.sonarqube.status.internal.SVGImageGenerator;
+import com.qualinsight.plugins.sonarqube.badges.extension.BadgesWebService;
+import com.qualinsight.plugins.sonarqube.badges.internal.QualityGateStatusRetriever;
+import com.qualinsight.plugins.sonarqube.badges.internal.SVGImageGenerator;
 
 /**
  * Core BadgesPlugin class. It declares all extensions used by the plugin.

@@ -63,7 +63,7 @@
         <artifactId>sonar-packaging-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <pluginClass>com.qualinsight.plugins.sonarqube.status.BadgesPlugin</pluginClass>
+          <pluginClass>com.qualinsight.plugins.sonarqube.badges.BadgesPlugin</pluginClass>
           <pluginKey>badges</pluginKey>
           <pluginName>SVG Badges</pluginName>
           <finalName>qualinsight-sonarqube-badges-${project.version}</finalName>

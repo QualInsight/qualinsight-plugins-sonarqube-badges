@@ -17,7 +17,7 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.status.internal;
+package com.qualinsight.plugins.sonarqube.badges.internal;
 
 import java.awt.Color;
 

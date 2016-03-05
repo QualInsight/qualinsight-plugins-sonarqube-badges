@@ -17,7 +17,7 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.status.extension;
+package com.qualinsight.plugins.sonarqube.badges.extension;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -28,9 +28,9 @@ import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
 import org.sonar.api.server.ws.WebService;
-import com.qualinsight.plugins.sonarqube.status.internal.QualityGateStatus;
-import com.qualinsight.plugins.sonarqube.status.internal.QualityGateStatusRetriever;
-import com.qualinsight.plugins.sonarqube.status.internal.SVGImageGenerator;
+import com.qualinsight.plugins.sonarqube.badges.internal.QualityGateStatus;
+import com.qualinsight.plugins.sonarqube.badges.internal.QualityGateStatusRetriever;
+import com.qualinsight.plugins.sonarqube.badges.internal.SVGImageGenerator;
 
 /**
  * WebService extension that provides the plugins' webservice controller and action for generating SVG quality gate status images.
