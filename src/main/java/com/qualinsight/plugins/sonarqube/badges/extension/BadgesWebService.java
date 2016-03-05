@@ -60,7 +60,7 @@ public final class BadgesWebService implements WebService {
     public void define(final Context context) {
         final NewController controller = context.createController("api/badges");
         controller.setDescription("SVG Badges web service");
-        controller.createAction("image")
+        controller.createAction("gate")
             .setDescription("Retrieve the quality gate status of a project as a SVG image.")
             .setHandler(new RequestHandler() {
 

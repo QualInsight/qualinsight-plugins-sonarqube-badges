@@ -28,25 +28,25 @@ Once the plugin is installed, you can display generated badge and link to your S
 ##### HTML Link:
 
 ```
-<a href="<serverBaseURL>/dashboard/index/<key>"><img src="<serverBaseURL>/api/badges/image?key=<key>"/></a>
+<a href="<serverBaseURL>/dashboard/index/<key>"><img src="<serverBaseURL>/api/badges/gate?key=<key>"/></a>
 ```
 
 Example:
 
 ```
-<a href="http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges"><img src="http://localhost:9000/api/badges/image?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges"/></a>
+<a href="http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges"><img src="http://localhost:9000/api/badges/gate?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges"/></a>
 ```
 
 ##### Markdown Link:
 
 ```
-[![Quality Gate](<serverBaseURL>/api/badges/image?key=<key>)](<serverBaseURL>/dashboard/index/<key>)
+[![Quality Gate](<serverBaseURL>/api/badges/gate?key=<key>)](<serverBaseURL>/dashboard/index/<key>)
 ```
 
 Example:
 
 ```
-[![Quality Gate](http://localhost:9000/api/badges/image?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
+[![Quality Gate](http://localhost:9000/api/badges/gate?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
 ```
 
 ### Direct Webservice API usage
