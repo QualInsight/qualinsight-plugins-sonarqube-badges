@@ -39,6 +39,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.config.Settings;
+import com.qualinsight.plugins.sonarqube.badges.internal.exception.ForbiddenException;
+import com.qualinsight.plugins.sonarqube.badges.internal.exception.ProjectNotFoundException;
 
 public final class QualityGateStatusRetriever implements ServerExtension {
 
@@ -75,6 +77,8 @@ public final class QualityGateStatusRetriever implements ServerExtension {
                 if ((status >= 200) && (status < 300)) {
                     final HttpEntity entity = response.getEntity();
                     return entity != null ? EntityUtils.toString(entity) : null;
+                } else if (status == 401) {
+                    throw new ForbiddenException();
                 } else if (status == 404) {
                     throw new ProjectNotFoundException();
                 } else {
@@ -104,6 +108,9 @@ public final class QualityGateStatusRetriever implements ServerExtension {
         } catch (final ProjectNotFoundException e) {
             status = QualityGateStatus.NOT_FOUND;
             LOGGER.debug("No project found with key '{}': {}", key, e);
+        } catch (final ForbiddenException e) {
+            status = QualityGateStatus.FORBIDDEN;
+            LOGGER.debug("Access to project with key '{}' is restricted (see issue #15): {}", key, e);
         } catch (URISyntaxException | IOException | JSONException e) {
             status = QualityGateStatus.SERVER_ERROR;
             // We do not want to spam server logs with malformed requests, therefore we only log in debug mode

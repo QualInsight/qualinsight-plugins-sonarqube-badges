@@ -58,9 +58,15 @@ public enum QualityGateStatus {
         new Color(224, 93, 68, 255),
         44),
     /**
-     * The project / view does not pass the quality gate due to gate errors.
+     * The project / view could not be found on the SonarQube's server.
      */
     NOT_FOUND("not found",
+        new Color(224, 93, 68, 255),
+        65),
+    /**
+     * Access to the project / view is restricted (see issue #15)
+     */
+    FORBIDDEN("forbidden",
         new Color(224, 93, 68, 255),
         65);
 
