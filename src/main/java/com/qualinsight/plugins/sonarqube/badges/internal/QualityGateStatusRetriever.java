@@ -23,15 +23,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,25 +64,7 @@ public final class QualityGateStatusRetriever implements ServerExtension {
         this.settings = settings;
         this.httpclient = HttpClients.createDefault();
         this.httpGet = new HttpGet();
-        this.responseHandler = new ResponseHandler<String>() {
-
-            @Override
-            public String handleResponse(final HttpResponse response) throws IOException {
-                final int status = response.getStatusLine()
-                    .getStatusCode();
-                if ((status >= 200) && (status < 300)) {
-                    final HttpEntity entity = response.getEntity();
-                    return entity != null ? EntityUtils.toString(entity) : null;
-                } else if (status == 401) {
-                    throw new ForbiddenException();
-                } else if (status == 404) {
-                    throw new ProjectNotFoundException();
-                } else {
-                    throw new ClientProtocolException("Unexpected response status: " + status);
-                }
-            }
-
-        };
+        this.responseHandler = new QualityGateServiceResponseHandler();
         if (this.settings.getString(SERVER_BASE_URL_KEY)
             .equals(this.settings.getDefaultValue(SERVER_BASE_URL_KEY))) {
             LOGGER.warn("'{}' property has default value which may lead to unexpected behavior. Make sure that you've correctly configured this property in SonarQube's general settings.",
