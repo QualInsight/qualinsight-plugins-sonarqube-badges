@@ -27,7 +27,6 @@ import java.util.Map;
 public class FontProvider {
 
     private enum FontFamily {
-        COCO("XCASASC"),
         VERDANA("Verdana"),
         DEJAVU_SANS("DejaVu Sans"),
         TAHOMA("Tahoma"),
@@ -36,22 +35,22 @@ public class FontProvider {
 
         private static final int FONT_SIZE = 11;
 
-        private final Map<TextAttribute, Object> FONT_ATTIBUTES;
+        private static final String DEFAULT_FONT_FAMILY = "Dialog";
 
         private final Font font;
 
         private FontFamily(final String name) {
-            this.FONT_ATTIBUTES = new HashMap<>();
-            this.FONT_ATTIBUTES.put(TextAttribute.FAMILY, name);
-            this.FONT_ATTIBUTES.put(TextAttribute.SIZE, FONT_SIZE);
-            this.FONT_ATTIBUTES.put(TextAttribute.POSTURE, TextAttribute.POSTURE_REGULAR);
-            this.FONT_ATTIBUTES.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_REGULAR);
-            this.font = new Font(this.FONT_ATTIBUTES);
+            final Map<TextAttribute, Object> fontAttributes = new HashMap<>();
+            fontAttributes.put(TextAttribute.FAMILY, name);
+            fontAttributes.put(TextAttribute.SIZE, FONT_SIZE);
+            fontAttributes.put(TextAttribute.POSTURE, TextAttribute.POSTURE_REGULAR);
+            fontAttributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_REGULAR);
+            this.font = new Font(fontAttributes);
         }
 
         public boolean isAvailable() {
-            return !this.font.getFamily()
-                .equals("Dialog");
+            // if a font is not available, java defaults to the Dialog font.
+            return !DEFAULT_FONT_FAMILY.equals(this.font.getFamily());
         }
 
         public Font font() {

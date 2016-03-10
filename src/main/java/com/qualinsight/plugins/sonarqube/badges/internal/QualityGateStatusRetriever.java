@@ -103,6 +103,7 @@ public final class QualityGateStatusRetriever implements ServerExtension {
             status = statusFromReponseBody(responseBodyForKey(key));
         } catch (final ProjectNotFoundException e) {
             status = QualityGateStatus.NOT_FOUND;
+            LOGGER.debug("No project found with key '{}': {}", key, e);
         } catch (URISyntaxException | IOException | JSONException e) {
             status = QualityGateStatus.SERVER_ERROR;
             // We do not want to spam server logs with malformed requests, therefore we only log in debug mode
