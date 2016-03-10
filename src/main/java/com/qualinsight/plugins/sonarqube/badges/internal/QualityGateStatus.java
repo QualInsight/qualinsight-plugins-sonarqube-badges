@@ -56,7 +56,13 @@ public enum QualityGateStatus {
      */
     ERROR("failing",
         new Color(224, 93, 68, 255),
-        44);
+        44),
+    /**
+     * The project / view does not pass the quality gate due to gate errors.
+     */
+    NOT_FOUND("not found",
+        new Color(224, 93, 68, 255),
+        65);
 
     private final String displayText;
 

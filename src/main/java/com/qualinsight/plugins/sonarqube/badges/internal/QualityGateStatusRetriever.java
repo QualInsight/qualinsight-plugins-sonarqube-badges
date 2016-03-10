@@ -75,6 +75,8 @@ public final class QualityGateStatusRetriever implements ServerExtension {
                 if ((status >= 200) && (status < 300)) {
                     final HttpEntity entity = response.getEntity();
                     return entity != null ? EntityUtils.toString(entity) : null;
+                } else if (status == 404) {
+                    throw new ProjectNotFoundException();
                 } else {
                     throw new ClientProtocolException("Unexpected response status: " + status);
                 }
@@ -99,6 +101,8 @@ public final class QualityGateStatusRetriever implements ServerExtension {
         QualityGateStatus status;
         try {
             status = statusFromReponseBody(responseBodyForKey(key));
+        } catch (final ProjectNotFoundException e) {
+            status = QualityGateStatus.NOT_FOUND;
         } catch (URISyntaxException | IOException | JSONException e) {
             status = QualityGateStatus.SERVER_ERROR;
             // We do not want to spam server logs with malformed requests, therefore we only log in debug mode
