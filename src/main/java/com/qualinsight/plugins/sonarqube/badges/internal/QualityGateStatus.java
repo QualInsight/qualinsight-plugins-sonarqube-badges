@@ -30,7 +30,7 @@ public enum QualityGateStatus {
     /**
      * No gate is active for the project or view.
      */
-    NONE("no gate",
+    NONE("not set",
         new Color(150, 150, 150, 255),
         50),
     /**

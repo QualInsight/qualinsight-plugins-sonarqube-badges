@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import org.sonar.api.SonarPlugin;
 import com.qualinsight.plugins.sonarqube.badges.extension.BadgesWebService;
 import com.qualinsight.plugins.sonarqube.badges.internal.QualityGateStatusRetriever;
+import com.qualinsight.plugins.sonarqube.badges.internal.SVGImageFontReplacer;
 import com.qualinsight.plugins.sonarqube.badges.internal.SVGImageGenerator;
 
 /**
@@ -37,6 +38,7 @@ public final class BadgesPlugin extends SonarPlugin {
     @Override
     public List getExtensions() {
         return ImmutableList.builder()
+            .add(SVGImageFontReplacer.class)
             .add(QualityGateStatusRetriever.class)
             .add(SVGImageGenerator.class)
             .add(BadgesWebService.class)
