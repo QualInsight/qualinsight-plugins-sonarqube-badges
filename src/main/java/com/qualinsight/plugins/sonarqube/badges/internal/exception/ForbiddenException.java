@@ -21,6 +21,11 @@ package com.qualinsight.plugins.sonarqube.badges.internal.exception;
 
 import java.io.IOException;
 
+/**
+ * Exception used when an internal webservice api cannot be reached due to security reasons.
+ * 
+ * @author Michel Pawlak
+ */
 public class ForbiddenException extends IOException {
 
     /**

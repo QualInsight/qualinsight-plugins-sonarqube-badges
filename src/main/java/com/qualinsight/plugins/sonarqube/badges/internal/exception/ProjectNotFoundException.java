@@ -21,6 +21,11 @@ package com.qualinsight.plugins.sonarqube.badges.internal.exception;
 
 import java.io.IOException;
 
+/**
+ * Exception used when a project or view cannot be found.
+ * 
+ * @author Michel Pawlak
+ */
 public class ProjectNotFoundException extends IOException {
 
     /**
