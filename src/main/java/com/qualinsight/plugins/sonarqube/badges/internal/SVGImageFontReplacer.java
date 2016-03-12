@@ -77,11 +77,7 @@ public class SVGImageFontReplacer implements ServerExtension {
             builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
             builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
             this.builder = builderFactory.newDocumentBuilder();
-        } catch (final IOException e) {
-            throw new SVGImageFontReplacementException(e);
-        } catch (final TransformerConfigurationException e) {
-            throw new SVGImageFontReplacementException(e);
-        } catch (final ParserConfigurationException e) {
+        } catch (final IOException | TransformerConfigurationException | ParserConfigurationException e) {
             throw new SVGImageFontReplacementException(e);
         }
     }
@@ -102,11 +98,7 @@ public class SVGImageFontReplacer implements ServerExtension {
             final Result result = new StreamResult(outputStream);
             this.transformer.transform(source, result);
             return new ByteArrayInputStream(outputStream.toByteArray());
-        } catch (final IOException e) {
-            throw new SVGImageFontReplacementException(e);
-        } catch (final TransformerException e) {
-            throw new SVGImageFontReplacementException(e);
-        } catch (final SAXException e) {
+        } catch (final IOException | TransformerException | SAXException e) {
             throw new SVGImageFontReplacementException(e);
         }
     }
