@@ -65,7 +65,7 @@
         <extensions>true</extensions>
         <configuration>
           <pluginClass>com.qualinsight.plugins.sonarqube.badges.BadgesPlugin</pluginClass>
-          <pluginKey>badges</pluginKey>
+          <pluginKey>status</pluginKey>
           <pluginName>SVG Badges</pluginName>
           <finalName>qualinsight-sonarqube-badges-${project.version}</finalName>
           <pluginDescription />
