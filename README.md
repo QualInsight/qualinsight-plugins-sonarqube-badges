@@ -18,11 +18,15 @@ Five different images types are generated depending on the plugin's execution:
 
 ### Installation 
 
-In order to use this plugin on your SonarQube server instance, you need first to install it, then set SonarQube's ``sonar.core.serverBaseURL`` property to the URL of your SonarQube's server. This configuration step is mandatory. If the ``sonar.core.serverBaseURL`` property is not set (i.e. default value is used) the plugin may behave incorrectly as SonarQube REST API may be unreachable. 
+In order to use this plugin on your SonarQube server instance, you need first to install it. The plugin is available in SonarQube's update center under the name "SVN Badges".
+
+Then  you need to set SonarQube's ``sonar.core.serverBaseURL`` property to the URL of your SonarQube's server. This configuration step is mandatory. If this property is not set (i.e. default value is used) the plugin may behave incorrectly as SonarQube REST API may be unreachable. 
 
 ### Displaying your badge on a web page
 
 Once the plugin is installed, you can display generated badge and link to your SonarQube project's or view's page using HTML or Markdown as follows.
+
+Note that the plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for one of the Opensource project analyzed on Nemo, just use ``nemo.sonarqube.org`` as ``<serverBaseURL>``.
 
 #### HTML Link:
 
