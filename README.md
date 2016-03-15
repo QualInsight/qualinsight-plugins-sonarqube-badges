@@ -1,5 +1,5 @@
 # SVG Badges plugin for SonarQube
-Plugin for SonarQube that provides a webservice to retrieve projects' quality gate status as a SVG image similarily to travis-ci build status badges. 
+Plugin for SonarQube that provides a webservice to retrieve projects' quality gate status as a SVG image similarily to travis-ci build status badges. You can see a running example below.
 
 ![Travis build status](https://travis-ci.org/QualInsight/qualinsight-plugins-sonarqube-badges.svg?branch=master) [![Quality Gate](http://nemo.sonarqube.org/api/badges/gate?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)](http://nemo.sonarqube.org/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
 
@@ -12,24 +12,19 @@ Five different images types are generated depending on the plugin's execution:
 * [No Gate](images/no_gate.svg) indicates that no quality gate has been set for the specified project
 * [Server error](images/server_error.svg) indicates that a server error occurred while generating the image
 * [Not Found](images/not_found.svg) indicates that the project / view could not be found
-* [Forbidden](images/forbidden.svg) indicates that access to the project's / view's page is restricted (see issue #15)
-
-Unfortunately it appears that GitHub does not render SVG images in ``README.md`` file due to potential cross site scripting vulnerabilities. To display the different images you have thus to click on them.
+* [Forbidden](images/forbidden.svg) indicates that access to the project's / view's page requires authentication (see known limitations section below)
 
 ## Usage
 
-In order to use this plugin, you need to install it, then set SonarQube's ``sonar.core.serverBaseURL`` property to the URL of your SonarQube's server instance.
+### Installation 
 
-This configuration step is mandatory. If the ``sonar.core.serverBaseURL`` property is not set (i.e. default value is used) the plugin may behave incorrectly as SonarQube REST API may be unreachable. 
+In order to use this plugin on your SonarQube server instance, you need first to install it, then set SonarQube's ``sonar.core.serverBaseURL`` property to the URL of your SonarQube's server. This configuration step is mandatory. If the ``sonar.core.serverBaseURL`` property is not set (i.e. default value is used) the plugin may behave incorrectly as SonarQube REST API may be unreachable. 
 
-Notes:
-- if authentication is required on your SonarQube instance in order to access a project's page, then the plugin is currently unable to work due to a SonarQube limitation (see issue #15.) 
+### Displaying your badge on a web page
 
-### Linking your badge to a project's page
+Once the plugin is installed, you can display generated badge and link to your SonarQube project's or view's page using HTML or Markdown as follows.
 
-Once the plugin is installed, you can display generated badge and link to your SonarQube project's or view's page as follows.
-
-##### HTML Link:
+#### HTML Link:
 
 ```
 <a href="<serverBaseURL>/dashboard/index/<key>"><img src="<serverBaseURL>/api/badges/gate?key=<key>"/></a>
@@ -41,7 +36,7 @@ Example:
 <a href="http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges"><img src="http://localhost:9000/api/badges/gate?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges"/></a>
 ```
 
-##### Markdown Link:
+#### Markdown Link:
 
 ```
 [![Quality Gate](<serverBaseURL>/api/badges/gate?key=<key>)](<serverBaseURL>/dashboard/index/<key>)
@@ -53,9 +48,13 @@ Example:
 [![Quality Gate](http://localhost:9000/api/badges/gate?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
 ```
 
-### Direct Webservice API usage
+## REST documentation
 
 The webservice is self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/badges``.
+
+## Known limitations
+
+* if authentication is required on your SonarQube instance in order to access a project's page, then the plugin is currently unable to retrieve data required to build SVN badges due to a SonarQube limitation (see issue #15.) 
 
 ## Conclusion
 
