@@ -29,22 +29,22 @@ import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeAction;
  */
 public final class BadgesWebService implements WebService {
 
-    private QualityGateBadgeAction qualityGateAction;
+    private QualityGateBadgeAction qualityGateBadgeAction;
 
     /**
      * {@link BadgesWebService} IoC constructor
      *
-     * @param qualityGateAction action to retrieve Quality Gate status badges
+     * @param qualityGateBadgeAction action to retrieve Quality Gate status badges
      */
-    public BadgesWebService(final QualityGateBadgeAction qualityGateAction) {
-        this.qualityGateAction = qualityGateAction;
+    public BadgesWebService(final QualityGateBadgeAction qualityGateBadgeAction) {
+        this.qualityGateBadgeAction = qualityGateBadgeAction;
     }
 
     @Override
     public void define(final Context context) {
         final NewController controller = context.createController("api/badges");
         controller.setDescription("SVG Badges generation web service");
-        this.qualityGateAction.createOn(controller);
+        this.qualityGateBadgeAction.createOn(controller);
         controller.done();
     }
 }
