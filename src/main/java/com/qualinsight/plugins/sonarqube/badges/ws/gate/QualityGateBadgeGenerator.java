@@ -31,9 +31,9 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
-import com.qualinsight.plugins.sonarqube.badges.ws.util.SVGImageFontReplacer;
-import com.qualinsight.plugins.sonarqube.badges.ws.util.SVGImageGenerator;
-import com.qualinsight.plugins.sonarqube.badges.ws.util.SVGImageGenerator.Data;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageFontReplacer;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator.Data;
 
 /**
  * Generates SVG badge based on a quality gate status. A reusable {@link InputStream} is kept in a cache for each generated image in order to decrease computation time.

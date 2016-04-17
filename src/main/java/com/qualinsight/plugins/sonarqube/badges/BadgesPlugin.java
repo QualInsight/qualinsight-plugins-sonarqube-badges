@@ -23,11 +23,11 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import org.sonar.api.SonarPlugin;
 import com.qualinsight.plugins.sonarqube.badges.ws.BadgesWebService;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageFontReplacer;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeAction;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
-import com.qualinsight.plugins.sonarqube.badges.ws.util.SVGImageFontReplacer;
-import com.qualinsight.plugins.sonarqube.badges.ws.util.SVGImageGenerator;
 
 /**
  * Core BadgesPlugin class. It declares all extensions used by the plugin.

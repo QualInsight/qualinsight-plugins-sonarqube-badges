@@ -17,7 +17,7 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.badges.ws.util;
+package com.qualinsight.plugins.sonarqube.badges.ws;
 
 import java.awt.Color;
 import java.awt.Dimension;
