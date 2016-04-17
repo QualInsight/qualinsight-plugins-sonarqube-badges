@@ -83,8 +83,8 @@ public final class MeasureBadgeGenerator {
             SVGGraphics2D svgGraphics2D;
             LOGGER.debug("Generating SVG image for {} status, then caching it.");
             final Data data = Data.create()
-                .withLabelText(measureHolder.metric())
-                .withLabelWidth((int) (measureHolder.metric()
+                .withLabelText(measureHolder.metricName())
+                .withLabelWidth((int) (measureHolder.metricName()
                     .length() * 5.6d) + (SVGImageGenerator.X_MARGIN * 2))
                 .withContentText(measureHolder.value())
                 .withContentWidth((measureHolder.value()

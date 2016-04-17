@@ -20,8 +20,11 @@
 package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
 import java.awt.Color;
+import java.io.Serializable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Metric;
 import org.sonarqube.ws.WsMeasures.Measure;
 
 public class MeasureHolder {
@@ -30,26 +33,29 @@ public class MeasureHolder {
 
     private static final Color COLOR = new Color(150, 150, 150, 255);
 
-    private String metric;
+    private Metric<Serializable> metric;
 
     private String value;
 
+    @SuppressWarnings("unchecked")
     public MeasureHolder(final String metric) {
-        this.metric = metric;
+        this.metric = CoreMetrics.getMetric(metric);
         this.value = NA;
     }
 
+    @SuppressWarnings("unchecked")
     public MeasureHolder(final Measure measure) {
-        this.metric = measure.getMetric();
+        this.metric = CoreMetrics.getMetric(measure.getMetric());
         this.value = measure.getValue();
     }
 
-    String metric() {
-        return this.metric.replace('_', ' ');
+    String metricName() {
+        return this.metric.getName()
+            .replace(" (%)", "");
     }
 
     String value() {
-        return this.value + (this.metric.endsWith("_density") ? " %" : "");
+        return this.value + (this.metric.isPercentageType() ? " %" : "");
     }
 
     Color color() {
