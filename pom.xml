@@ -46,7 +46,7 @@
     <!-- License properties -->
     <license.name>QualInsight-LGPL3</license.name>
     <license.project>qualinsight-plugins-sonarqube-badges</license.project>
-    <license.period>${project.inceptionYear}</license.period>
+    <license.period>${project.inceptionYear}-2016</license.period>
     <license.owner>${project.organization.name}</license.owner>
     <license.url>${project.organization.url}</license.url>
     <!-- Plugin versions -->

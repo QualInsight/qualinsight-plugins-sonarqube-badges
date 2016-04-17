@@ -1,6 +1,6 @@
 /*
  * qualinsight-plugins-sonarqube-badges
- * Copyright (c) 2015, QualInsight
+ * Copyright (c) 2015-2016, QualInsight
  * http://www.qualinsight.com/
  *
  * This program is free software: you can redistribute it and/or
