@@ -5,7 +5,7 @@ Plugin for SonarQube that provides a set of webservices to retrieve projects' da
 
 ## Installation 
 
-In order to use this plugin on your SonarQube server instance, you need first to install it. The plugin is available in SonarQube's update center under the name "SVN Badges". 
+In order to use this plugin on your SonarQube server instance, you need first to install it. The plugin is available in SonarQube's update center under the name "SVG Badges". 
 
 ## Usage
 
@@ -13,7 +13,7 @@ Webservices provided by the plugin are self-documented. Once installed, go to th
 
 ### Generating a Quality Gate status badge
 
-Using ``/api/badges/gate?key=<project or view key>`` you can generate a badge representing the quality gate status of a project or view. Five different images types can be generated as a result, depending on the project's status and SonarQube configuration:
+Using ``/api/badges/gate?key=<project or view key>`` you can generate a badge to display the quality gate status of a project or view. Five different images types can be generated as a result, depending on the project's status and SonarQube configuration:
 
 * [Passing](images/passing.svg) indicates that the project passes the quality gate (QG)
 * [Warning](images/warning.svg) indicates that the project does not pass the quality gate due to QG warnings
@@ -30,7 +30,7 @@ Note that the plugin is currently installed on SonarQube's Nemo public instance.
 ##### HTML Link:
 
 ```
-<a href="<serverBaseURL>/dashboard/index/<key>"><img src="<serverBaseURL>/api/badges/gate?key=<key>"/></a>
+<a href="<serverBaseURL>/dashboard/index/<project or view key>"><img src="<serverBaseURL>/api/badges/gate?key=<project or view key>"/></a>
 ```
 
 Example:
@@ -42,7 +42,7 @@ Example:
 ##### Markdown Link:
 
 ```
-[![Quality Gate](<serverBaseURL>/api/badges/gate?key=<key>)](<serverBaseURL>/dashboard/index/<key>)
+[![Quality Gate](<serverBaseURL>/api/badges/gate?key=<project or view key>)](<serverBaseURL>/dashboard/index/<project or view key>)
 ```
 
 Example:
@@ -58,7 +58,7 @@ Using ``/api/badges/measure?key=<project or view key>&metric=<metric key>`` you 
 ##### HTML Link:
 
 ```
-<a href="<serverBaseURL>/dashboard/index/<key>"><img src="<serverBaseURL>/api/badges/measure?key=<key>&metric=<core metric key>"/></a>
+<a href="<serverBaseURL>/dashboard/index/<project or view key>"><img src="<serverBaseURL>/api/badges/measure?key=<project or view key>&metric=<core metric key>"/></a>
 ```
 
 Example:
@@ -70,7 +70,7 @@ Example:
 ##### Markdown Link:
 
 ```
-[![Quality Gate](<serverBaseURL>/api/badges/gate?key=<key>&metric=<core metric key>)](<serverBaseURL>/dashboard/index/<key>)
+[![Quality Gate](<serverBaseURL>/api/badges/gate?key=<project or view key>&metric=<core metric key>)](<serverBaseURL>/dashboard/index/<project or view key>)
 ```
 
 Example:
@@ -78,7 +78,6 @@ Example:
 ```
 [![Quality Gate](http://localhost:9000/api/badges/measure?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges&metric=coverage)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
 ```
-
 
 ## Known limitations
 
