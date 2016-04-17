@@ -9,9 +9,11 @@ In order to use this plugin on your SonarQube server instance, you need first to
 
 ## Usage
 
+Webservices provided by the plugin are self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/badges``.
+
 ### Generating a Quality Gate status badge
 
-If you chose to generate a badge representing the quality gate status of a project, five different images types can be generated depending on the project's status and SonarQube configuration:
+Using ``/api/badges/gate?key=<project or view key>`` you can generate a badge representing the quality gate status of a project or view. Five different images types can be generated as a result, depending on the project's status and SonarQube configuration:
 
 * [Passing](images/passing.svg) indicates that the project passes the quality gate (QG)
 * [Warning](images/warning.svg) indicates that the project does not pass the quality gate due to QG warnings
@@ -49,10 +51,9 @@ Example:
 [![Quality Gate](http://localhost:9000/api/badges/gate?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
 ```
 
-### Measure badges
+### Generating a project measure badge
 
-You can also generate a badge in order to retrieve any measure for a project.
-
+Using ``/api/badges/measure?key=<project or view key>&metric=<metric key>`` you can generate a badge to display any measure related to a project. SonarQube's [CoreMetrics class](https://github.com/SonarSource/sonarqube/blob/master/sonar-plugin-api/src/main/java/org/sonar/api/measures/CoreMetrics.java) lists all `metric keys` that can be used.
 
 ##### HTML Link:
 
@@ -79,13 +80,9 @@ Example:
 ```
 
 
-## REST documentation
-
-The webservice is self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/badges``.
-
 ## Known limitations
 
-* if "force user authentication" is set on your SonarQube instance, then the webservice provided by the plugin is currently unreachable (see issue #15.) 
+If the security option "force user authentication" is set on your SonarQube instance, then all webservices provided by the plugin are unreachable unless the user is authenticated. As a result, badges cannot be displayed if this option is set (see issue [#15](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/15) and [SONAR-6948](https://jira.sonarsource.com/browse/SONAR-6948).) 
 
 ## Conclusion
 
