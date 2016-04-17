@@ -17,33 +17,34 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.badges;
+package com.qualinsight.plugins.sonarqube.badges.ws;
 
-import java.util.List;
-import com.google.common.collect.ImmutableList;
-import org.sonar.api.SonarPlugin;
-import com.qualinsight.plugins.sonarqube.badges.ws.BadgesWebService;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageFontReplacer;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
+import org.sonar.api.server.ws.WebService;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateAction;
-import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateImageGenerator;
 
 /**
- * Core BadgesPlugin class. It declares all extensions used by the plugin.
+ * WebService extension that provides the plugins' webservice controller and action for generating SVG quality gate status images.
  *
  * @author Michel Pawlak
  */
-public final class BadgesPlugin extends SonarPlugin {
+public final class BadgesWebService implements WebService {
 
-    @SuppressWarnings("rawtypes")
+    private QualityGateAction qualityGateAction;
+
+    /**
+     * {@link BadgesWebService} IoC constructor
+     *
+     * @param qualityGateAction action to retrieve Quality Gate status badges
+     */
+    public BadgesWebService(final QualityGateAction qualityGateAction) {
+        this.qualityGateAction = qualityGateAction;
+    }
+
     @Override
-    public List getExtensions() {
-        return ImmutableList.builder()
-            .add(SVGImageFontReplacer.class)
-            .add(SVGImageGenerator.class)
-            .add(QualityGateImageGenerator.class)
-            .add(QualityGateAction.class)
-            .add(BadgesWebService.class)
-            .build();
+    public void define(final Context context) {
+        final NewController controller = context.createController("api/badges");
+        controller.setDescription("SVG Badges generation web service");
+        this.qualityGateAction.registerOn(controller);
+        controller.done();
     }
 }

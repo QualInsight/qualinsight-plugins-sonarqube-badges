@@ -17,7 +17,7 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.badges.internal;
+package com.qualinsight.plugins.sonarqube.badges.ws;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -35,17 +35,18 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.sonar.api.ServerExtension;
+import org.sonar.api.server.ServerSide;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import com.qualinsight.plugins.sonarqube.badges.internal.exception.SVGImageFontReplacementException;
+import com.qualinsight.plugins.sonarqube.badges.ws.exception.SVGImageFontReplacementException;
 
 /**
  * Server extension that takes care of font replacement in generated SVG images.
  *
  * @author Michel Pawlak
  */
-public class SVGImageFontReplacer implements ServerExtension {
+@ServerSide
+public class SVGImageFontReplacer {
 
     private final DocumentBuilder builder;
 

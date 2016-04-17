@@ -17,7 +17,7 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.badges.internal;
+package com.qualinsight.plugins.sonarqube.badges.ws.gate;
 
 import java.awt.Color;
 
@@ -82,15 +82,15 @@ public enum QualityGateStatus {
         this.displayWidth = displayWidth;
     }
 
-    String displayText() {
+    public String displayText() {
         return this.displayText;
     }
 
-    Color displayBackgroundColor() {
+    public Color displayBackgroundColor() {
         return this.displayBackgroundColor;
     }
 
-    int displayWidth() {
+    public int displayWidth() {
         return this.displayWidth;
     }
 

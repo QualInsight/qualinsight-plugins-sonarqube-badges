@@ -10,17 +10,13 @@ Five different images types are generated depending on the plugin's execution:
 * [Warning](images/warning.svg) indicates that the project does not pass the quality gate due to QG warnings
 * [Failing](images/failing.svg) indicates that the project does not pass the quality gate due to QG errors
 * [No Gate](images/no_gate.svg) indicates that no quality gate has been set for the specified project
-* [Server error](images/server_error.svg) indicates that a server error occurred while generating the image
 * [Not Found](images/not_found.svg) indicates that the project / view could not be found
-* [Forbidden](images/forbidden.svg) indicates that access to the project's / view's page requires authentication (see known limitations section below)
 
 ## Usage
 
 ### Installation 
 
-In order to use this plugin on your SonarQube server instance, you need first to install it. The plugin is available in SonarQube's update center under the name "SVN Badges".
-
-Then  you need to set SonarQube's ``sonar.core.serverBaseURL`` property to the URL of your SonarQube's server. This configuration step is mandatory. If this property is not set (i.e. default value is used) the plugin may behave incorrectly as SonarQube REST API may be unreachable. 
+In order to use this plugin on your SonarQube server instance, you need first to install it. The plugin is available in SonarQube's update center under the name "SVN Badges". 
 
 ### Displaying your badge on a web page
 
@@ -58,7 +54,7 @@ The webservice is self-documented. Once installed, go to the webservice document
 
 ## Known limitations
 
-* if authentication is required on your SonarQube instance in order to access a project's page, then the plugin is currently unable to retrieve data required to build SVN badges due to a SonarQube limitation (see issue #15.) 
+* if "force user authentication" is set on your SonarQube instance, then the webservice provided by the plugin is currently unreachable (see issue #15.) 
 
 ## Conclusion
 
