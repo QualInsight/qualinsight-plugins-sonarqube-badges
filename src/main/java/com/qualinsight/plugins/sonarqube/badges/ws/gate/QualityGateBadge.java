@@ -22,11 +22,11 @@ package com.qualinsight.plugins.sonarqube.badges.ws.gate;
 import java.awt.Color;
 
 /**
- * Possible statuses when trying to retrieve the quality gate status for a SonarQube project or view. Each status holds information about how it has to be displayed in a SVG image.
+ * Possible badges for a SonarQube project or view. Each badge holds information about how it has to be displayed as a SVG image.
  *
  * @author Michel Pawlak
  */
-public enum QualityGateStatus {
+public enum QualityGateBadge {
     /**
      * No gate is active for the project or view.
      */
@@ -76,7 +76,7 @@ public enum QualityGateStatus {
 
     private int displayWidth;
 
-    private QualityGateStatus(final String displayText, final Color displayBackgroundColor, final int displayWidth) {
+    private QualityGateBadge(final String displayText, final Color displayBackgroundColor, final int displayWidth) {
         this.displayText = displayText;
         this.displayBackgroundColor = displayBackgroundColor;
         this.displayWidth = displayWidth;

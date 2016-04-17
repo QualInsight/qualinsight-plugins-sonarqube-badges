@@ -20,7 +20,7 @@
 package com.qualinsight.plugins.sonarqube.badges.ws;
 
 import org.sonar.api.server.ws.WebService;
-import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateAction;
+import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeAction;
 
 /**
  * WebService extension that provides the plugins' webservice controller and action for generating SVG quality gate status images.
@@ -29,14 +29,14 @@ import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateAction;
  */
 public final class BadgesWebService implements WebService {
 
-    private QualityGateAction qualityGateAction;
+    private QualityGateBadgeAction qualityGateAction;
 
     /**
      * {@link BadgesWebService} IoC constructor
      *
      * @param qualityGateAction action to retrieve Quality Gate status badges
      */
-    public BadgesWebService(final QualityGateAction qualityGateAction) {
+    public BadgesWebService(final QualityGateBadgeAction qualityGateAction) {
         this.qualityGateAction = qualityGateAction;
     }
 
@@ -44,7 +44,7 @@ public final class BadgesWebService implements WebService {
     public void define(final Context context) {
         final NewController controller = context.createController("api/badges");
         controller.setDescription("SVG Badges generation web service");
-        this.qualityGateAction.registerOn(controller);
+        this.qualityGateAction.createOn(controller);
         controller.done();
     }
 }

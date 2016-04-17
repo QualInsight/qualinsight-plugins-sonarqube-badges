@@ -31,40 +31,40 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageFontReplacer;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator.Data;
+import com.qualinsight.plugins.sonarqube.badges.ws.util.SVGImageFontReplacer;
+import com.qualinsight.plugins.sonarqube.badges.ws.util.SVGImageGenerator;
+import com.qualinsight.plugins.sonarqube.badges.ws.util.SVGImageGenerator.Data;
 
 /**
- * Generates SVG images based on a quality gate status. A reusable {@link InputStream} is kept in a cache for each generated image in order to decrease computation time.
+ * Generates SVG badge based on a quality gate status. A reusable {@link InputStream} is kept in a cache for each generated image in order to decrease computation time.
  *
  * @author Michel Pawlak
  */
 @ServerSide
-public final class QualityGateImageGenerator {
+public final class QualityGateBadgeGenerator {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QualityGateImageGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QualityGateBadgeGenerator.class);
 
     private static final int LABEL_WIDTH = 75;
 
     private static final String LABEL_TEXT = "quality gate";
 
-    private final EnumMap<QualityGateStatus, InputStream> qualityGateStatusImagesMap = new EnumMap<>(QualityGateStatus.class);
+    private final EnumMap<QualityGateBadge, InputStream> qualityGateBadgesMap = new EnumMap<>(QualityGateBadge.class);
 
     private SVGImageGenerator imageGenerator;
 
     private SVGImageFontReplacer fontReplacer;
 
     /**
-     * {@link QualityGateImageGenerator} IoC constructor.
+     * {@link QualityGateBadgeGenerator} IoC constructor.
      *
      * @param imageGenerator {@link SVGImageGenerator} service to be used.
      * @param fontReplacer {@link SVGImageFontReplacer} service to be used.
      */
-    public QualityGateImageGenerator(final SVGImageGenerator imageGenerator, final SVGImageFontReplacer fontReplacer) {
+    public QualityGateBadgeGenerator(final SVGImageGenerator imageGenerator, final SVGImageFontReplacer fontReplacer) {
         this.imageGenerator = imageGenerator;
         this.fontReplacer = fontReplacer;
-        LOGGER.info("QualityGateImageGenerator is now ready.");
+        LOGGER.info("QualityGateBadgeGenerator is now ready.");
     }
 
     /**
@@ -74,12 +74,12 @@ public final class QualityGateImageGenerator {
      * @return {@link InputStream} holding the expected SVG image
      * @throws IOException if a IO problem occurs during streams manipulation
      */
-    public InputStream svgImageInputStreamFor(final QualityGateStatus status) throws IOException {
+    public InputStream svgImageInputStreamFor(final QualityGateBadge status) throws IOException {
         InputStream svgImageRawInputStream;
         InputStream svgImageTransformedInputStream;
-        if (this.qualityGateStatusImagesMap.containsKey(status)) {
+        if (this.qualityGateBadgesMap.containsKey(status)) {
             LOGGER.debug("Found SVG image for {} status in cache, reusing it.");
-            svgImageTransformedInputStream = this.qualityGateStatusImagesMap.get(status);
+            svgImageTransformedInputStream = this.qualityGateBadgesMap.get(status);
             // we don't trust previous InpuStream user, so we reset the position of the InpuStream
             svgImageTransformedInputStream.reset();
         } else {
@@ -105,7 +105,7 @@ public final class QualityGateImageGenerator {
             // mark svgImageInputStream position to make it reusable
             svgImageTransformedInputStream.mark(Integer.MAX_VALUE);
             // put it into cache
-            this.qualityGateStatusImagesMap.put(status, svgImageTransformedInputStream);
+            this.qualityGateBadgesMap.put(status, svgImageTransformedInputStream);
         }
         return svgImageTransformedInputStream;
     }
