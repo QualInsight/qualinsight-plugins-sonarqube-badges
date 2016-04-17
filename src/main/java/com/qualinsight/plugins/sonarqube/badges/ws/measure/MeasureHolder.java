@@ -33,29 +33,31 @@ public class MeasureHolder {
 
     private static final Color COLOR = new Color(150, 150, 150, 255);
 
-    private Metric<Serializable> metric;
+    private String metricName;
 
     private String value;
 
-    @SuppressWarnings("unchecked")
     public MeasureHolder(final String metric) {
-        this.metric = CoreMetrics.getMetric(metric);
+        this.metricName = CoreMetrics.getMetric(metric)
+            .getName()
+            .replace(" (%)", "");
         this.value = NA;
     }
 
     @SuppressWarnings("unchecked")
     public MeasureHolder(final Measure measure) {
-        this.metric = CoreMetrics.getMetric(measure.getMetric());
-        this.value = measure.getValue();
+        final Metric<Serializable> metric = CoreMetrics.getMetric(measure.getMetric());
+        this.metricName = metric.getName()
+            .replace(" (%)", "");
+        this.value = measure.getValue() + (metric.isPercentageType() ? "%" : "");
     }
 
     String metricName() {
-        return this.metric.getName()
-            .replace(" (%)", "");
+        return this.metricName;
     }
 
     String value() {
-        return this.value + (this.metric.isPercentageType() ? " %" : "");
+        return this.value;
     }
 
     Color color() {
@@ -64,7 +66,7 @@ public class MeasureHolder {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.metric)
+        return new HashCodeBuilder().append(this.metricName)
             .append(this.value)
             .toHashCode();
     }
@@ -75,7 +77,7 @@ public class MeasureHolder {
             return false;
         }
         final MeasureHolder other = (MeasureHolder) obj;
-        return new EqualsBuilder().append(this.metric, other.metric)
+        return new EqualsBuilder().append(this.metricName, other.metricName)
             .append(this.value, other.value)
             .isEquals();
     }

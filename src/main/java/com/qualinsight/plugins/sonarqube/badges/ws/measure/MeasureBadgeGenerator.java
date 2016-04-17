@@ -84,11 +84,7 @@ public final class MeasureBadgeGenerator {
             LOGGER.debug("Generating SVG image for {} status, then caching it.");
             final Data data = Data.create()
                 .withLabelText(measureHolder.metricName())
-                .withLabelWidth((int) (measureHolder.metricName()
-                    .length() * 5.6d) + (SVGImageGenerator.X_MARGIN * 2))
                 .withContentText(measureHolder.value())
-                .withContentWidth((measureHolder.value()
-                    .length() * 7) + (SVGImageGenerator.X_MARGIN * 2))
                 .withContentBackgroundColor(measureHolder.color());
             svgGraphics2D = this.imageGenerator.generateFor(data);
             // create a svgImageOutputStream to write svgGraphics2D content to

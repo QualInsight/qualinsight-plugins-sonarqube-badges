@@ -56,7 +56,11 @@ public final class SVGImageGenerator {
 
     private static final Font FONT = new Font(FONT_NAME, Font.PLAIN, FONT_SIZE);
 
-    public static final int X_MARGIN = 4;
+    private static final int X_MARGIN = 4;
+
+    private static final double LABEL_WIDTH_MULTIPLIER = 6.5;
+
+    private static final double CONTENT_WIDTH_MULTIPLIER = 7;
 
     private static final int CANVAS_HEIGHT = 20;
 
@@ -68,7 +72,7 @@ public final class SVGImageGenerator {
 
     private static final Color COLOR_TEXT = new Color(255, 255, 255, 255);
 
-    private static final int Y_OFFSET_SHADOW = 14;
+    private static final int Y_OFFSET_SHADOW = 15;
 
     private static final int Y_OFFSET_TEXT = 14;
 
@@ -78,11 +82,7 @@ public final class SVGImageGenerator {
 
         private String labelText;
 
-        private int labelWidth;
-
         private String contentText;
-
-        private int contentWidth;
 
         private Color contentBackgroundColor;
 
@@ -94,18 +94,8 @@ public final class SVGImageGenerator {
             return this;
         }
 
-        public Data withLabelWidth(final int labelWidth) {
-            this.labelWidth = labelWidth;
-            return this;
-        }
-
         public Data withContentText(final String contentText) {
             this.contentText = contentText;
-            return this;
-        }
-
-        public Data withContentWidth(final int contentWidth) {
-            this.contentWidth = contentWidth;
             return this;
         }
 
@@ -133,16 +123,18 @@ public final class SVGImageGenerator {
     }
 
     public SVGGraphics2D generateFor(final Data data) {
+        final int labelWidth = computeLabelTextWidth(data.labelText);
+        final int contentWidth = computeContentTextWidth(data.contentText);
         // new SVG graphics
         final SVGGraphics2D svgGraphics2D = new SVGGraphics2D(this.svgGeneratorContext, false);
         // set SVG canvas size
-        svgGraphics2D.setSVGCanvasSize(new Dimension(data.labelWidth + data.contentWidth, CANVAS_HEIGHT));
+        svgGraphics2D.setSVGCanvasSize(new Dimension(labelWidth + contentWidth + (4 * X_MARGIN), CANVAS_HEIGHT));
         // set font
         svgGraphics2D.setFont(FONT);
         // draw Label background
         svgGraphics2D.setColor(COLOR_BACKGROUND_LABEL);
-        svgGraphics2D.fillRoundRect(0, 0, data.labelWidth, CANVAS_HEIGHT, BACKGROUND_CORNER_ARC_DIAMETER, BACKGROUND_CORNER_ARC_DIAMETER);
-        svgGraphics2D.fillRect(data.labelWidth - BACKGROUND_CORNER_ARC_DIAMETER, 0, BACKGROUND_CORNER_ARC_DIAMETER, CANVAS_HEIGHT);
+        svgGraphics2D.fillRoundRect(0, 0, labelWidth + (2 * X_MARGIN), CANVAS_HEIGHT, BACKGROUND_CORNER_ARC_DIAMETER, BACKGROUND_CORNER_ARC_DIAMETER);
+        svgGraphics2D.fillRect(BACKGROUND_CORNER_ARC_DIAMETER, 0, (labelWidth + (2 * X_MARGIN)) - BACKGROUND_CORNER_ARC_DIAMETER, CANVAS_HEIGHT);
         // draw Label text shadow
         svgGraphics2D.setColor(COLOR_SHADOW);
         svgGraphics2D.drawString(data.labelText, X_MARGIN, Y_OFFSET_SHADOW);
@@ -151,14 +143,22 @@ public final class SVGImageGenerator {
         svgGraphics2D.drawString(data.labelText, X_MARGIN, Y_OFFSET_TEXT);
         // draw result background
         svgGraphics2D.setColor(data.contentBackgroundColor);
-        svgGraphics2D.fillRoundRect(data.labelWidth, 0, data.contentWidth, CANVAS_HEIGHT, BACKGROUND_CORNER_ARC_DIAMETER, BACKGROUND_CORNER_ARC_DIAMETER);
-        svgGraphics2D.fillRect(data.labelWidth, 0, BACKGROUND_CORNER_ARC_DIAMETER, CANVAS_HEIGHT);
+        svgGraphics2D.fillRoundRect(labelWidth + (2 * X_MARGIN), 0, contentWidth + (2 * X_MARGIN), CANVAS_HEIGHT, BACKGROUND_CORNER_ARC_DIAMETER, BACKGROUND_CORNER_ARC_DIAMETER);
+        svgGraphics2D.fillRect(labelWidth + (2 * X_MARGIN), 0, (contentWidth + (2 * X_MARGIN)) - BACKGROUND_CORNER_ARC_DIAMETER, CANVAS_HEIGHT);
         // draw result text shadow
         svgGraphics2D.setColor(COLOR_SHADOW);
-        svgGraphics2D.drawString(data.contentText, data.labelWidth + X_MARGIN, 15);
+        svgGraphics2D.drawString(data.contentText, labelWidth + (3 * X_MARGIN), Y_OFFSET_SHADOW);
         // draw result text
         svgGraphics2D.setColor(COLOR_TEXT);
-        svgGraphics2D.drawString(data.contentText, data.labelWidth + X_MARGIN, 14);
+        svgGraphics2D.drawString(data.contentText, labelWidth + (3 * X_MARGIN), Y_OFFSET_TEXT);
         return svgGraphics2D;
+    }
+
+    private int computeLabelTextWidth(final String text) {
+        return (int) Math.round(text.length() * LABEL_WIDTH_MULTIPLIER);
+    }
+
+    private int computeContentTextWidth(final String text) {
+        return (int) Math.round(text.length() * CONTENT_WIDTH_MULTIPLIER);
     }
 }

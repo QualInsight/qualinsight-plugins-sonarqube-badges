@@ -45,8 +45,6 @@ public final class QualityGateBadgeGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(QualityGateBadgeGenerator.class);
 
-    private static final int LABEL_WIDTH = 75;
-
     private static final String LABEL_TEXT = "quality gate";
 
     private final EnumMap<QualityGateBadge, InputStream> qualityGateBadgesMap = new EnumMap<>(QualityGateBadge.class);
@@ -87,9 +85,7 @@ public final class QualityGateBadgeGenerator {
             LOGGER.debug("Generating SVG image for {} status, then caching it.");
             final Data data = Data.create()
                 .withLabelText(LABEL_TEXT)
-                .withLabelWidth(LABEL_WIDTH)
                 .withContentText(status.displayText())
-                .withContentWidth(status.displayWidth())
                 .withContentBackgroundColor(status.displayBackgroundColor());
             svgGraphics2D = this.imageGenerator.generateFor(data);
             // create a svgImageOutputStream to write svgGraphics2D content to

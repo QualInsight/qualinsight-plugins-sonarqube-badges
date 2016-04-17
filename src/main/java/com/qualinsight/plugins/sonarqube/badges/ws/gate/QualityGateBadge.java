@@ -31,38 +31,32 @@ public enum QualityGateBadge {
      * No gate is active for the project or view.
      */
     NONE("not set",
-        new Color(150, 150, 150, 255),
-        50),
+        new Color(150, 150, 150, 255)),
     /**
      * The project / view passes the quality gate.
      */
     OK("passing",
-        new Color(86, 209, 41, 255),
-        50),
+        new Color(86, 209, 41, 255)),
     /**
      * The project / view does not pass the quality gate due to gate warnings.
      */
     WARN("warning",
-        new Color(255, 165, 0, 255),
-        52),
+        new Color(255, 165, 0, 255)),
     /**
      * The project / view does not pass the quality gate due to gate errors.
      */
     ERROR("failing",
-        new Color(224, 93, 68, 255),
-        44),
+        new Color(224, 93, 68, 255)),
     /**
      * The project / view could not be found on the SonarQube's server.
      */
     NOT_FOUND("not found",
-        new Color(224, 93, 68, 255),
-        65),
+        new Color(224, 93, 68, 255)),
     /**
      * Access to the project / view is restricted (see issue #15)
      */
     FORBIDDEN("forbidden",
-        new Color(224, 93, 68, 255),
-        65);
+        new Color(224, 93, 68, 255));
 
     private final String displayText;
 
@@ -70,10 +64,9 @@ public enum QualityGateBadge {
 
     private int displayWidth;
 
-    private QualityGateBadge(final String displayText, final Color displayBackgroundColor, final int displayWidth) {
+    private QualityGateBadge(final String displayText, final Color displayBackgroundColor) {
         this.displayText = displayText;
         this.displayBackgroundColor = displayBackgroundColor;
-        this.displayWidth = displayWidth;
     }
 
     public String displayText() {
@@ -82,10 +75,6 @@ public enum QualityGateBadge {
 
     public Color displayBackgroundColor() {
         return this.displayBackgroundColor;
-    }
-
-    public int displayWidth() {
-        return this.displayWidth;
     }
 
 }
