@@ -32,7 +32,7 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageFontReplacer;
+import com.qualinsight.plugins.sonarqube.badges.font.FontReplacer;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator.Data;
 
@@ -50,15 +50,15 @@ public final class MeasureBadgeGenerator {
 
     private SVGImageGenerator imageGenerator;
 
-    private SVGImageFontReplacer fontReplacer;
+    private FontReplacer fontReplacer;
 
     /**
      * {@link MeasureBadgeGenerator} IoC constructor.
      *
      * @param imageGenerator {@link SVGImageGenerator} service to be used.
-     * @param fontReplacer {@link SVGImageFontReplacer} service to be used.
+     * @param fontReplacer {@link FontReplacer} service to be used.
      */
-    public MeasureBadgeGenerator(final SVGImageGenerator imageGenerator, final SVGImageFontReplacer fontReplacer) {
+    public MeasureBadgeGenerator(final SVGImageGenerator imageGenerator, final FontReplacer fontReplacer) {
         this.imageGenerator = imageGenerator;
         this.fontReplacer = fontReplacer;
         LOGGER.info("MeasureBadgeGenerator is now ready.");

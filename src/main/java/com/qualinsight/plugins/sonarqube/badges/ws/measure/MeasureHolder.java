@@ -40,7 +40,8 @@ public class MeasureHolder {
     public MeasureHolder(final String metric) {
         this.metricName = CoreMetrics.getMetric(metric)
             .getName()
-            .replace(" (%)", "");
+            .replace(" (%)", "")
+            .toLowerCase();
         this.value = NA;
     }
 
@@ -48,7 +49,8 @@ public class MeasureHolder {
     public MeasureHolder(final Measure measure) {
         final Metric<Serializable> metric = CoreMetrics.getMetric(measure.getMetric());
         this.metricName = metric.getName()
-            .replace(" (%)", "");
+            .replace(" (%)", "")
+            .toLowerCase();
         this.value = measure.getValue() + (metric.isPercentageType() ? "%" : "");
     }
 

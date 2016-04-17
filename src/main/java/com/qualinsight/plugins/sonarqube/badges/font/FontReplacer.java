@@ -17,7 +17,7 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.badges.ws;
+package com.qualinsight.plugins.sonarqube.badges.font;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -46,7 +46,7 @@ import com.qualinsight.plugins.sonarqube.badges.exception.SVGImageFontReplacemen
  * @author Michel Pawlak
  */
 @ServerSide
-public class SVGImageFontReplacer {
+public class FontReplacer {
 
     private final DocumentBuilder builder;
 
@@ -57,12 +57,12 @@ public class SVGImageFontReplacer {
      *
      * @throws SVGImageFontReplacementException if a problem occurs during initialization
      */
-    public SVGImageFontReplacer() throws SVGImageFontReplacementException {
+    public FontReplacer() throws SVGImageFontReplacementException {
         try {
             InputStream xslInputStream = null;
             try {
                 xslInputStream = getClass().getClassLoader()
-                    .getResourceAsStream("com/qualinsight/plugins/sonarqube/badges/internal/svg.xsl");
+                    .getResourceAsStream("com/qualinsight/plugins/sonarqube/badges/font/svg.xsl");
                 final TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 this.transformer = transformerFactory.newTransformer(new StreamSource(xslInputStream));
             } finally {
