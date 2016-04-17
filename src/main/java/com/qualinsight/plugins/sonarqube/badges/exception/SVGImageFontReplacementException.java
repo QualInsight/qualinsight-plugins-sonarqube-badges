@@ -17,7 +17,7 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.badges.ws.exception;
+package com.qualinsight.plugins.sonarqube.badges.exception;
 
 import java.io.IOException;
 

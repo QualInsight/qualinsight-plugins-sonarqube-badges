@@ -34,12 +34,6 @@ public enum QualityGateBadge {
         new Color(150, 150, 150, 255),
         50),
     /**
-     * A server error occurred while retrieving the quality gate status.
-     */
-    SERVER_ERROR("server error",
-        new Color(224, 93, 68, 255),
-        76),
-    /**
      * The project / view passes the quality gate.
      */
     OK("passing",

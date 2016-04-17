@@ -56,7 +56,7 @@ public final class SVGImageGenerator {
 
     private static final Font FONT = new Font(FONT_NAME, Font.PLAIN, FONT_SIZE);
 
-    private static final int X_MARGIN = 4;
+    public static final int X_MARGIN = 4;
 
     private static final int CANVAS_HEIGHT = 20;
 

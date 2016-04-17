@@ -38,7 +38,7 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.sonar.api.server.ServerSide;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import com.qualinsight.plugins.sonarqube.badges.ws.exception.SVGImageFontReplacementException;
+import com.qualinsight.plugins.sonarqube.badges.exception.SVGImageFontReplacementException;
 
 /**
  * Server extension that takes care of font replacement in generated SVG images.

@@ -28,6 +28,9 @@ import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeAction;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
+import com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBadgeAction;
+import com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBadgeGenerator;
+import com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBadgeRequestHandler;
 
 /**
  * Core BadgesPlugin class. It declares all extensions used by the plugin.
@@ -45,6 +48,9 @@ public final class BadgesPlugin extends SonarPlugin {
             .add(QualityGateBadgeRequestHandler.class)
             .add(QualityGateBadgeGenerator.class)
             .add(QualityGateBadgeAction.class)
+            .add(MeasureBadgeRequestHandler.class)
+            .add(MeasureBadgeGenerator.class)
+            .add(MeasureBadgeAction.class)
             .add(BadgesWebService.class)
             .build();
     }
