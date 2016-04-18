@@ -20,8 +20,16 @@
 package com.qualinsight.plugins.sonarqube.badges.ws.gate;
 
 import org.sonar.api.server.ServerSide;
+import org.sonar.api.server.ws.WebService;
+import org.sonar.api.server.ws.WebService.Action;
+import org.sonar.api.server.ws.WebService.Controller;
 import org.sonar.api.server.ws.WebService.NewController;
 
+/**
+ * Creates {@link Action} for quality gate badge {@link WebService} {@link Controller}.
+ *
+ * @author Michel Pawlak
+ */
 @ServerSide
 public class QualityGateBadgeAction {
 
@@ -34,6 +42,11 @@ public class QualityGateBadgeAction {
         this.qualityGateBadgeRequestHandler = qualityGateBadgeRequestHandler;
     }
 
+    /**
+     * Adds the action to a provided controller
+     *
+     * @param controller the action needs to be added to
+     */
     public void createOn(final NewController controller) {
         controller.createAction("gate")
             .setDescription("Retrieves the quality gate status of a project as a SVG image.")

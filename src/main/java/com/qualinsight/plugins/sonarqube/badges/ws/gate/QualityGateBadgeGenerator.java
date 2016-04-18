@@ -97,7 +97,8 @@ public final class QualityGateBadgeGenerator {
             svgGraphics2D.stream(out, useCSS);
             // create a svgImageInputStream from svgImageOutputStream content
             svgImageRawInputStream = new ByteArrayInputStream(svgImageOutputStream.toByteArray());
-            svgImageTransformedInputStream = this.fontReplacer.process(svgImageRawInputStream);
+            svgImageTransformedInputStream = this.fontReplacer.process(svgImageRawInputStream, this.imageGenerator.fontManager()
+                .fontFamily());
             // mark svgImageInputStream position to make it reusable
             svgImageTransformedInputStream.mark(Integer.MAX_VALUE);
             // put it into cache

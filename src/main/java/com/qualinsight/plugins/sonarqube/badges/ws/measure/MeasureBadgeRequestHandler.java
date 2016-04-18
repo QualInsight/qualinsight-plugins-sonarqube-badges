@@ -38,6 +38,11 @@ import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.measure.ComponentWsRequest;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
 
+/**
+ * {@link RequestHandler} implementation that handles measure badges requests.
+ * 
+ * @author Michel Pawlak
+ */
 @ServerSide
 public class MeasureBadgeRequestHandler implements RequestHandler {
 

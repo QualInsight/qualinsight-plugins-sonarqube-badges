@@ -62,17 +62,25 @@ public enum QualityGateBadge {
 
     private final Color displayBackgroundColor;
 
-    private int displayWidth;
-
     private QualityGateBadge(final String displayText, final Color displayBackgroundColor) {
         this.displayText = displayText;
         this.displayBackgroundColor = displayBackgroundColor;
     }
 
+    /**
+     * Text to be displayed for the badge type
+     *
+     * @return text to be displayed
+     */
     public String displayText() {
         return this.displayText;
     }
 
+    /**
+     * Background color to be displayed for the badge type
+     *
+     * @return background color to be displayed
+     */
     public Color displayBackgroundColor() {
         return this.displayBackgroundColor;
     }

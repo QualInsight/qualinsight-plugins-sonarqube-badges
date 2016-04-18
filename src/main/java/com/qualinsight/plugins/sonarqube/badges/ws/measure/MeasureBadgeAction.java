@@ -20,9 +20,17 @@
 package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
 import org.sonar.api.server.ServerSide;
+import org.sonar.api.server.ws.WebService;
+import org.sonar.api.server.ws.WebService.Action;
+import org.sonar.api.server.ws.WebService.Controller;
 import org.sonar.api.server.ws.WebService.NewAction;
 import org.sonar.api.server.ws.WebService.NewController;
 
+/**
+ * Creates {@link Action} for measure badge {@link WebService} {@link Controller}.
+ * 
+ * @author Michel Pawlak
+ */
 @ServerSide
 public class MeasureBadgeAction {
 
@@ -35,6 +43,11 @@ public class MeasureBadgeAction {
         this.measureBadgeRequestHandler = measureBadgeRequestHandler;
     }
 
+    /**
+     * Adds the action to a provided controller
+     *
+     * @param controller the action needs to be added to
+     */
     public void createOn(final NewController controller) {
         final NewAction action = controller.createAction("measure")
             .setDescription("Retrieves a measure for a project as a SVG image.")

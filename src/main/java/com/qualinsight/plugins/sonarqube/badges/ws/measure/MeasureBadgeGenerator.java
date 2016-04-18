@@ -85,7 +85,7 @@ public final class MeasureBadgeGenerator {
             final Data data = Data.create()
                 .withLabelText(measureHolder.metricName())
                 .withContentText(measureHolder.value())
-                .withContentBackgroundColor(measureHolder.color());
+                .withContentBackgroundColor(measureHolder.backgroundColor());
             svgGraphics2D = this.imageGenerator.generateFor(data);
             // create a svgImageOutputStream to write svgGraphics2D content to
             ByteArrayOutputStream svgImageOutputStream;
@@ -96,7 +96,8 @@ public final class MeasureBadgeGenerator {
             svgGraphics2D.stream(out, useCSS);
             // create a svgImageInputStream from svgImageOutputStream content
             svgImageRawInputStream = new ByteArrayInputStream(svgImageOutputStream.toByteArray());
-            svgImageTransformedInputStream = this.fontReplacer.process(svgImageRawInputStream);
+            svgImageTransformedInputStream = this.fontReplacer.process(svgImageRawInputStream, this.imageGenerator.fontManager()
+                .fontFamily());
             // mark svgImageInputStream position to make it reusable
             svgImageTransformedInputStream.mark(Integer.MAX_VALUE);
             // put it into cache

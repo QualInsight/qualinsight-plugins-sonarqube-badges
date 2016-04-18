@@ -27,24 +27,39 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonarqube.ws.WsMeasures.Measure;
 
+/**
+ * Holds measure data.
+ * 
+ * @author Michel Pawlak
+ */
 public class MeasureHolder {
 
     private static final String NA = "N/A";
 
-    private static final Color COLOR = new Color(150, 150, 150, 255);
+    private static final Color BACKGROUND_COLOR = new Color(150, 150, 150, 255);
 
     private String metricName;
 
     private String value;
 
-    public MeasureHolder(final String metric) {
-        this.metricName = CoreMetrics.getMetric(metric)
+    /**
+     * Constructs a MeasureHolder from a metric key.
+     *
+     * @param metricKey key used to retrieve the metric name for which the MeasureHolder is built
+     */
+    public MeasureHolder(final String metricKey) {
+        this.metricName = CoreMetrics.getMetric(metricKey)
             .getName()
             .replace(" (%)", "")
             .toLowerCase();
         this.value = NA;
     }
 
+    /**
+     * Constructs a MeasureHolder from a Measure object.
+     *
+     * @param measure used to retrieve the metric name for which the MeasureHolder is built
+     */
     @SuppressWarnings("unchecked")
     public MeasureHolder(final Measure measure) {
         final Metric<Serializable> metric = CoreMetrics.getMetric(measure.getMetric());
@@ -54,16 +69,31 @@ public class MeasureHolder {
         this.value = measure.getValue() + (metric.isPercentageType() ? "%" : "");
     }
 
-    String metricName() {
+    /**
+     * Name of measured metric.
+     *
+     * @return name of measured metric
+     */
+    public String metricName() {
         return this.metricName;
     }
 
-    String value() {
+    /**
+     * Measured value.
+     *
+     * @return measured value
+     */
+    public String value() {
         return this.value;
     }
 
-    Color color() {
-        return COLOR;
+    /**
+     * Background color to be used in SVG image.
+     *
+     * @return background color
+     */
+    public Color backgroundColor() {
+        return BACKGROUND_COLOR;
     }
 
     @Override

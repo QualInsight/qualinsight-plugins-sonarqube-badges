@@ -23,7 +23,7 @@ import java.io.IOException;
 
 /**
  * Exception thrown if a problem occurs during the process of font replacement in SVG image.
- * 
+ *
  * @author Michel Pawlak
  */
 public class SVGImageFontReplacementException extends IOException {
@@ -33,8 +33,13 @@ public class SVGImageFontReplacementException extends IOException {
      */
     private static final long serialVersionUID = 1L;
 
-    public SVGImageFontReplacementException(final Exception e) {
-        super(e);
+    /**
+     * SVGImageFontReplacementException constructor.
+     * 
+     * @param cause Exception
+     */
+    public SVGImageFontReplacementException(final Exception cause) {
+        super(cause);
     }
 
 }

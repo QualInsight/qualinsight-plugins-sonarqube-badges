@@ -34,6 +34,11 @@ import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
 
+/**
+ * {@link RequestHandler} implementation that handles Quality Gate badges requests.
+ * 
+ * @author Michel Pawlak
+ */
 @ServerSide
 public class QualityGateBadgeRequestHandler implements RequestHandler {
 
