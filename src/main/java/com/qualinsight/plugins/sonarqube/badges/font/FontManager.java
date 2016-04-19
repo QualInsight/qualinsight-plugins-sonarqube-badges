@@ -44,7 +44,7 @@ public final class FontManager {
 
     private static final int FONT_STYLE = Font.PLAIN;
 
-    private static final List<String> preferredFontNames = ImmutableList.of("DejaVu Sans", "Verdana", "Geneva", "Tahoma", "Arial", "sans-serif");
+    private static final List<String> preferredFontNames = ImmutableList.of("DejaVu Sans", "Verdana", "Tahoma", "Helvetica", "Arial", "sans-serif");
 
     private final Font preferredFont;
 
