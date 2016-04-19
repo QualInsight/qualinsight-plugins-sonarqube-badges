@@ -44,6 +44,8 @@ public final class FontManager {
 
     private static final int FONT_STYLE = Font.PLAIN;
 
+    public static final Font DUMMY_FONT = new Font(DUMMY_FONT_NAME, FONT_STYLE, FONT_SIZE);
+
     private static final List<String> preferredFontNames = ImmutableList.of("DejaVu Sans", "Verdana", "Tahoma", "Helvetica", "Arial", "sans-serif");
 
     private final Font preferredFont;
@@ -94,27 +96,20 @@ public final class FontManager {
                 }
             }
         }
-        return new Font(DUMMY_FONT_NAME, FONT_STYLE, FONT_SIZE);
+        return DUMMY_FONT;
     }
 
     /**
-     * Scans available Fonts then keep those available among preferred fonts to build a font family string.
+     * Builds a font family string where the first font name is the one that has been used in order to compute SVG image width. Font names that are removed are the names of fonts that are wider than the preferred font.
      *
-     * @return font family string.
+     * @return a font family string.
      */
     private String detectFontFamily() {
-        final Font[] availableFonts = GraphicsEnvironment.getLocalGraphicsEnvironment()
-            .getAllFonts();
         final StringBuilder sb = new StringBuilder();
-        for (final String preferredFontName : preferredFontNames) {
-            for (final Font font : availableFonts) {
-                if (font.getFontName()
-                    .equals(preferredFontName)) {
-                    sb.append("'")
-                        .append(preferredFontName)
-                        .append("',");
-                }
-            }
+        for (final String preferredFontName : preferredFontNames.subList(preferredFontNames.indexOf(this.preferredFont.getName()), preferredFontNames.size())) {
+            sb.append("'")
+                .append(preferredFontName)
+                .append("',");
         }
         return StringUtils.removeEnd(sb.toString(), ",");
     }

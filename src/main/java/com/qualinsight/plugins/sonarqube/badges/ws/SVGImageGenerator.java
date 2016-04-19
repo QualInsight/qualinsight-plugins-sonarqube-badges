@@ -159,7 +159,7 @@ public final class SVGImageGenerator {
         // set SVG canvas size
         svgGraphics2D.setSVGCanvasSize(new Dimension(labelWidth + contentWidth + (4 * X_MARGIN), CANVAS_HEIGHT));
         // set font
-        svgGraphics2D.setFont(this.fontManager.preferredFont());
+        svgGraphics2D.setFont(FontManager.DUMMY_FONT);
         // draw Label background
         svgGraphics2D.setColor(COLOR_BACKGROUND_LABEL);
         svgGraphics2D.fillRoundRect(0, 0, labelWidth + (2 * X_MARGIN), CANVAS_HEIGHT, BACKGROUND_CORNER_ARC_DIAMETER, BACKGROUND_CORNER_ARC_DIAMETER);
