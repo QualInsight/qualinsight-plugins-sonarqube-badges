@@ -36,7 +36,7 @@ Use the ``/api/badges/gate?key=<project or view key>`` URL in order to generate 
 
 You can display Quality Gate badges using HTML or Markdown as follows.
 
-*Note 1*: The plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for a project analyzed on Nemo, just use ``nemo.sonarqube.org`` as ``<serverBaseURL>``.
+*Note 2*: The plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for a project analyzed on Nemo, just use ``nemo.sonarqube.org`` as ``<serverBaseURL>``.
 
 ##### HTML Link:
 
