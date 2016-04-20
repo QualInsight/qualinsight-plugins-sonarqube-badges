@@ -83,6 +83,8 @@ Example:
 
 By default the webservice generating quality gate badges is activated, and the one generating measures badges is deactivated. You can modify this configuration on SonarQube's administration page ("SVG Badges" section.)
 
+![Configuration screen](images/configuration.png)
+
 *Note 1*: Measures badge webservice are deactivated due to lack of evaluation of the impact of measures badge generation on performance and on SonarQube's resources consumption. I need to run some load tests in order to make sure that this web service scales nicely. Until then, please use this option carefully and do not hesitate to contact me by creating an issue in GitHub if you detect a problem or if you want to help me in this task. 
 
 ## Known limitations
