@@ -7,8 +7,6 @@ Plugin for SonarQube that generates badges (SVG images) displaying information a
 
 In order to use this plugin on your SonarQube server instance, you need first to install it. The plugin is available in SonarQube's update center under the name "SVG Badges". 
 
-## Usage
-
 ### Plugin configuration
 
 By default, the plugin is configured as follows: 
@@ -22,9 +20,7 @@ You can modify this configuration on SonarQube's administration page ("SVG Badge
 
 *Note 1*: Measures badge webservice is currently deactivated due to lack of evaluation of the impact of its execution on both performance and resources consumption. I need to run some load tests in order to make sure that this web service scales nicely. Until then, please use this option carefully and do not hesitate to create an issue in GitHub if you detect a problem or if you want to help me in this task. 
 
-### Webservices documentation
-
-Webservices provided by the SVG Badges plugin are self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/badges``.
+## Usage
 
 ### Quality Gate status badge
 
@@ -93,6 +89,9 @@ Example:
 ```
 [![Quality Gate](http://localhost:9000/api/badges/measure?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges&metric=coverage)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
 ```
+### Webservices documentation
+
+Webservices provided by the SVG Badges plugin are self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/badges``.
 
 ## Known limitations
 
