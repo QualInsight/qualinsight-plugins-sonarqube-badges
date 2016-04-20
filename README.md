@@ -9,11 +9,26 @@ In order to use this plugin on your SonarQube server instance, you need first to
 
 ## Usage
 
-Webservices provided by the plugin are self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/badges``.
+### Plugin configuration
 
-### Retrieving a Quality Gate status badge
+By default, the plugin is configured as follows: 
 
-Using ``/api/badges/gate?key=<project or view key>`` you can generate a badge to display the quality gate status of a project or view. Five different images types can be generated as a result, depending on the project's status and SonarQube configuration:
+* quality gate badges webservice is activated 
+* measures badges webservice is deactivated 
+
+You can modify this configuration on SonarQube's administration page ("SVG Badges" section.)
+
+![Configuration screen](images/configuration.png)
+
+*Note 1*: Measures badge webservice is currently deactivated due to lack of evaluation of the impact of its execution on both performance and resources consumption. I need to run some load tests in order to make sure that this web service scales nicely. Until then, please use this option carefully and do not hesitate to create an issue in GitHub if you detect a problem or if you want to help me in this task. 
+
+### Webservices documentation
+
+Webservices provided by the SVG Badges plugin are self-documented. Once installed, go to the webservice documentation page of your SonarQube instance and look at the documentation for ``/api/badges``.
+
+### Quality Gate status badge
+
+Use the ``/api/badges/gate?key=<project or view key>`` URL in order to generate a badge that displays the quality gate status of a project or view. Depending on the project's status and SonarQube configuration, one of the following image types will be generated :
 
 * [Passing](images/passing.svg) indicates that the project passes the quality gate (QG)
 * [Warning](images/warning.svg) indicates that the project does not pass the quality gate due to QG warnings
@@ -21,11 +36,11 @@ Using ``/api/badges/gate?key=<project or view key>`` you can generate a badge to
 * [No Gate](images/no_gate.svg) indicates that no quality gate has been set for the specified project
 * [Not Found](images/not_found.svg) indicates that the project / view could not be found
 
-#### Displaying your badge on a web page
+#### Display the Quality Gate badge on a web page
 
-You can display generated badges using HTML or Markdown as follows.
+You can display Quality Gate badges using HTML or Markdown as follows.
 
-Note that the plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for one of the Opensource project analyzed on Nemo, just use ``nemo.sonarqube.org`` as ``<serverBaseURL>``.
+*Note 1*: The plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for a project analyzed on Nemo, just use ``nemo.sonarqube.org`` as ``<serverBaseURL>``.
 
 ##### HTML Link:
 
@@ -51,9 +66,9 @@ Example:
 [![Quality Gate](http://localhost:9000/api/badges/gate?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
 ```
 
-### Retrieving a measure badge
+### Measure badge
 
-Using ``/api/badges/measure?key=<project or view key>&metric=<metric key>`` you can generate a badge to display any measure related to a project. SonarQube's [CoreMetrics class](https://github.com/SonarSource/sonarqube/blob/master/sonar-plugin-api/src/main/java/org/sonar/api/measures/CoreMetrics.java) lists all `metric keys` that can be used.
+Use the ``/api/badges/measure?key=<project or view key>&metric=<metric key>`` URL in order to generate a badge that displays any measure related to a project or view. SonarQube's [CoreMetrics class](https://github.com/SonarSource/sonarqube/blob/master/sonar-plugin-api/src/main/java/org/sonar/api/measures/CoreMetrics.java) lists all `metric keys` that can be used.
 
 ##### HTML Link:
 
@@ -79,14 +94,6 @@ Example:
 [![Quality Gate](http://localhost:9000/api/badges/measure?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges&metric=coverage)](http://localhost:9000/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
 ```
 
-## Configuration
-
-By default the webservice generating quality gate badges is activated, and the one generating measures badges is deactivated. You can modify this configuration on SonarQube's administration page ("SVG Badges" section.)
-
-![Configuration screen](images/configuration.png)
-
-*Note 1*: Measures badge webservice are deactivated due to lack of evaluation of the impact of measures badge generation on performance and on SonarQube's resources consumption. I need to run some load tests in order to make sure that this web service scales nicely. Until then, please use this option carefully and do not hesitate to contact me by creating an issue in GitHub if you detect a problem or if you want to help me in this task. 
-
 ## Known limitations
 
 If the security option "force user authentication" is set on your SonarQube instance, then all webservices become unreachable unless the user is authenticated. As a result, badges cannot be retrieved if this option is set.
@@ -95,6 +102,6 @@ If you want more information about this limitation, have a look at issue [#15](h
 
 ## Conclusion
 
-New feature ideas and contributions are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-badges) named [SVG Bagdes](https://groups.google.com/forum/#!forum/svg-badges) has been created in order to facilitate discussions about this plugin. This project's quality can be followed on [Nemo](https://nemo.sonarqube.org/overview?id=com.qualinsight.plugins.sonarqube%3Aqualinsight-plugins-sonarqube-badges).
+New feature ideas and contributions are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-badges) named [SVG Badges](https://groups.google.com/forum/#!forum/svg-badges) has been created in order to facilitate discussions about this plugin. This project's quality can be followed on [Nemo](https://nemo.sonarqube.org/overview?id=com.qualinsight.plugins.sonarqube%3Aqualinsight-plugins-sonarqube-badges).
 
 
