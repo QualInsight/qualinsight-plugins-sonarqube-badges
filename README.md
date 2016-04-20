@@ -1,5 +1,5 @@
 # SVG Badges plugin for SonarQube
-Plugin for SonarQube that provides a webservice that generates badges (SVG images) that display the quality of a project or view, similarily to travis-ci build status badges. You can see a running example below.
+Plugin for SonarQube that generates badges (SVG images) displaying information about projects' or views' quality. You can see a running example on the line below.
 
 ![Travis build status](https://travis-ci.org/QualInsight/qualinsight-plugins-sonarqube-badges.svg?branch=master) [![Quality Gate](http://nemo.sonarqube.org/api/badges/gate?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)](http://nemo.sonarqube.org/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)
 
