@@ -89,7 +89,9 @@ By default the webservice generating quality gate badges is activated, and the o
 
 ## Known limitations
 
-If the security option "force user authentication" is set on your SonarQube instance, then all webservices provided by the plugin are unreachable unless the user is authenticated. As a result, badges cannot be displayed if this option is set (see issue [#15](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/15) and [SONAR-6948](https://jira.sonarsource.com/browse/SONAR-6948).) 
+If the security option "force user authentication" is set on your SonarQube instance, then all webservices become unreachable unless the user is authenticated. As a result, badges cannot be retrieved if this option is set.
+
+If you want more information about this limitation, have a look at issue [#15](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/15) and [SONAR-6948](https://jira.sonarsource.com/browse/SONAR-6948).) 
 
 ## Conclusion
 
