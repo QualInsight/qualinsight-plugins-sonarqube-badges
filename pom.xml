@@ -10,7 +10,7 @@
   <version>2.0.0-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
   <name>SVG Badges Plugin</name>
-  <description>This plugin adds a webservice to SonarQube that allows the retrieval of projects' and views' quality gate status as a SVG image (so called badge.)</description>
+  <description>This plugin adds a webservice to SonarQube that allows the retrieval of different types of badges that display as a SVG image the quality of a project or a view.</description>
   <url>https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges</url>
   <organization>
     <url>http://www.qualinsight.com/</url>
