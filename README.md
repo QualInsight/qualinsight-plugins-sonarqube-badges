@@ -7,7 +7,7 @@ Plugin for SonarQube that generates badges (SVG images) displaying information a
 
 In order to use this plugin on your SonarQube server instance, you need first to install it. The plugin is available in SonarQube's update center under the name "SVG Badges". 
 
-### Plugin configuration
+## Configuration
 
 By default, the plugin is configured as follows: 
 
