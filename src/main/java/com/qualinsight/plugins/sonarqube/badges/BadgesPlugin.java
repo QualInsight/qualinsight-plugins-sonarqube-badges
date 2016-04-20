@@ -54,6 +54,7 @@ public final class BadgesPlugin extends SonarPlugin {
             .add(MeasureBadgeGenerator.class)
             .add(MeasureBadgeAction.class)
             .add(BadgesWebService.class)
+            .addAll(BadgesPuginProperties.properties())
             .build();
     }
 }

@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
 import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
@@ -33,10 +34,11 @@ import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
+import com.qualinsight.plugins.sonarqube.badges.BadgesPuginProperties;
 
 /**
  * {@link RequestHandler} implementation that handles Quality Gate badges requests.
- * 
+ *
  * @author Michel Pawlak
  */
 @ServerSide
@@ -46,42 +48,49 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
 
     private QualityGateBadgeGenerator qualityGateBadgeGenerator;
 
+    private Settings settings;
+
     /**
      * {@link QualityGateBadgeRequestHandler} IoC constructor
      *
      * @param qualityGateBadgeGenerator helper extension that generate quality gate badges
      */
-    public QualityGateBadgeRequestHandler(final QualityGateBadgeGenerator qualityGateBadgeGenerator) {
+    public QualityGateBadgeRequestHandler(final QualityGateBadgeGenerator qualityGateBadgeGenerator, final Settings settings) {
         this.qualityGateBadgeGenerator = qualityGateBadgeGenerator;
+        this.settings = settings;
     }
 
     @Override
     public void handle(final Request request, final Response response) throws Exception {
-        final String key = request.mandatoryParam("key");
-        final WsClient wsClient = WsClientFactories.getLocal()
-            .newClient(request.getLocalConnector());
-        LOGGER.debug("Retrieving quality gate status for key '{}'.", key);
-        QualityGateBadge status = QualityGateBadge.NOT_FOUND;
-        try {
-            final ProjectStatusWsRequest wsRequest = new ProjectStatusWsRequest();
-            wsRequest.setProjectKey(key);
-            final ProjectStatusWsResponse wsResponse = wsClient.qualityGates()
-                .projectStatus(wsRequest);
-            status = QualityGateBadge.valueOf(wsResponse.getProjectStatus()
-                .getStatus()
-                .toString());
-        } catch (final HttpException e) {
-            LOGGER.debug("No project found with key '{}': {}", key, e);
+        if (this.settings.getBoolean(BadgesPuginProperties.GATE_BADGES_ACTIVATION_KEY)) {
+            final String key = request.mandatoryParam("key");
+            final WsClient wsClient = WsClientFactories.getLocal()
+                .newClient(request.getLocalConnector());
+            LOGGER.debug("Retrieving quality gate status for key '{}'.", key);
+            QualityGateBadge status = QualityGateBadge.NOT_FOUND;
+            try {
+                final ProjectStatusWsRequest wsRequest = new ProjectStatusWsRequest();
+                wsRequest.setProjectKey(key);
+                final ProjectStatusWsResponse wsResponse = wsClient.qualityGates()
+                    .projectStatus(wsRequest);
+                status = QualityGateBadge.valueOf(wsResponse.getProjectStatus()
+                    .getStatus()
+                    .toString());
+            } catch (final HttpException e) {
+                LOGGER.debug("No project found with key '{}': {}", key, e);
+            }
+            // we prepare the response OutputStream
+            final OutputStream responseOutputStream = response.stream()
+                .setMediaType("image/svg+xml")
+                .output();
+            LOGGER.debug("Retrieving SVG image for for quality gate status '{}'.", status);
+            final InputStream svgImageInputStream = this.qualityGateBadgeGenerator.svgImageInputStreamFor(status);
+            LOGGER.debug("Writing SVG image to response OutputStream.");
+            IOUtils.copy(svgImageInputStream, responseOutputStream);
+            responseOutputStream.close();
+            // don't close svgImageInputStream, we want it to be reusable
+        } else {
+            response.noContent();
         }
-        // we prepare the response OutputStream
-        final OutputStream responseOutputStream = response.stream()
-            .setMediaType("image/svg+xml")
-            .output();
-        LOGGER.debug("Retrieving SVG image for for quality gate status '{}'.", status);
-        final InputStream svgImageInputStream = this.qualityGateBadgeGenerator.svgImageInputStreamFor(status);
-        LOGGER.debug("Writing SVG image to response OutputStream.");
-        IOUtils.copy(svgImageInputStream, responseOutputStream);
-        responseOutputStream.close();
-        // don't close svgImageInputStream, we want it to be reusable
     }
 }

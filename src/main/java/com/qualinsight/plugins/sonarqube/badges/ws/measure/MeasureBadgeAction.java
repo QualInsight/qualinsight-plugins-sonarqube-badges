@@ -28,7 +28,7 @@ import org.sonar.api.server.ws.WebService.NewController;
 
 /**
  * Creates {@link Action} for measure badge {@link WebService} {@link Controller}.
- * 
+ *
  * @author Michel Pawlak
  */
 @ServerSide

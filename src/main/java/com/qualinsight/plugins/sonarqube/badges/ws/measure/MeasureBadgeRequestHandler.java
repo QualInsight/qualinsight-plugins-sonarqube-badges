@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
 import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
@@ -36,11 +37,12 @@ import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.measure.ComponentWsRequest;
+import com.qualinsight.plugins.sonarqube.badges.BadgesPuginProperties;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
 
 /**
  * {@link RequestHandler} implementation that handles measure badges requests.
- * 
+ *
  * @author Michel Pawlak
  */
 @ServerSide
@@ -50,51 +52,57 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
 
     private MeasureBadgeGenerator measureBadgeGenerator;
 
+    private Settings settings;
+
     /**
      * {@link QualityGateBadgeRequestHandler} IoC constructor
      *
      * @param measureBadgeGenerator helper extension that generate measure badges
      */
-    public MeasureBadgeRequestHandler(final MeasureBadgeGenerator measureBadgeGenerator) {
+    public MeasureBadgeRequestHandler(final MeasureBadgeGenerator measureBadgeGenerator, final Settings settings) {
         this.measureBadgeGenerator = measureBadgeGenerator;
+        this.settings = settings;
     }
 
     @Override
     public void handle(final Request request, final Response response) throws Exception {
-        final String key = request.mandatoryParam("key");
-        final String metric = request.mandatoryParam("metric");
-        final WsClient wsClient = WsClientFactories.getLocal()
-            .newClient(request.getLocalConnector());
-        LOGGER.debug("Retrieving measure for key '{}' and metric {}.", key, metric);
-        MeasureHolder measureHolder;
-        try {
-            final ComponentWsRequest wsRequest = new ComponentWsRequest();
-            wsRequest.setComponentKey(key);
-            wsRequest.setMetricKeys(ImmutableList.of(metric));
-            final ComponentWsResponse wsResponse = wsClient.measures()
-                .component(wsRequest);
-            final List<Measure> measures = wsResponse.getComponent()
-                .getMeasuresList();
-            if (measures.isEmpty()) {
+        if (this.settings.getBoolean(BadgesPuginProperties.MEASURE_BADGES_ACTIVATION_KEY)) {
+            final String key = request.mandatoryParam("key");
+            final String metric = request.mandatoryParam("metric");
+            final WsClient wsClient = WsClientFactories.getLocal()
+                .newClient(request.getLocalConnector());
+            LOGGER.debug("Retrieving measure for key '{}' and metric {}.", key, metric);
+            MeasureHolder measureHolder;
+            try {
+                final ComponentWsRequest wsRequest = new ComponentWsRequest();
+                wsRequest.setComponentKey(key);
+                wsRequest.setMetricKeys(ImmutableList.of(metric));
+                final ComponentWsResponse wsResponse = wsClient.measures()
+                    .component(wsRequest);
+                final List<Measure> measures = wsResponse.getComponent()
+                    .getMeasuresList();
+                if (measures.isEmpty()) {
+                    measureHolder = new MeasureHolder(metric);
+                    LOGGER.debug("No measure found ! Using '{}' value", measureHolder.value());
+                } else {
+                    measureHolder = new MeasureHolder(measures.get(0));
+                }
+            } catch (final HttpException e) {
+                LOGGER.debug("No project found with key '{}': {}", key, e);
                 measureHolder = new MeasureHolder(metric);
-                LOGGER.debug("No measure found ! Using '{}' value", measureHolder.value());
-            } else {
-                measureHolder = new MeasureHolder(measures.get(0));
-
             }
-        } catch (final HttpException e) {
-            LOGGER.debug("No project found with key '{}': {}", key, e);
-            measureHolder = new MeasureHolder(metric);
+            // we prepare the response OutputStream
+            final OutputStream responseOutputStream = response.stream()
+                .setMediaType("image/svg+xml")
+                .output();
+            LOGGER.debug("Retrieving SVG image for metric holder '{}'.", measureHolder);
+            final InputStream svgImageInputStream = this.measureBadgeGenerator.svgImageInputStreamFor(measureHolder);
+            LOGGER.debug("Writing SVG image to response OutputStream.");
+            IOUtils.copy(svgImageInputStream, responseOutputStream);
+            responseOutputStream.close();
+            // don't close svgImageInputStream, we want it to be reusable
+        } else {
+            response.noContent();
         }
-        // we prepare the response OutputStream
-        final OutputStream responseOutputStream = response.stream()
-            .setMediaType("image/svg+xml")
-            .output();
-        LOGGER.debug("Retrieving SVG image for metric holder '{}'.", measureHolder);
-        final InputStream svgImageInputStream = this.measureBadgeGenerator.svgImageInputStreamFor(measureHolder);
-        LOGGER.debug("Writing SVG image to response OutputStream.");
-        IOUtils.copy(svgImageInputStream, responseOutputStream);
-        responseOutputStream.close();
-        // don't close svgImageInputStream, we want it to be reusable
     }
 }
