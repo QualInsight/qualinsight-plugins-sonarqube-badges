@@ -98,6 +98,10 @@ Use the ``/api/badges/measure?key=<project or view key>&metric=<metric key>`` UR
 
 *Note 3*: Some `metric keys` are not usable "as is" as they return values that need interpretation (such as time, effort or ratings.) This explains why I haven't added them to the table yet.
 
+#### Display the Measure badge on a web page
+
+As for Quality Gate badges, you can use HTML or markdown as follows:
+
 ##### HTML Link:
 
 ```
@@ -129,7 +133,9 @@ Webservices provided by the SVG Badges plugin are self-documented. Once installe
 
 If the security option "force user authentication" is set on your SonarQube instance, then all webservices become unreachable unless the user is authenticated. As a result, badges cannot be retrieved if this option is set.
 
-If you want more information about this limitation, have a look at issue [#15](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/15) and [SONAR-6948](https://jira.sonarsource.com/browse/SONAR-6948).) 
+If you want more information about this limitation, have a look at issue [#15](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/15) and [SONAR-6948](https://jira.sonarsource.com/browse/SONAR-6948).)
+
+Some metrics that return an array of data or data representing times or ratings cannot be correctly displayed as a measure badge for now. Maybe a future version of the plugin will handle such cases. Meantime, please stick to the list of supported metrics that is provided on this page.
 
 ## Conclusion
 
