@@ -137,6 +137,10 @@ If you want more information about this limitation, have a look at issue [#15](h
 
 Some metrics that return an array of data or data representing times or ratings cannot be correctly displayed as a measure badge for now. Maybe a future version of the plugin will handle such cases. Meantime, please stick to the list of supported metrics that is provided on this page.
 
+## Contributing to the project
+
+If you want to contribute to this project, please have a look at the [developer toolset page](https://github.com/QualInsight/qualinsight-developer-toolset). It provides contribution guidelines I ask you to follow. Thanks in advance for your help !
+
 ## Conclusion
 
 New feature ideas and contributions are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-badges) named [SVG Badges](https://groups.google.com/forum/#!forum/svg-badges) has been created in order to facilitate discussions about this plugin. This project's quality can be followed on [Nemo](https://nemo.sonarqube.org/overview?id=com.qualinsight.plugins.sonarqube%3Aqualinsight-plugins-sonarqube-badges).
