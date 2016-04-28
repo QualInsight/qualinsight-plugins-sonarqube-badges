@@ -52,8 +52,8 @@
     <!-- Plugin versions -->
     <plugin.sonar-packaging-maven-plugin.version>1.15</plugin.sonar-packaging-maven-plugin.version>
     <!-- Libraries versions -->
-    <lib.sonar-plugin-api.version>5.5-RC1</lib.sonar-plugin-api.version>
-    <lib.sonar-ws.version>5.5-RC1</lib.sonar-ws.version>
+    <lib.sonar-plugin-api.version>5.5-RC2</lib.sonar-plugin-api.version>
+    <lib.sonar-ws.version>5.5-RC2</lib.sonar-ws.version>
     <lib.batik.version>1.8</lib.batik.version>
     <lib.httpclient.version>4.5.1</lib.httpclient.version>
     <lib.json.version>20160212</lib.json.version>

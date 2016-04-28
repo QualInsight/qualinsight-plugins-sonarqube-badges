@@ -70,7 +70,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
             final String key = request.mandatoryParam("key");
             final String metric = request.mandatoryParam("metric");
             final WsClient wsClient = WsClientFactories.getLocal()
-                .newClient(request.getLocalConnector());
+                .newClient(request.localConnector());
             LOGGER.debug("Retrieving measure for key '{}' and metric {}.", key, metric);
             MeasureHolder measureHolder;
             try {

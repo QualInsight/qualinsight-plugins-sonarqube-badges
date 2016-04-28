@@ -65,7 +65,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
         if (this.settings.getBoolean(BadgesPuginProperties.GATE_BADGES_ACTIVATION_KEY)) {
             final String key = request.mandatoryParam("key");
             final WsClient wsClient = WsClientFactories.getLocal()
-                .newClient(request.getLocalConnector());
+                .newClient(request.localConnector());
             LOGGER.debug("Retrieving quality gate status for key '{}'.", key);
             QualityGateBadge status = QualityGateBadge.NOT_FOUND;
             try {
