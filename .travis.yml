@@ -1,11 +1,20 @@
 language: java
- 
-# Test several JDK
+sudo: false
+install: true
+
 jdk:
   - oraclejdk7
-  - openjdk7
-  - oraclejdk8
 
-# Remove all the bla-bla...
+before_script:
+  - chmod +x ./travis.sh
+
 script:
-  - mvn clean install
+  - ./travis.sh
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+
+notifications:
+  email: false
