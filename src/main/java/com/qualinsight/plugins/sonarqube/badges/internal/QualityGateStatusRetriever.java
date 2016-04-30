@@ -22,12 +22,20 @@ package com.qualinsight.plugins.sonarqube.badges.internal;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.TrustStrategy;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,10 +67,24 @@ public final class QualityGateStatusRetriever implements ServerExtension {
      *
      * @param settings SonarQube {@link Settings}, required to retrieve the "sonar.core.serverBaseURL" property.
      * @throws URISyntaxException if "sonar.core.serverBaseURL" in SonarQube settings is a malformed URI.
+     * @throws KeyStoreException
+     * @throws NoSuchAlgorithmException
+     * @throws KeyManagementException
      */
-    public QualityGateStatusRetriever(final Settings settings) throws URISyntaxException {
+    public QualityGateStatusRetriever(final Settings settings) throws URISyntaxException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         this.settings = settings;
-        this.httpclient = HttpClients.createDefault();
+        final SSLContextBuilder contextBuilder = SSLContextBuilder.create()
+            .loadTrustMaterial(null, new TrustStrategy() {
+
+                @Override
+                public boolean isTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
+                    return true;
+                }
+            });
+        final SSLConnectionSocketFactory sslSF = new SSLConnectionSocketFactory(contextBuilder.build(), SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        this.httpclient = HttpClients.custom()
+            .setSSLSocketFactory(sslSF)
+            .build();
         this.httpGet = new HttpGet();
         this.responseHandler = new QualityGateServiceResponseHandler();
         if (this.settings.getString(SERVER_BASE_URL_KEY)
@@ -92,7 +114,7 @@ public final class QualityGateStatusRetriever implements ServerExtension {
         } catch (URISyntaxException | IOException | JSONException e) {
             status = QualityGateStatus.SERVER_ERROR;
             // We do not want to spam server logs with malformed requests, therefore we only log in debug mode
-            LOGGER.debug("An error occurred while retrieving quality gate status for key '{}': {}", key, e);
+            LOGGER.warn("An error occurred while retrieving quality gate status for key '{}': {}", key, e);
         }
         return status;
     }
