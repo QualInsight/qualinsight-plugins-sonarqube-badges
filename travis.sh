@@ -6,6 +6,7 @@ then
 	mvn clean verify sonar:sonar \
 		-Dsonar.analysis.mode=preview \
 		-Dsonar.host.url=${SONAR_HOST_URL} \
+		-Dsonar.login=${SONAR_TOKEN}
 		-Dsonar.github.login=${GITHUB_LOGIN} \
 		-Dsonar.github.oauth=${GITHUB_TOKEN} \
 		-Dsonar.github.repository=${TRAVIS_REPO_SLUG} \
