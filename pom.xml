@@ -52,7 +52,7 @@
     <!-- Plugin versions -->
     <plugin.sonar-packaging-maven-plugin.version>1.15</plugin.sonar-packaging-maven-plugin.version>
     <!-- Libraries versions -->
-    <lib.sonar-plugin-api.version>5.3</lib.sonar-plugin-api.version>
+    <lib.sonar-plugin-api.version>4.5.4</lib.sonar-plugin-api.version>
     <lib.batik.version>1.8</lib.batik.version>
     <lib.httpclient.version>4.5.1</lib.httpclient.version>
     <lib.json.version>20160212</lib.json.version>
@@ -64,7 +64,7 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.sonarsource.sonarqube</groupId>
+      <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-plugin-api</artifactId>
       <version>${lib.sonar-plugin-api.version}</version>
       <scope>provided</scope>
