@@ -6,11 +6,12 @@ then
 	mvn clean verify sonar:sonar \
 		-Dsonar.analysis.mode=preview \
 		-Dsonar.host.url=${SONAR_HOST_URL} \
+		-Dsonar.login=${SONAR_TOKEN} \
 		-Dsonar.github.login=${GITHUB_LOGIN} \
 		-Dsonar.github.oauth=${GITHUB_TOKEN} \
 		-Dsonar.github.repository=${TRAVIS_REPO_SLUG} \
 		-Dsonar.github.pullRequest=${TRAVIS_PULL_REQUEST}
-elif [ "${TRAVIS_BRANCH}" = "master" ]
+elif [ "${TRAVIS_BRANCH}" = "master" && "${TRAVIS_EVENT_TYPE}" = "cron" ]
 then
 	echo "Running build and SonarQube analysis"
 	mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar \
