@@ -7,7 +7,7 @@
   </parent>
   <groupId>com.qualinsight.plugins.sonarqube</groupId>
   <artifactId>qualinsight-plugins-sonarqube-badges</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>2.0.0-RC1</version>
   <packaging>sonar-plugin</packaging>
   <name>SVG Badges Plugin</name>
   <description>This plugin adds a webservice to SonarQube that allows the retrieval of different types of badges that display as a SVG image the quality of a project or a view.</description>
@@ -40,7 +40,7 @@
     <connection>scm:git:git@github.com:QualInsight/qualinsight-plugins-sonarqube-badges.git</connection>
     <developerConnection>scm:git:git@github.com:QualInsight/qualinsight-plugins-sonarqube-badges.git</developerConnection>
     <url>https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges.git</url>
-    <tag>HEAD</tag>
+    <tag>qualinsight-plugins-sonarqube-badges-2.0.0-RC1</tag>
   </scm>
   <properties>
     <!-- License properties -->
