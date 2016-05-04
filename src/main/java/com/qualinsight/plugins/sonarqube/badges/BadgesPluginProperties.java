@@ -24,6 +24,11 @@ import java.util.List;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 
+/**
+ * Declares all properties the plugin uses.
+ * 
+ * @author Michel Pawlak
+ */
 public final class BadgesPluginProperties {
 
     private static final String CATEGORY = "SVG Badges";
