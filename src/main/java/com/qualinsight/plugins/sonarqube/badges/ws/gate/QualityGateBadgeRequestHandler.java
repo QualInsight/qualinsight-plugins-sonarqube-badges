@@ -54,6 +54,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
      * {@link QualityGateBadgeRequestHandler} IoC constructor
      *
      * @param qualityGateBadgeGenerator helper extension that generate quality gate badges
+     * @param settings SonarQube properties
      */
     public QualityGateBadgeRequestHandler(final QualityGateBadgeGenerator qualityGateBadgeGenerator, final Settings settings) {
         this.qualityGateBadgeGenerator = qualityGateBadgeGenerator;

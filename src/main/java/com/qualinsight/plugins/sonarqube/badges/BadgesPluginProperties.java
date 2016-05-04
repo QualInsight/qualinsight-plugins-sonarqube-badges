@@ -28,14 +28,25 @@ public final class BadgesPluginProperties {
 
     private static final String CATEGORY = "SVG Badges";
 
+    /**
+     * Key for quality gate badges activation.
+     */
     public static final String GATE_BADGES_ACTIVATION_KEY = "qualinsight.badges.activation.gate";
 
+    /**
+     * Key for measure badges activation.
+     */
     public static final String MEASURE_BADGES_ACTIVATION_KEY = "qualinsight.badges.activation.measure";
 
     private BadgesPluginProperties() {
         // Helper class
     }
 
+    /**
+     * Plugin properties retrieval method.
+     *
+     * @return list of properties declared by the plugin.
+     */
     public static List<PropertyDefinition> properties() {
         final List<PropertyDefinition> properties = new ArrayList<>();
         properties.add(PropertyDefinition.builder(GATE_BADGES_ACTIVATION_KEY)

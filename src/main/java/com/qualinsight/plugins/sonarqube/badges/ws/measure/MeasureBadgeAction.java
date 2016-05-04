@@ -38,6 +38,8 @@ public class MeasureBadgeAction {
 
     /**
      * {@link MeasureBadgeAction} IoC constructor
+     *
+     * @param measureBadgeRequestHandler request handler to be bound to the action
      */
     public MeasureBadgeAction(final MeasureBadgeRequestHandler measureBadgeRequestHandler) {
         this.measureBadgeRequestHandler = measureBadgeRequestHandler;

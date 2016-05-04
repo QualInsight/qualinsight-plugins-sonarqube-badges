@@ -87,6 +87,7 @@ public class FontReplacer {
      * Processes font transformation on an SVG input stream.
      *
      * @param inputStream InputStream that contains the SVG image to be transformed.
+     * @param outputFontFamily output font-family as a String
      * @return an InputStream with transformed content.
      * @throws SVGImageFontReplacementException if a problem occurs during stream transformation.
      */

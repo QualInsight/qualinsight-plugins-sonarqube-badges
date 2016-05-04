@@ -129,14 +129,29 @@ public final class SVGImageGenerator {
             return new Data();
         }
 
+        /**
+         * Content text getter.
+         * 
+         * @return content text
+         */
         public String contentText() {
             return this.contentText;
         }
 
+        /**
+         * Label text getter.
+         * 
+         * @return label text
+         */
         public String labelText() {
             return this.labelText;
         }
 
+        /**
+         * Content background color getter.
+         * 
+         * @return content background color.
+         */
         public Color contentBackgroundColor() {
             return this.contentBackgroundColor;
         }

@@ -58,6 +58,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
      * {@link QualityGateBadgeRequestHandler} IoC constructor
      *
      * @param measureBadgeGenerator helper extension that generate measure badges
+     * @param settings SonarQube properties
      */
     public MeasureBadgeRequestHandler(final MeasureBadgeGenerator measureBadgeGenerator, final Settings settings) {
         this.measureBadgeGenerator = measureBadgeGenerator;

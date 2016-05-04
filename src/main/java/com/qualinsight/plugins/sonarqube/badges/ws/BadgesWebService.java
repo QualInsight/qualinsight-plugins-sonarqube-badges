@@ -38,7 +38,7 @@ public final class BadgesWebService implements WebService {
      * {@link BadgesWebService} IoC constructor
      *
      * @param qualityGateBadgeAction action to retrieve Quality Gate status badges
-     * @param measureBadgeGenerator action to retrieve measure badges
+     * @param measureBadgeAction action to retrieve measure badges
      */
     public BadgesWebService(final QualityGateBadgeAction qualityGateBadgeAction, final MeasureBadgeAction measureBadgeAction) {
         this.qualityGateBadgeAction = qualityGateBadgeAction;

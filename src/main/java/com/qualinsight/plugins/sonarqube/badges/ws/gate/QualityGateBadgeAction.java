@@ -37,6 +37,8 @@ public class QualityGateBadgeAction {
 
     /**
      * {@link QualityGateBadgeAction} IoC constructor
+     *
+     * @param qualityGateBadgeRequestHandler request handler to be bound to the action
      */
     public QualityGateBadgeAction(final QualityGateBadgeRequestHandler qualityGateBadgeRequestHandler) {
         this.qualityGateBadgeRequestHandler = qualityGateBadgeRequestHandler;
