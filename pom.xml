@@ -52,8 +52,8 @@
     <!-- Plugin versions -->
     <plugin.sonar-packaging-maven-plugin.version>1.15</plugin.sonar-packaging-maven-plugin.version>
     <!-- Libraries versions -->
-    <lib.sonar-plugin-api.version>5.5-RC2</lib.sonar-plugin-api.version>
-    <lib.sonar-ws.version>5.5-RC2</lib.sonar-ws.version>
+    <lib.sonar-plugin-api.version>5.5</lib.sonar-plugin-api.version>
+    <lib.sonar-ws.version>5.5</lib.sonar-ws.version>
     <lib.batik.version>1.8</lib.batik.version>
     <lib.httpclient.version>4.5.1</lib.httpclient.version>
     <lib.json.version>20160212</lib.json.version>
@@ -62,6 +62,10 @@
     <lib.guava.version>15.0</lib.guava.version>
     <lib.commons-lang.version>2.6</lib.commons-lang.version>
     <lib.commons-io.version>2.4</lib.commons-io.version>
+    <lib.junitparams.version>1.0.4</lib.junitparams.version>
+    <lib.assertj-core.version>2.1.0</lib.assertj-core.version>
+    <lib.junit.version>4.11</lib.junit.version>
+    <lib.mockito-all.version>1.10.19</lib.mockito-all.version>
   </properties>
   <dependencies>
     <dependency>
@@ -131,6 +135,30 @@
       <artifactId>guava</artifactId>
       <version>${lib.guava.version}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${lib.junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${lib.assertj-core.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>pl.pragmatists</groupId>
+      <artifactId>JUnitParams</artifactId>
+      <version>${lib.junitparams.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>${lib.mockito-all.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
