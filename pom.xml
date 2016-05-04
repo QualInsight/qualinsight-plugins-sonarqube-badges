@@ -7,10 +7,10 @@
   </parent>
   <groupId>com.qualinsight.plugins.sonarqube</groupId>
   <artifactId>qualinsight-plugins-sonarqube-badges</artifactId>
-  <version>1.2.2-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
   <name>SVG Badges Plugin</name>
-  <description>This plugin adds a webservice to SonarQube that allows the retrieval of projects' and views' quality gate status as a SVG image (so called badge.)</description>
+  <description>This plugin adds a webservice to SonarQube that allows the retrieval of different types of badges that display as a SVG image the quality of a project or a view.</description>
   <url>https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges</url>
   <organization>
     <url>http://www.qualinsight.com/</url>
@@ -46,13 +46,14 @@
     <!-- License properties -->
     <license.name>QualInsight-LGPL3</license.name>
     <license.project>qualinsight-plugins-sonarqube-badges</license.project>
-    <license.period>${project.inceptionYear}</license.period>
+    <license.period>${project.inceptionYear}-2016</license.period>
     <license.owner>${project.organization.name}</license.owner>
     <license.url>${project.organization.url}</license.url>
     <!-- Plugin versions -->
     <plugin.sonar-packaging-maven-plugin.version>1.15</plugin.sonar-packaging-maven-plugin.version>
     <!-- Libraries versions -->
-    <lib.sonar-plugin-api.version>4.5.4</lib.sonar-plugin-api.version>
+    <lib.sonar-plugin-api.version>5.5</lib.sonar-plugin-api.version>
+    <lib.sonar-ws.version>5.5</lib.sonar-ws.version>
     <lib.batik.version>1.8</lib.batik.version>
     <lib.httpclient.version>4.5.1</lib.httpclient.version>
     <lib.json.version>20160212</lib.json.version>
@@ -61,13 +62,23 @@
     <lib.guava.version>15.0</lib.guava.version>
     <lib.commons-lang.version>2.6</lib.commons-lang.version>
     <lib.commons-io.version>2.4</lib.commons-io.version>
+    <lib.junitparams.version>1.0.4</lib.junitparams.version>
+    <lib.assertj-core.version>2.1.0</lib.assertj-core.version>
+    <lib.junit.version>4.11</lib.junit.version>
+    <lib.mockito-all.version>1.10.19</lib.mockito-all.version>
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.codehaus.sonar</groupId>
+      <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-plugin-api</artifactId>
       <version>${lib.sonar-plugin-api.version}</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-ws</artifactId>
+      <version>${lib.sonar-ws.version}</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
@@ -124,6 +135,30 @@
       <artifactId>guava</artifactId>
       <version>${lib.guava.version}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${lib.junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${lib.assertj-core.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>pl.pragmatists</groupId>
+      <artifactId>JUnitParams</artifactId>
+      <version>${lib.junitparams.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>${lib.mockito-all.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>

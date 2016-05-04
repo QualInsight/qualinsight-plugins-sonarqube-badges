@@ -1,6 +1,6 @@
 /*
  * qualinsight-plugins-sonarqube-badges
- * Copyright (c) 2015, QualInsight
+ * Copyright (c) 2015-2016, QualInsight
  * http://www.qualinsight.com/
  *
  * This program is free software: you can redistribute it and/or
@@ -17,81 +17,72 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.badges.internal;
+package com.qualinsight.plugins.sonarqube.badges.ws.gate;
 
 import java.awt.Color;
 
 /**
- * Possible statuses when trying to retrieve the quality gate status for a SonarQube project or view. Each status holds information about how it has to be displayed in a SVG image.
+ * Possible badges for a SonarQube project or view. Each badge holds information about how it has to be displayed as a SVG image.
  *
  * @author Michel Pawlak
  */
-public enum QualityGateStatus {
+public enum QualityGateBadge {
     /**
      * No gate is active for the project or view.
      */
     NONE("not set",
-        new Color(150, 150, 150, 255),
-        50),
-    /**
-     * A server error occurred while retrieving the quality gate status.
-     */
-    SERVER_ERROR("server error",
-        new Color(224, 93, 68, 255),
-        76),
+        new Color(150, 150, 150, 255)),
     /**
      * The project / view passes the quality gate.
      */
     OK("passing",
-        new Color(86, 209, 41, 255),
-        50),
+        new Color(86, 209, 41, 255)),
     /**
      * The project / view does not pass the quality gate due to gate warnings.
      */
     WARN("warning",
-        new Color(255, 165, 0, 255),
-        52),
+        new Color(255, 165, 0, 255)),
     /**
      * The project / view does not pass the quality gate due to gate errors.
      */
     ERROR("failing",
-        new Color(224, 93, 68, 255),
-        44),
+        new Color(224, 93, 68, 255)),
     /**
      * The project / view could not be found on the SonarQube's server.
      */
     NOT_FOUND("not found",
-        new Color(224, 93, 68, 255),
-        65),
+        new Color(224, 93, 68, 255)),
     /**
      * Access to the project / view is restricted (see issue #15)
      */
     FORBIDDEN("forbidden",
-        new Color(224, 93, 68, 255),
-        65);
+        new Color(224, 93, 68, 255));
 
     private final String displayText;
 
     private final Color displayBackgroundColor;
 
-    private int displayWidth;
-
-    private QualityGateStatus(final String displayText, final Color displayBackgroundColor, final int displayWidth) {
+    private QualityGateBadge(final String displayText, final Color displayBackgroundColor) {
         this.displayText = displayText;
         this.displayBackgroundColor = displayBackgroundColor;
-        this.displayWidth = displayWidth;
     }
 
-    String displayText() {
+    /**
+     * Text to be displayed for the badge type
+     *
+     * @return text to be displayed
+     */
+    public String displayText() {
         return this.displayText;
     }
 
-    Color displayBackgroundColor() {
+    /**
+     * Background color to be displayed for the badge type
+     *
+     * @return background color to be displayed
+     */
+    public Color displayBackgroundColor() {
         return this.displayBackgroundColor;
-    }
-
-    int displayWidth() {
-        return this.displayWidth;
     }
 
 }

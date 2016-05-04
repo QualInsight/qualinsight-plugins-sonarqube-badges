@@ -1,6 +1,6 @@
 /*
  * qualinsight-plugins-sonarqube-badges
- * Copyright (c) 2015, QualInsight
+ * Copyright (c) 2015-2016, QualInsight
  * http://www.qualinsight.com/
  *
  * This program is free software: you can redistribute it and/or
@@ -22,10 +22,16 @@ package com.qualinsight.plugins.sonarqube.badges;
 import java.util.List;
 import com.google.common.collect.ImmutableList;
 import org.sonar.api.SonarPlugin;
-import com.qualinsight.plugins.sonarqube.badges.extension.BadgesWebService;
-import com.qualinsight.plugins.sonarqube.badges.internal.QualityGateStatusRetriever;
-import com.qualinsight.plugins.sonarqube.badges.internal.SVGImageFontReplacer;
-import com.qualinsight.plugins.sonarqube.badges.internal.SVGImageGenerator;
+import com.qualinsight.plugins.sonarqube.badges.font.FontManager;
+import com.qualinsight.plugins.sonarqube.badges.font.FontReplacer;
+import com.qualinsight.plugins.sonarqube.badges.ws.BadgesWebService;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
+import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeAction;
+import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeGenerator;
+import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
+import com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBadgeAction;
+import com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBadgeGenerator;
+import com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBadgeRequestHandler;
 
 /**
  * Core BadgesPlugin class. It declares all extensions used by the plugin.
@@ -38,10 +44,17 @@ public final class BadgesPlugin extends SonarPlugin {
     @Override
     public List getExtensions() {
         return ImmutableList.builder()
-            .add(SVGImageFontReplacer.class)
-            .add(QualityGateStatusRetriever.class)
+            .add(FontManager.class)
+            .add(FontReplacer.class)
             .add(SVGImageGenerator.class)
+            .add(QualityGateBadgeRequestHandler.class)
+            .add(QualityGateBadgeGenerator.class)
+            .add(QualityGateBadgeAction.class)
+            .add(MeasureBadgeRequestHandler.class)
+            .add(MeasureBadgeGenerator.class)
+            .add(MeasureBadgeAction.class)
             .add(BadgesWebService.class)
+            .addAll(BadgesPluginProperties.properties())
             .build();
     }
 }

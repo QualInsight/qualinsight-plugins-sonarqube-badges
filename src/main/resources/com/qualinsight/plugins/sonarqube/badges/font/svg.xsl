@@ -3,8 +3,8 @@
 
   <xsl:output indent="no" omit-xml-declaration="no" include-content-type="yes" />
   
-  <xsl:variable name="INPUT_FONT_FAMILY">Dialog</xsl:variable>
-  <xsl:variable name="OUTPUT_FONT_FAMILY">DejaVu Sans','Verdana','Geneva','Tahoma','Arial','sans-serif</xsl:variable>
+  <xsl:variable name="INPUT_FONT_FAMILY">'Dialog'</xsl:variable>
+  <xsl:param name="OUTPUT_FONT_FAMILY"/>
 
   <xsl:template match="@*|node()">
     <xsl:copy>

@@ -1,6 +1,6 @@
 /*
  * qualinsight-plugins-sonarqube-badges
- * Copyright (c) 2015, QualInsight
+ * Copyright (c) 2015-2016, QualInsight
  * http://www.qualinsight.com/
  *
  * This program is free software: you can redistribute it and/or
@@ -17,20 +17,29 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.badges.internal.exception;
+package com.qualinsight.plugins.sonarqube.badges.exception;
 
 import java.io.IOException;
 
 /**
- * Exception used when a project or view cannot be found.
- * 
+ * Exception thrown if a problem occurs during the process of font replacement in SVG image.
+ *
  * @author Michel Pawlak
  */
-public class ProjectNotFoundException extends IOException {
+public class SVGImageFontReplacementException extends IOException {
 
     /**
-     *
+     * Serial version UID
      */
     private static final long serialVersionUID = 1L;
+
+    /**
+     * SVGImageFontReplacementException constructor.
+     * 
+     * @param cause Exception
+     */
+    public SVGImageFontReplacementException(final Exception cause) {
+        super(cause);
+    }
 
 }

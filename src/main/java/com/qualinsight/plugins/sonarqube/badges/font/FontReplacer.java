@@ -1,6 +1,6 @@
 /*
  * qualinsight-plugins-sonarqube-badges
- * Copyright (c) 2015, QualInsight
+ * Copyright (c) 2015-2016, QualInsight
  * http://www.qualinsight.com/
  *
  * This program is free software: you can redistribute it and/or
@@ -17,7 +17,7 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.badges.internal;
+package com.qualinsight.plugins.sonarqube.badges.font;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -35,17 +35,18 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.sonar.api.ServerExtension;
+import org.sonar.api.server.ServerSide;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import com.qualinsight.plugins.sonarqube.badges.internal.exception.SVGImageFontReplacementException;
+import com.qualinsight.plugins.sonarqube.badges.exception.SVGImageFontReplacementException;
 
 /**
  * Server extension that takes care of font replacement in generated SVG images.
  *
  * @author Michel Pawlak
  */
-public class SVGImageFontReplacer implements ServerExtension {
+@ServerSide
+public class FontReplacer {
 
     private final DocumentBuilder builder;
 
@@ -56,12 +57,12 @@ public class SVGImageFontReplacer implements ServerExtension {
      *
      * @throws SVGImageFontReplacementException if a problem occurs during initialization
      */
-    public SVGImageFontReplacer() throws SVGImageFontReplacementException {
+    public FontReplacer() throws SVGImageFontReplacementException {
         try {
             InputStream xslInputStream = null;
             try {
                 xslInputStream = getClass().getClassLoader()
-                    .getResourceAsStream("com/qualinsight/plugins/sonarqube/badges/internal/svg.xsl");
+                    .getResourceAsStream("com/qualinsight/plugins/sonarqube/badges/font/svg.xsl");
                 final TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 this.transformer = transformerFactory.newTransformer(new StreamSource(xslInputStream));
             } finally {
@@ -86,16 +87,18 @@ public class SVGImageFontReplacer implements ServerExtension {
      * Processes font transformation on an SVG input stream.
      *
      * @param inputStream InputStream that contains the SVG image to be transformed.
+     * @param outputFontFamily output font-family as a String
      * @return an InputStream with transformed content.
      * @throws SVGImageFontReplacementException if a problem occurs during stream transformation.
      */
-    public InputStream process(final InputStream inputStream) throws SVGImageFontReplacementException {
+    public InputStream process(final InputStream inputStream, final String outputFontFamily) throws SVGImageFontReplacementException {
         reset();
         try {
             final Document document = this.builder.parse(inputStream);
             final Source source = new DOMSource(document);
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             final Result result = new StreamResult(outputStream);
+            this.transformer.setParameter("OUTPUT_FONT_FAMILY", outputFontFamily);
             this.transformer.transform(source, result);
             return new ByteArrayInputStream(outputStream.toByteArray());
         } catch (final IOException | TransformerException | SAXException e) {
