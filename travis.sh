@@ -11,7 +11,7 @@ then
 		-Dsonar.github.oauth=${GITHUB_TOKEN} \
 		-Dsonar.github.repository=${TRAVIS_REPO_SLUG} \
 		-Dsonar.github.pullRequest=${TRAVIS_PULL_REQUEST}
-elif [ "${TRAVIS_BRANCH}" = "master" && "${TRAVIS_EVENT_TYPE}" = "cron" ]
+elif [ "${TRAVIS_BRANCH}" = "master" ]
 then
 	echo "Running build and SonarQube analysis"
 	mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar \
