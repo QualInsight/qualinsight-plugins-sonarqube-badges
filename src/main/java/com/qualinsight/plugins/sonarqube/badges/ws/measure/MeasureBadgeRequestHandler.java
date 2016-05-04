@@ -37,7 +37,7 @@ import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.measure.ComponentWsRequest;
-import com.qualinsight.plugins.sonarqube.badges.BadgesPuginProperties;
+import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
 
 /**
@@ -66,7 +66,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
 
     @Override
     public void handle(final Request request, final Response response) throws Exception {
-        if (this.settings.getBoolean(BadgesPuginProperties.MEASURE_BADGES_ACTIVATION_KEY)) {
+        if (this.settings.getBoolean(BadgesPluginProperties.MEASURE_BADGES_ACTIVATION_KEY)) {
             final String key = request.mandatoryParam("key");
             final String metric = request.mandatoryParam("metric");
             final WsClient wsClient = WsClientFactories.getLocal()

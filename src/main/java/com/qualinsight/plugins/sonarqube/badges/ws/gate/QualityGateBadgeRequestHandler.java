@@ -34,7 +34,7 @@ import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
-import com.qualinsight.plugins.sonarqube.badges.BadgesPuginProperties;
+import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
 
 /**
  * {@link RequestHandler} implementation that handles Quality Gate badges requests.
@@ -62,7 +62,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
 
     @Override
     public void handle(final Request request, final Response response) throws Exception {
-        if (this.settings.getBoolean(BadgesPuginProperties.GATE_BADGES_ACTIVATION_KEY)) {
+        if (this.settings.getBoolean(BadgesPluginProperties.GATE_BADGES_ACTIVATION_KEY)) {
             final String key = request.mandatoryParam("key");
             final WsClient wsClient = WsClientFactories.getLocal()
                 .newClient(request.localConnector());

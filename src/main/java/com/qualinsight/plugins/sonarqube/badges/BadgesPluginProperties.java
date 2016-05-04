@@ -24,7 +24,7 @@ import java.util.List;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 
-public final class BadgesPuginProperties {
+public final class BadgesPluginProperties {
 
     private static final String CATEGORY = "SVG Badges";
 
@@ -32,7 +32,7 @@ public final class BadgesPuginProperties {
 
     public static final String MEASURE_BADGES_ACTIVATION_KEY = "qualinsight.badges.activation.measure";
 
-    private BadgesPuginProperties() {
+    private BadgesPluginProperties() {
         // Helper class
     }
 

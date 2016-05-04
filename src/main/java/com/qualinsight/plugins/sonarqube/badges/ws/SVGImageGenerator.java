@@ -129,6 +129,18 @@ public final class SVGImageGenerator {
             return new Data();
         }
 
+        public String contentText() {
+            return this.contentText;
+        }
+
+        public String labelText() {
+            return this.labelText;
+        }
+
+        public Color contentBackgroundColor() {
+            return this.contentBackgroundColor;
+        }
+
     }
 
     /**
@@ -152,8 +164,8 @@ public final class SVGImageGenerator {
      * @return generated SVGGraphics2D object
      */
     public SVGGraphics2D generateFor(final Data data) {
-        final int labelWidth = computeWidth(data.labelText);
-        final int contentWidth = computeWidth(data.contentText);
+        final int labelWidth = computeWidth(data.labelText());
+        final int contentWidth = computeWidth(data.contentText());
         // new SVG graphics
         final SVGGraphics2D svgGraphics2D = new SVGGraphics2D(this.svgGeneratorContext, false);
         // set SVG canvas size
@@ -166,20 +178,20 @@ public final class SVGImageGenerator {
         svgGraphics2D.fillRect(BACKGROUND_CORNER_ARC_DIAMETER, 0, (labelWidth + (2 * X_MARGIN)) - BACKGROUND_CORNER_ARC_DIAMETER, CANVAS_HEIGHT);
         // draw Label text shadow
         svgGraphics2D.setColor(COLOR_SHADOW);
-        svgGraphics2D.drawString(data.labelText, X_MARGIN, Y_OFFSET_SHADOW);
+        svgGraphics2D.drawString(data.labelText(), X_MARGIN, Y_OFFSET_SHADOW);
         // draw Label text
         svgGraphics2D.setColor(COLOR_TEXT);
-        svgGraphics2D.drawString(data.labelText, X_MARGIN, Y_OFFSET_TEXT);
+        svgGraphics2D.drawString(data.labelText(), X_MARGIN, Y_OFFSET_TEXT);
         // draw result background
-        svgGraphics2D.setColor(data.contentBackgroundColor);
+        svgGraphics2D.setColor(data.contentBackgroundColor());
         svgGraphics2D.fillRoundRect(labelWidth + (2 * X_MARGIN), 0, contentWidth + (2 * X_MARGIN), CANVAS_HEIGHT, BACKGROUND_CORNER_ARC_DIAMETER, BACKGROUND_CORNER_ARC_DIAMETER);
         svgGraphics2D.fillRect(labelWidth + (2 * X_MARGIN), 0, (contentWidth + (2 * X_MARGIN)) - BACKGROUND_CORNER_ARC_DIAMETER, CANVAS_HEIGHT);
         // draw result text shadow
         svgGraphics2D.setColor(COLOR_SHADOW);
-        svgGraphics2D.drawString(data.contentText, labelWidth + (3 * X_MARGIN), Y_OFFSET_SHADOW);
+        svgGraphics2D.drawString(data.contentText(), labelWidth + (3 * X_MARGIN), Y_OFFSET_SHADOW);
         // draw result text
         svgGraphics2D.setColor(COLOR_TEXT);
-        svgGraphics2D.drawString(data.contentText, labelWidth + (3 * X_MARGIN), Y_OFFSET_TEXT);
+        svgGraphics2D.drawString(data.contentText(), labelWidth + (3 * X_MARGIN), Y_OFFSET_TEXT);
         return svgGraphics2D;
     }
 
