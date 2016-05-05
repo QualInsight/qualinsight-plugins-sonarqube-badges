@@ -34,6 +34,10 @@ import org.sonar.api.server.ws.WebService.NewController;
 @ServerSide
 public class MeasureBadgeAction {
 
+    private static final String RESPONSE_EXAMPLE_FILE = "/com/qualinsight/plugins/sonarqube/badges/ws/measure/example.svg";
+
+    private static final String SINCE_VERSION = "2.0.0";
+
     private MeasureBadgeRequestHandler measureBadgeRequestHandler;
 
     /**
@@ -53,7 +57,9 @@ public class MeasureBadgeAction {
     public void createOn(final NewController controller) {
         final NewAction action = controller.createAction("measure")
             .setDescription("Retrieves a measure for a project as a SVG image.")
-            .setHandler(this.measureBadgeRequestHandler);
+            .setHandler(this.measureBadgeRequestHandler)
+            .setSince(SINCE_VERSION)
+            .setResponseExample(getClass().getResource(RESPONSE_EXAMPLE_FILE));
         action.createParam("key")
             .setDescription("Key of the project")
             .setExampleValue("org.codehaus.sonar:sonar")
