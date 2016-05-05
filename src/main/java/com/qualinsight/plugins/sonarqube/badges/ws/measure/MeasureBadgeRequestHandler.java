@@ -89,7 +89,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
                     measureHolder = new MeasureHolder(measures.get(0));
                 }
             } catch (final HttpException e) {
-                LOGGER.warn("No project found with key '{}': {}", key, e);
+                LOGGER.debug("No project found with key '{}': {}", key, e);
                 measureHolder = new MeasureHolder(metric);
             }
             // we prepare the response OutputStream

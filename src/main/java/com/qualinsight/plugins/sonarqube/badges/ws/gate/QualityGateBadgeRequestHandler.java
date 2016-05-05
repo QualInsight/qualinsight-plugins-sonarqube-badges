@@ -78,7 +78,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
                     .getStatus()
                     .toString());
             } catch (final HttpException e) {
-                LOGGER.warn("No project found with key '{}': {}", key, e);
+                LOGGER.debug("No project found with key '{}': {}", key, e);
             }
             // we prepare the response OutputStream
             final OutputStream responseOutputStream = response.stream()
