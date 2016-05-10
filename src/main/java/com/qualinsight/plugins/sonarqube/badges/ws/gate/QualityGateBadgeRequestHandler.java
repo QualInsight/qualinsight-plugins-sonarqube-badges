@@ -78,7 +78,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
                     .getStatus()
                     .toString());
             } catch (final HttpException e) {
-                LOGGER.warn("No project found with key '{}': {}", key, e);
+                LOGGER.debug("No project found with key '{}': {}", key, e);
             }
             // we prepare the response OutputStream
             final OutputStream responseOutputStream = response.stream()
@@ -91,6 +91,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
             responseOutputStream.close();
             // don't close svgImageInputStream, we want it to be reusable
         } else {
+            LOGGER.warn("Received a measures badge request, but webservice is turned off.");
             response.noContent();
         }
     }

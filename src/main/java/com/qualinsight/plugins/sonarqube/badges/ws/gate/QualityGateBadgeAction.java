@@ -33,6 +33,10 @@ import org.sonar.api.server.ws.WebService.NewController;
 @ServerSide
 public class QualityGateBadgeAction {
 
+    private static final String RESPONSE_EXAMPLE_FILE = "/com/qualinsight/plugins/sonarqube/badges/ws/gate/example.svg";
+
+    private static final String SINCE_VERSION = "1.2.0";
+
     private QualityGateBadgeRequestHandler qualityGateBadgeRequestHandler;
 
     /**
@@ -53,6 +57,8 @@ public class QualityGateBadgeAction {
         controller.createAction("gate")
             .setDescription("Retrieves the quality gate status of a project as a SVG image.")
             .setHandler(this.qualityGateBadgeRequestHandler)
+            .setSince(SINCE_VERSION)
+            .setResponseExample(getClass().getResource(RESPONSE_EXAMPLE_FILE))
             .createParam("key")
             .setDescription("Key of the project")
             .setExampleValue("org.codehaus.sonar:sonar")
