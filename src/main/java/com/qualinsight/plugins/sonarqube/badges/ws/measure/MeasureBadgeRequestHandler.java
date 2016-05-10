@@ -103,6 +103,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
             responseOutputStream.close();
             // don't close svgImageInputStream, we want it to be reusable
         } else {
+            LOGGER.warn("Received a measure badge request, but webservice is turned off.");
             response.noContent();
         }
     }
