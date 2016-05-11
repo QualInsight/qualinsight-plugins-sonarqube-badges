@@ -131,7 +131,7 @@ public final class SVGImageGenerator {
 
         /**
          * Content text getter.
-         * 
+         *
          * @return content text
          */
         public String contentText() {
@@ -140,7 +140,7 @@ public final class SVGImageGenerator {
 
         /**
          * Label text getter.
-         * 
+         *
          * @return label text
          */
         public String labelText() {
@@ -149,7 +149,7 @@ public final class SVGImageGenerator {
 
         /**
          * Content background color getter.
-         * 
+         *
          * @return content background color.
          */
         public Color contentBackgroundColor() {

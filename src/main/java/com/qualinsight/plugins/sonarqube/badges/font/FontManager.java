@@ -57,8 +57,8 @@ public final class FontManager {
      */
     public FontManager() {
         this.preferredFont = detectPreferredFont();
-        this.fontFamily = detectFontFamily();
         LOGGER.info("Preferred font name: '{}'", this.preferredFont.getFontName());
+        this.fontFamily = detectFontFamily();
         LOGGER.info("Font family: {}", this.fontFamily);
     }
 
@@ -106,7 +106,11 @@ public final class FontManager {
      */
     private String detectFontFamily() {
         final StringBuilder sb = new StringBuilder();
-        for (final String preferredFontName : preferredFontNames.subList(preferredFontNames.indexOf(this.preferredFont.getName()), preferredFontNames.size())) {
+        int index = 0;
+        if (!DUMMY_FONT.equals(this.preferredFont)) {
+            index = preferredFontNames.indexOf(this.preferredFont.getName());
+        }
+        for (final String preferredFontName : preferredFontNames.subList(index, preferredFontNames.size())) {
             sb.append("'")
                 .append(preferredFontName)
                 .append("',");
