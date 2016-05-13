@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
 import com.qualinsight.plugins.sonarqube.badges.font.FontReplacer;
+import com.qualinsight.plugins.sonarqube.badges.font.FontProvider;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator.Data;
 
@@ -95,9 +96,9 @@ public final class MeasureBadgeGenerator {
             final boolean useCSS = true;
             svgGraphics2D.stream(out, useCSS);
             // create a svgImageInputStream from svgImageOutputStream content
+            final FontProvider font = this.imageGenerator.fontHolder();
             svgImageRawInputStream = new ByteArrayInputStream(svgImageOutputStream.toByteArray());
-            svgImageTransformedInputStream = this.fontReplacer.process(svgImageRawInputStream, this.imageGenerator.font()
-                .getFontName());
+            svgImageTransformedInputStream = this.fontReplacer.process(svgImageRawInputStream, font.fontName(), font.fontFamilyName());
             // mark svgImageInputStream position to make it reusable
             svgImageTransformedInputStream.mark(Integer.MAX_VALUE);
             // put it into cache

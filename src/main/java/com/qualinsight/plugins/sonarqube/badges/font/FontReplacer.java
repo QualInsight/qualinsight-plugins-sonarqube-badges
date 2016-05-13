@@ -87,18 +87,20 @@ public class FontReplacer {
      * Processes font transformation on an SVG input stream.
      *
      * @param inputStream InputStream that contains the SVG image to be transformed.
+     * @param inputFontName name of the font used to generate the SVG image.
      * @param outputFontFamily output font-family as a String.
      * @return an InputStream with transformed content.
      * @throws SVGImageFontReplacementException if a problem occurs during stream transformation.
      */
-    public InputStream process(final InputStream inputStream, final String outputFontFamily) throws SVGImageFontReplacementException {
+    public InputStream process(final InputStream inputStream, final String inputFontName, final String outputFontFamily) throws SVGImageFontReplacementException {
         reset();
         try {
             final Document document = this.builder.parse(inputStream);
             final Source source = new DOMSource(document);
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             final Result result = new StreamResult(outputStream);
-            this.transformer.setParameter("OUTPUT_FONT_FAMILY", "'" + outputFontFamily + "'");
+            this.transformer.setParameter("INPUT_FONT_NAME", inputFontName);
+            this.transformer.setParameter("OUTPUT_FONT_FAMILY", outputFontFamily);
             this.transformer.transform(source, result);
             return new ByteArrayInputStream(outputStream.toByteArray());
         } catch (final IOException | TransformerException | SAXException e) {

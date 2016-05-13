@@ -21,12 +21,8 @@ package com.qualinsight.plugins.sonarqube.badges.ws;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 import java.io.IOException;
-import java.io.InputStream;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
@@ -35,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import com.qualinsight.plugins.sonarqube.badges.font.FontProvider;
+import com.qualinsight.plugins.sonarqube.badges.font.FontProviderLocator;
 
 /**
  * Generates SVG images.
@@ -58,12 +56,6 @@ public final class SVGImageGenerator {
 
     private static final int BACKGROUND_CORNER_ARC_DIAMETER = 6;
 
-    private static final String FONT_PATH = "/com/qualinsight/plugins/sonarqube/badges/font/PTS55F.ttf";
-
-    private static final int FONT_SIZE = 12;
-
-    private static final int FONT_STYLE = Font.PLAIN;
-
     private static final Color COLOR_BACKGROUND_LABEL = new Color(85, 85, 85, 255);
 
     private static final Color COLOR_SHADOW = new Color(0, 0, 0, 85);
@@ -74,9 +66,7 @@ public final class SVGImageGenerator {
 
     private static final int Y_OFFSET_TEXT = 14;
 
-    private static final FontRenderContext FONT_RENDER_CONTEXT = new FontRenderContext(new AffineTransform(), true, true);
-
-    private final Font font;
+    private FontProvider fontHolder;
 
     private SVGGeneratorContext svgGeneratorContext;
 
@@ -170,16 +160,13 @@ public final class SVGImageGenerator {
     /**
      * {@link SVGImageGenerator} IoC constructor.
      */
-    public SVGImageGenerator() throws FontFormatException, IOException {
+    public SVGImageGenerator(final FontProviderLocator fontManager) throws FontFormatException, IOException {
+        this.fontHolder = fontManager.fontProvider();
         final DOMImplementation domImplementation = GenericDOMImplementation.getDOMImplementation();
         final Document document = domImplementation.createDocument(SVG_NAMESPACE_URI, QUALIFIED_NAME, null);
         this.svgGeneratorContext = SVGGeneratorContext.createDefault(document);
-        this.svgGeneratorContext.setEmbeddedFontsOn(true);
+        this.svgGeneratorContext.setEmbeddedFontsOn(false);
         this.svgGeneratorContext.setComment(COMMENT_STRING);
-        final InputStream myStream = getClass().getResourceAsStream(FONT_PATH);
-        final Font importedFont = Font.createFont(Font.TRUETYPE_FONT, myStream);
-        this.font = importedFont.deriveFont(FONT_STYLE, FONT_SIZE);
-        LOGGER.info("SVGImageGenerator will be using font '{}'.", this.font.getName());
         LOGGER.info("SVGImageGenerator is now ready.");
     }
 
@@ -190,14 +177,14 @@ public final class SVGImageGenerator {
      * @return generated SVGGraphics2D object
      */
     public SVGGraphics2D generateFor(final Data data) {
-        final int labelWidth = computeWidth(data.labelText());
-        final int contentWidth = computeWidth(data.contentText());
+        final int labelWidth = this.fontHolder.computeWidth(data.labelText());
+        final int contentWidth = this.fontHolder.computeWidth(data.contentText());
         // new SVG graphics
-        final SVGGraphics2D svgGraphics2D = new SVGGraphics2D(this.svgGeneratorContext, true);
+        final SVGGraphics2D svgGraphics2D = new SVGGraphics2D(this.svgGeneratorContext, false);
         // set SVG canvas size
         svgGraphics2D.setSVGCanvasSize(new Dimension(labelWidth + contentWidth + (4 * X_MARGIN), CANVAS_HEIGHT));
         // set font
-        svgGraphics2D.setFont(this.font);
+        svgGraphics2D.setFont(this.fontHolder.font());
         // draw Label background
         svgGraphics2D.setColor(COLOR_BACKGROUND_LABEL);
         svgGraphics2D.fillRoundRect(0, 0, labelWidth + (2 * X_MARGIN), CANVAS_HEIGHT, BACKGROUND_CORNER_ARC_DIAMETER, BACKGROUND_CORNER_ARC_DIAMETER);
@@ -221,17 +208,13 @@ public final class SVGImageGenerator {
         return svgGraphics2D;
     }
 
-    private int computeWidth(final String text) {
-        return (int) (this.font.getStringBounds(text, SVGImageGenerator.FONT_RENDER_CONTEXT).getWidth());
-    }
-
     /**
-     * Returns the font used for SVG image generation.
+     * Returns the {@link FontProvider} to be used by badge generators.
      *
-     * @return {@link Font} used for image generation.
+     * @return font
      */
-    public Font font() {
-        return this.font;
+    public FontProvider fontHolder() {
+        return this.fontHolder;
     }
 
 }

@@ -3,7 +3,8 @@
 
   <xsl:output indent="no" omit-xml-declaration="no" include-content-type="yes" />
 
-  <xsl:variable name="INPUT_FONT_FAMILY">'Dialog'</xsl:variable>
+  <xsl:variable name="DEFAULT_FONT_FAMILY">Dialog</xsl:variable>
+  <xsl:param name="INPUT_FONT_NAME" />
   <xsl:param name="OUTPUT_FONT_FAMILY" />
 
   <xsl:template match="@*|node()">
@@ -15,13 +16,22 @@
   <xsl:template match="@style">
     <xsl:attribute name="style">
       <xsl:choose>
-        <xsl:when test="contains(.,$INPUT_FONT_FAMILY)">
-          <xsl:value-of select="substring-before(.,$INPUT_FONT_FAMILY)" />
+        <xsl:when test="contains(.,$DEFAULT_FONT_FAMILY)">
+          <xsl:value-of select="substring-before(.,$DEFAULT_FONT_FAMILY)" />
           <xsl:value-of select="$OUTPUT_FONT_FAMILY" />
-          <xsl:value-of select="substring-after(.,$INPUT_FONT_FAMILY)" />
+          <xsl:value-of select="substring-after(.,$DEFAULT_FONT_FAMILY)" />
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="." />
+          <xsl:choose>
+            <xsl:when test="contains(.,$INPUT_FONT_NAME)">
+              <xsl:value-of select="substring-before(.,$INPUT_FONT_NAME)" />
+              <xsl:value-of select="$OUTPUT_FONT_FAMILY" />
+              <xsl:value-of select="substring-after(.,$INPUT_FONT_NAME)" />
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="." />
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:attribute>
