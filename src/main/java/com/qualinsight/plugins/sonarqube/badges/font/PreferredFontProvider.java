@@ -39,11 +39,11 @@ public class PreferredFontProvider extends FontProvider {
 
     private static final int FONT_STYLE = Font.PLAIN;
 
-    private static final String FONT_FAMILY = "DejaVu Sans', 'Verdana', 'Sans PT', 'Lucida Grande', 'Tahoma', 'Helvetica', 'Arial', 'sans-serif";
+    private static final String FONT_FAMILY = "DejaVu Sans,Verdana,Sans PT,Lucida Grande,Tahoma,Helvetica,Arial,sans-serif";
 
     /**
      * Constructor that loads the preferred {@link Font} or throws a {@link FontLoadingException}.
-     * 
+     *
      * @throws FontLoadingException if the preferred {@link Font} cannot be loaded.
      */
     public PreferredFontProvider() throws FontLoadingException {

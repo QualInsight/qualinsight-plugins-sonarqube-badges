@@ -26,7 +26,7 @@ import java.io.IOException;
  *
  * @author Michel Pawlak
  */
-public class SVGImageFontReplacementException extends IOException {
+public class SVGImageMinimizerException extends IOException {
 
     /**
      * Serial version UID
@@ -38,7 +38,7 @@ public class SVGImageFontReplacementException extends IOException {
      * 
      * @param cause Exception
      */
-    public SVGImageFontReplacementException(final Exception cause) {
+    public SVGImageMinimizerException(final Exception cause) {
         super(cause);
     }
 

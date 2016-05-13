@@ -19,7 +19,6 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -41,7 +40,7 @@ public class MeasureHolder {
 
     private static final String NA = "N/A";
 
-    private static final Color BACKGROUND_COLOR = new Color(150, 150, 150, 255);
+    private static final String BACKGROUND_COLOR = "#969696";
 
     private String metricName;
 
@@ -100,9 +99,9 @@ public class MeasureHolder {
     /**
      * Background color to be used in SVG image.
      *
-     * @return background color
+     * @return background color as HEX string
      */
-    public Color backgroundColor() {
+    public String backgroundColor() {
         return BACKGROUND_COLOR;
     }
 

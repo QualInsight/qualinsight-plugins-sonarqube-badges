@@ -42,16 +42,16 @@ public class FallbackFontProvider extends FontProvider {
 
     private static final int FONT_STYLE = Font.PLAIN;
 
-    private static final String FONT_FAMILY = "Sans PT', 'Lucida Grande', 'Tahoma', 'Helvetica', 'Arial', 'sans-serif";
+    private static final String FONT_FAMILY = "Sans PT,Lucida Grande,Tahoma,Helvetica,Arial,sans-serif";
 
     /**
      * Contructor that loads the fallback {@link Font}.
      */
     public FallbackFontProvider() {
-        final InputStream myStream = getClass().getResourceAsStream(FONT_PATH);
+        final InputStream resourceStream = getClass().getResourceAsStream(FONT_PATH);
         Font importedFont;
         try {
-            importedFont = Font.createFont(Font.TRUETYPE_FONT, myStream);
+            importedFont = Font.createFont(Font.TRUETYPE_FONT, resourceStream);
         } catch (FontFormatException | IOException e) {
             throw new NoSuitableFontError(e);
         }
