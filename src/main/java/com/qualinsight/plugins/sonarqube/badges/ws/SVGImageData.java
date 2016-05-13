@@ -143,7 +143,7 @@ public class SVGImageData {
 
     /**
      * {@link SVGImageData} builder class.
-     * 
+     *
      * @author Michel Pawlak
      */
     public static class Builder {
@@ -183,7 +183,7 @@ public class SVGImageData {
         /**
          * Sets the background color to be used for the label part of the SVG badge.
          *
-         * @param valueBackgroundColor background color to be used
+         * @param labelBackgroundColor background color to be used
          * @return data container
          */
         public Builder withLabelBackgroundColor(final String labelBackgroundColor) {
@@ -224,6 +224,7 @@ public class SVGImageData {
         /**
          * Instantiates a new Data container.
          *
+         * @param fontProvider to be used in order to compute text width
          * @return empty data container
          */
         public static Builder instance(final FontProvider fontProvider) {
