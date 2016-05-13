@@ -183,14 +183,6 @@ public final class SVGImageGenerator {
         LOGGER.info("SVGImageGenerator is now ready.");
     }
 
-    public static void main(final String[] args) {
-        try {
-            new SVGImageGenerator();
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Generates a SVGGraphics2D object from a provided Data object.
      *
@@ -233,6 +225,11 @@ public final class SVGImageGenerator {
         return (int) (this.font.getStringBounds(text, SVGImageGenerator.FONT_RENDER_CONTEXT).getWidth());
     }
 
+    /**
+     * Returns the font used for SVG image generation.
+     *
+     * @return {@link Font} used for image generation.
+     */
     public Font font() {
         return this.font;
     }
