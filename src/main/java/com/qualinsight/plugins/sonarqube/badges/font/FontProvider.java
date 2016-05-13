@@ -24,6 +24,11 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Subclasses of this class are meant to provide the {@link Font} that will be used to compute sizes of SVG images.
+ * 
+ * @author Michel Pawlak
+ */
 public abstract class FontProvider {
 
     private static final FontRenderContext FONT_RENDER_CONTEXT = new FontRenderContext(new AffineTransform(), true, true);
@@ -53,14 +58,14 @@ public abstract class FontProvider {
      *
      * @return {@link Font} name.
      */
-    abstract public String fontName();
+    public abstract String fontName();
 
     /**
      * Method that returns the names of the font families that have to be specified in resulting SVG image and that will be used client side.
      *
      * @return {@link Font} family names as a a CSS compatible String.
      */
-    abstract public String fontFamilyName();
+    public abstract String fontFamilyName();
 
     /**
      * Computes the width in pixels of a text String when using the {@link Font} held by the {@link FontProvider}.

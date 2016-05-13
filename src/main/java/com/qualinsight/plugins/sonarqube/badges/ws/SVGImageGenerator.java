@@ -21,8 +21,6 @@ package com.qualinsight.plugins.sonarqube.badges.ws;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FontFormatException;
-import java.io.IOException;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
@@ -66,7 +64,7 @@ public final class SVGImageGenerator {
 
     private static final int Y_OFFSET_TEXT = 14;
 
-    private FontProvider fontHolder;
+    private FontProvider fontProvider;
 
     private SVGGeneratorContext svgGeneratorContext;
 
@@ -159,9 +157,11 @@ public final class SVGImageGenerator {
 
     /**
      * {@link SVGImageGenerator} IoC constructor.
+     *
+     * @param fontProviderLocator {@link FontProviderLocator} that will give access to a {@link FontProvider}.
      */
-    public SVGImageGenerator(final FontProviderLocator fontManager) throws FontFormatException, IOException {
-        this.fontHolder = fontManager.fontProvider();
+    public SVGImageGenerator(final FontProviderLocator fontProviderLocator) {
+        this.fontProvider = fontProviderLocator.fontProvider();
         final DOMImplementation domImplementation = GenericDOMImplementation.getDOMImplementation();
         final Document document = domImplementation.createDocument(SVG_NAMESPACE_URI, QUALIFIED_NAME, null);
         this.svgGeneratorContext = SVGGeneratorContext.createDefault(document);
@@ -177,14 +177,14 @@ public final class SVGImageGenerator {
      * @return generated SVGGraphics2D object
      */
     public SVGGraphics2D generateFor(final Data data) {
-        final int labelWidth = this.fontHolder.computeWidth(data.labelText());
-        final int contentWidth = this.fontHolder.computeWidth(data.contentText());
+        final int labelWidth = this.fontProvider.computeWidth(data.labelText());
+        final int contentWidth = this.fontProvider.computeWidth(data.contentText());
         // new SVG graphics
         final SVGGraphics2D svgGraphics2D = new SVGGraphics2D(this.svgGeneratorContext, false);
         // set SVG canvas size
         svgGraphics2D.setSVGCanvasSize(new Dimension(labelWidth + contentWidth + (4 * X_MARGIN), CANVAS_HEIGHT));
         // set font
-        svgGraphics2D.setFont(this.fontHolder.font());
+        svgGraphics2D.setFont(this.fontProvider.font());
         // draw Label background
         svgGraphics2D.setColor(COLOR_BACKGROUND_LABEL);
         svgGraphics2D.fillRoundRect(0, 0, labelWidth + (2 * X_MARGIN), CANVAS_HEIGHT, BACKGROUND_CORNER_ARC_DIAMETER, BACKGROUND_CORNER_ARC_DIAMETER);
@@ -214,7 +214,7 @@ public final class SVGImageGenerator {
      * @return font
      */
     public FontProvider fontHolder() {
-        return this.fontHolder;
+        return this.fontProvider;
     }
 
 }

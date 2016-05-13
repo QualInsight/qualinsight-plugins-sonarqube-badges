@@ -20,6 +20,8 @@
 package com.qualinsight.plugins.sonarqube.badges.font;
 
 import java.awt.Font;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
 import com.qualinsight.plugins.sonarqube.badges.exception.FontLoadingException;
 
@@ -31,6 +33,8 @@ import com.qualinsight.plugins.sonarqube.badges.exception.FontLoadingException;
 @ServerSide
 public class FontProviderLocator {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(FontProviderLocator.class);
+
     private FontProvider fontProvider;
 
     /**
@@ -40,13 +44,14 @@ public class FontProviderLocator {
         try {
             this.fontProvider = new PreferredFontProvider();
         } catch (final FontLoadingException e) {
+            LOGGER.debug("Preferred font could not be loaded:", e);
             this.fontProvider = new FallbackFontProvider();
         }
     }
 
     /**
      * Returns a {@link FontProvider} giving access to the preferred {@link Font} or fallback {@link Font}.
-     * 
+     *
      * @return the most suitable {@link FontProvider}
      */
     public FontProvider fontProvider() {
