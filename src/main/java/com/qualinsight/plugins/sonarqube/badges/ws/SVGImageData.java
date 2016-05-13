@@ -87,30 +87,65 @@ public class SVGImageData {
         return this.labelBackgroundColor;
     }
 
+    /**
+     * Width in pixels of the content part of the badge.
+     *
+     * @return labelWidth
+     */
     public String labelWidth() {
         return String.valueOf(this.labelWidth);
     }
 
+    /**
+     * Width in pixels of the value part of the badge.
+     *
+     * @return valueWidth
+     */
     public String valueWidth() {
         return String.valueOf(this.valueWidth);
     }
 
+    /**
+     * Total width of the SVGImage from left border to right border.
+     *
+     * @return image width
+     */
     public String totalWidth() {
         return String.valueOf(this.totalWidth);
     }
 
+    /**
+     * Size in pixels as a String from left border of the SVG image to the middle of the label part of the badge.
+     *
+     * @return labelHalfWidth
+     */
     public String labelHalfWidth() {
         return String.valueOf(this.labelHalfWidth);
     }
 
+    /**
+     * Size in pixels as a String from left border of the SVG image to the middle of the value part of the badge.
+     *
+     * @return valueHalfWidth
+     */
     public String valueHalfWidth() {
         return String.valueOf(this.valueHalfWidth);
     }
 
+    /**
+     * Returns the font family to be used to generate a SVG image.
+     *
+     * @return font-family
+     */
     public String fontFamily() {
         return this.fontFamily;
     }
 
+    /**
+     * {@link SVGImageData} builder class.
+     * 
+     * @author Michel Pawlak
+     */
     public static class Builder {
 
         private static final int X_MARGIN = 6;
@@ -167,6 +202,11 @@ public class SVGImageData {
             return this;
         }
 
+        /**
+         * Computes SVGImageData measures then builds the SVGImageData
+         *
+         * @return a SVGImageData
+         */
         public SVGImageData build() {
             final int labelRawWidth = this.fontProvider.computeWidth(this.data.labelText());
             final int valueRawWidth = this.fontProvider.computeWidth(this.data.valueText());
