@@ -33,7 +33,7 @@ import org.sonarqube.ws.WsMeasures.PeriodsValue;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
 /**
- * Holds measure data.
+ * Holds measure badge data.
  *
  * @author Michel Pawlak
  */
@@ -131,6 +131,7 @@ public class MeasureHolder {
     public int hashCode() {
         return new HashCodeBuilder().append(this.metricName)
             .append(this.value)
+            .append(this.backgroundColor)
             .toHashCode();
     }
 
@@ -142,6 +143,7 @@ public class MeasureHolder {
         final MeasureHolder other = (MeasureHolder) obj;
         return new EqualsBuilder().append(this.metricName, other.metricName)
             .append(this.value, other.value)
+            .append(this.backgroundColor, other.backgroundColor)
             .isEquals();
     }
 
