@@ -19,27 +19,26 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.exception;
 
-import java.io.IOException;
+import java.awt.Font;
 
 /**
- * Exception thrown if a problem occurs during the process of font replacement in SVG image.
+ * Thrown if a problem occurs when trying to load embedded fallback {@link Font}.
  *
  * @author Michel Pawlak
  */
-public class SVGImageFontReplacementException extends IOException {
+public class NoSuitableFontError extends Error {
 
     /**
-     * Serial version UID
+     *
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     * SVGImageFontReplacementException constructor.
+     * Default constructor that sets a generic message explaining the issue.
      * 
-     * @param cause Exception
+     * @param cause cause bound to the {@link Exception}
      */
-    public SVGImageFontReplacementException(final Exception cause) {
-        super(cause);
+    public NoSuitableFontError(final Exception cause) {
+        super("Fallback font could not be loaded", cause);
     }
-
 }

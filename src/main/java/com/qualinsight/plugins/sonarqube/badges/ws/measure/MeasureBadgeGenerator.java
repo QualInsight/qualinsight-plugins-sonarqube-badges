@@ -19,22 +19,17 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.batik.svggen.SVGGraphics2D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
-import com.qualinsight.plugins.sonarqube.badges.font.FontReplacer;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageData;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator.Data;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageMinimizer;
 
 /**
  * Generates SVG badge based on a measure value. A reusable {@link InputStream} is kept in a cache for each generated image in order to decrease computation time.
@@ -50,17 +45,17 @@ public final class MeasureBadgeGenerator {
 
     private SVGImageGenerator imageGenerator;
 
-    private FontReplacer fontReplacer;
+    private SVGImageMinimizer minimizer;
 
     /**
      * {@link MeasureBadgeGenerator} IoC constructor.
      *
      * @param imageGenerator {@link SVGImageGenerator} service to be used.
-     * @param fontReplacer {@link FontReplacer} service to be used.
+     * @param fontReplacer {@link SVGImageMinimizer} service to be used.
      */
-    public MeasureBadgeGenerator(final SVGImageGenerator imageGenerator, final FontReplacer fontReplacer) {
+    public MeasureBadgeGenerator(final SVGImageGenerator imageGenerator, final SVGImageMinimizer fontReplacer) {
         this.imageGenerator = imageGenerator;
-        this.fontReplacer = fontReplacer;
+        this.minimizer = fontReplacer;
         LOGGER.info("MeasureBadgeGenerator is now ready.");
     }
 
@@ -80,24 +75,16 @@ public final class MeasureBadgeGenerator {
             // we don't trust previous InpuStream user, so we reset the position of the InpuStream
             svgImageTransformedInputStream.reset();
         } else {
-            SVGGraphics2D svgGraphics2D;
             LOGGER.debug("Generating SVG image for {} status, then caching it.");
-            final Data data = Data.create()
+            final SVGImageData data = SVGImageData.Builder.instance(this.imageGenerator.fontProvider())
                 .withLabelText(measureHolder.metricName())
-                .withContentText(measureHolder.value())
-                .withContentBackgroundColor(measureHolder.backgroundColor());
-            svgGraphics2D = this.imageGenerator.generateFor(data);
-            // create a svgImageOutputStream to write svgGraphics2D content to
-            ByteArrayOutputStream svgImageOutputStream;
-            svgImageOutputStream = new ByteArrayOutputStream();
-            final Writer out = new OutputStreamWriter(svgImageOutputStream, StandardCharsets.UTF_8);
-            // stream out the content of svgGraphics2D to svgImageOutputStream using CSS styling
-            final boolean useCSS = true;
-            svgGraphics2D.stream(out, useCSS);
-            // create a svgImageInputStream from svgImageOutputStream content
-            svgImageRawInputStream = new ByteArrayInputStream(svgImageOutputStream.toByteArray());
-            svgImageTransformedInputStream = this.fontReplacer.process(svgImageRawInputStream, this.imageGenerator.fontManager()
-                .fontFamily());
+                .withLabelBackgroundColor(SVGImageColor.DARK_GRAY)
+                .withValueText(measureHolder.value())
+                .withValueBackgroundColor(measureHolder.backgroundColor())
+                .build();
+            svgImageRawInputStream = this.imageGenerator.generateFor(data);
+            // minimze SVG stream
+            svgImageTransformedInputStream = this.minimizer.process(svgImageRawInputStream);
             // mark svgImageInputStream position to make it reusable
             svgImageTransformedInputStream.mark(Integer.MAX_VALUE);
             // put it into cache

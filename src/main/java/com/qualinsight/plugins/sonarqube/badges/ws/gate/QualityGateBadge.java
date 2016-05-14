@@ -19,7 +19,11 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.ws.gate;
 
-import java.awt.Color;
+import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.GRAY;
+import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.GREEN;
+import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.ORANGE;
+import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.RED;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
 /**
  * Possible badges for a SonarQube project or view. Each badge holds information about how it has to be displayed as a SVG image.
@@ -31,38 +35,38 @@ public enum QualityGateBadge {
      * No gate is active for the project or view.
      */
     NONE("not set",
-        new Color(150, 150, 150, 255)),
+        GRAY),
     /**
      * The project / view passes the quality gate.
      */
     OK("passing",
-        new Color(86, 209, 41, 255)),
+        GREEN),
     /**
      * The project / view does not pass the quality gate due to gate warnings.
      */
     WARN("warning",
-        new Color(255, 165, 0, 255)),
+        ORANGE),
     /**
      * The project / view does not pass the quality gate due to gate errors.
      */
     ERROR("failing",
-        new Color(224, 93, 68, 255)),
+        RED),
     /**
      * The project / view could not be found on the SonarQube's server.
      */
     NOT_FOUND("not found",
-        new Color(224, 93, 68, 255)),
+        RED),
     /**
      * Access to the project / view is restricted (see issue #15)
      */
     FORBIDDEN("forbidden",
-        new Color(224, 93, 68, 255));
+        RED);
 
     private final String displayText;
 
-    private final Color displayBackgroundColor;
+    private final SVGImageColor displayBackgroundColor;
 
-    private QualityGateBadge(final String displayText, final Color displayBackgroundColor) {
+    private QualityGateBadge(final String displayText, final SVGImageColor displayBackgroundColor) {
         this.displayText = displayText;
         this.displayBackgroundColor = displayBackgroundColor;
     }
@@ -81,7 +85,7 @@ public enum QualityGateBadge {
      *
      * @return background color to be displayed
      */
-    public Color displayBackgroundColor() {
+    public SVGImageColor displayBackgroundColor() {
         return this.displayBackgroundColor;
     }
 

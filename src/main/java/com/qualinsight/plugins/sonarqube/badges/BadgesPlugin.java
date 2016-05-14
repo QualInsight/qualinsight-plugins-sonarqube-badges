@@ -22,10 +22,10 @@ package com.qualinsight.plugins.sonarqube.badges;
 import java.util.List;
 import com.google.common.collect.ImmutableList;
 import org.sonar.api.SonarPlugin;
-import com.qualinsight.plugins.sonarqube.badges.font.FontManager;
-import com.qualinsight.plugins.sonarqube.badges.font.FontReplacer;
+import com.qualinsight.plugins.sonarqube.badges.font.FontProviderLocator;
 import com.qualinsight.plugins.sonarqube.badges.ws.BadgesWebService;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageMinimizer;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeAction;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
@@ -44,8 +44,8 @@ public final class BadgesPlugin extends SonarPlugin {
     @Override
     public List getExtensions() {
         return ImmutableList.builder()
-            .add(FontManager.class)
-            .add(FontReplacer.class)
+            .add(FontProviderLocator.class)
+            .add(SVGImageMinimizer.class)
             .add(SVGImageGenerator.class)
             .add(QualityGateBadgeRequestHandler.class)
             .add(QualityGateBadgeGenerator.class)

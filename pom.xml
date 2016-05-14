@@ -7,7 +7,7 @@
   </parent>
   <groupId>com.qualinsight.plugins.sonarqube</groupId>
   <artifactId>qualinsight-plugins-sonarqube-badges</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
+  <version>2.0.1-RC4-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
   <name>SVG Badges Plugin</name>
   <description>This plugin adds a webservice to SonarQube that allows the retrieval of different types of badges that display as a SVG image the quality of a project or a view.</description>
@@ -54,9 +54,7 @@
     <!-- Libraries versions -->
     <lib.sonar-plugin-api.version>5.5</lib.sonar-plugin-api.version>
     <lib.sonar-ws.version>5.5</lib.sonar-ws.version>
-    <lib.batik.version>1.8</lib.batik.version>
     <lib.httpclient.version>4.5.1</lib.httpclient.version>
-    <lib.json.version>20160212</lib.json.version>
     <lib.slf4j-api.version>1.7.21</lib.slf4j-api.version>
     <lib.logback-classic.version>1.1.3</lib.logback-classic.version>
     <lib.guava.version>15.0</lib.guava.version>
@@ -81,16 +79,6 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.xmlgraphics</groupId>
-      <artifactId>batik-svg-dom</artifactId>
-      <version>${lib.batik.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.xmlgraphics</groupId>
-      <artifactId>batik-svggen</artifactId>
-      <version>${lib.batik.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
       <version>${lib.httpclient.version}</version>
@@ -100,11 +88,6 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>${lib.json.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

@@ -19,24 +19,27 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
-import java.awt.Color;
 import java.io.Serializable;
+import java.util.NoSuchElementException;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonarqube.ws.WsMeasures.Measure;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
 /**
  * Holds measure data.
- * 
+ *
  * @author Michel Pawlak
  */
 public class MeasureHolder {
 
-    private static final String NA = "N/A";
+    private static final Logger LOGGER = LoggerFactory.getLogger(MeasureHolder.class);
 
-    private static final Color BACKGROUND_COLOR = new Color(150, 150, 150, 255);
+    private static final String NA = "N/A";
 
     private String metricName;
 
@@ -48,10 +51,15 @@ public class MeasureHolder {
      * @param metricKey key used to retrieve the metric name for which the MeasureHolder is built
      */
     public MeasureHolder(final String metricKey) {
-        this.metricName = CoreMetrics.getMetric(metricKey)
-            .getName()
-            .replace(" (%)", "")
-            .toLowerCase();
+        try {
+            this.metricName = CoreMetrics.getMetric(metricKey)
+                .getName()
+                .replace(" (%)", "")
+                .toLowerCase();
+        } catch (final NoSuchElementException e) {
+            LOGGER.debug("Metric '{}' is not referenced in CoreMetrics.", metricKey, e);
+            this.metricName = metricKey;
+        }
         this.value = NA;
     }
 
@@ -90,10 +98,10 @@ public class MeasureHolder {
     /**
      * Background color to be used in SVG image.
      *
-     * @return background color
+     * @return background color as HEX string
      */
-    public Color backgroundColor() {
-        return BACKGROUND_COLOR;
+    public SVGImageColor backgroundColor() {
+        return SVGImageColor.GRAY;
     }
 
     @Override

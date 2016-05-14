@@ -17,7 +17,7 @@
  * License along with this program. If not, you can retrieve a copy
  * from <http://www.gnu.org/licenses/>.
  */
-package com.qualinsight.plugins.sonarqube.badges.font;
+package com.qualinsight.plugins.sonarqube.badges.ws;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -38,15 +38,15 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.sonar.api.server.ServerSide;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import com.qualinsight.plugins.sonarqube.badges.exception.SVGImageFontReplacementException;
+import com.qualinsight.plugins.sonarqube.badges.exception.SVGImageMinimizerException;
 
 /**
- * Server extension that takes care of font replacement in generated SVG images.
+ * Server extension that takes care of SVG images miniming.
  *
  * @author Michel Pawlak
  */
 @ServerSide
-public class FontReplacer {
+public class SVGImageMinimizer {
 
     private final DocumentBuilder builder;
 
@@ -55,14 +55,14 @@ public class FontReplacer {
     /**
      * IoC constructor
      *
-     * @throws SVGImageFontReplacementException if a problem occurs during initialization
+     * @throws SVGImageMinimizerException if a problem occurs during initialization
      */
-    public FontReplacer() throws SVGImageFontReplacementException {
+    public SVGImageMinimizer() throws SVGImageMinimizerException {
         try {
             InputStream xslInputStream = null;
             try {
                 xslInputStream = getClass().getClassLoader()
-                    .getResourceAsStream("com/qualinsight/plugins/sonarqube/badges/font/svg.xsl");
+                    .getResourceAsStream("com/qualinsight/plugins/sonarqube/badges/ws/svg-minimizer.xsl");
                 final TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 this.transformer = transformerFactory.newTransformer(new StreamSource(xslInputStream));
             } finally {
@@ -79,7 +79,7 @@ public class FontReplacer {
             builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
             this.builder = builderFactory.newDocumentBuilder();
         } catch (final IOException | TransformerConfigurationException | ParserConfigurationException e) {
-            throw new SVGImageFontReplacementException(e);
+            throw new SVGImageMinimizerException(e);
         }
     }
 
@@ -87,22 +87,20 @@ public class FontReplacer {
      * Processes font transformation on an SVG input stream.
      *
      * @param inputStream InputStream that contains the SVG image to be transformed.
-     * @param outputFontFamily output font-family as a String
      * @return an InputStream with transformed content.
-     * @throws SVGImageFontReplacementException if a problem occurs during stream transformation.
+     * @throws SVGImageMinimizerException if a problem occurs during stream transformation.
      */
-    public InputStream process(final InputStream inputStream, final String outputFontFamily) throws SVGImageFontReplacementException {
+    public InputStream process(final InputStream inputStream) throws SVGImageMinimizerException {
         reset();
         try {
             final Document document = this.builder.parse(inputStream);
             final Source source = new DOMSource(document);
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             final Result result = new StreamResult(outputStream);
-            this.transformer.setParameter("OUTPUT_FONT_FAMILY", outputFontFamily);
             this.transformer.transform(source, result);
             return new ByteArrayInputStream(outputStream.toByteArray());
         } catch (final IOException | TransformerException | SAXException e) {
-            throw new SVGImageFontReplacementException(e);
+            throw new SVGImageMinimizerException(e);
         }
     }
 
