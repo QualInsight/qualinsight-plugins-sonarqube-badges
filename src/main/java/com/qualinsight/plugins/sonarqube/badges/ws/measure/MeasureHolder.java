@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonarqube.ws.WsMeasures.Measure;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
 /**
  * Holds measure data.
@@ -39,8 +40,6 @@ public class MeasureHolder {
     private static final Logger LOGGER = LoggerFactory.getLogger(MeasureHolder.class);
 
     private static final String NA = "N/A";
-
-    private static final String BACKGROUND_COLOR = "#969696";
 
     private String metricName;
 
@@ -101,8 +100,8 @@ public class MeasureHolder {
      *
      * @return background color as HEX string
      */
-    public String backgroundColor() {
-        return BACKGROUND_COLOR;
+    public SVGImageColor backgroundColor() {
+        return SVGImageColor.GRAY;
     }
 
     @Override

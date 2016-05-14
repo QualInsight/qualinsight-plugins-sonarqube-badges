@@ -32,9 +32,9 @@ public class SVGImageData {
 
     private String valueText;
 
-    private String labelBackgroundColor;
+    private SVGImageColor labelBackgroundColor;
 
-    private String valueBackgroundColor;
+    private SVGImageColor valueBackgroundColor;
 
     private int labelWidth;
 
@@ -74,7 +74,7 @@ public class SVGImageData {
      *
      * @return value background color.
      */
-    public String valueBackgroundColor() {
+    public SVGImageColor valueBackgroundColor() {
         return this.valueBackgroundColor;
     }
 
@@ -83,7 +83,7 @@ public class SVGImageData {
      *
      * @return label background color.
      */
-    public String labelBackgroundColor() {
+    public SVGImageColor labelBackgroundColor() {
         return this.labelBackgroundColor;
     }
 
@@ -186,7 +186,7 @@ public class SVGImageData {
          * @param labelBackgroundColor background color to be used
          * @return data container
          */
-        public Builder withLabelBackgroundColor(final String labelBackgroundColor) {
+        public Builder withLabelBackgroundColor(final SVGImageColor labelBackgroundColor) {
             this.data.labelBackgroundColor = labelBackgroundColor;
             return this;
         }
@@ -197,7 +197,7 @@ public class SVGImageData {
          * @param valueBackgroundColor background color to be used
          * @return data container
          */
-        public Builder withValueBackgroundColor(final String valueBackgroundColor) {
+        public Builder withValueBackgroundColor(final SVGImageColor valueBackgroundColor) {
             this.data.valueBackgroundColor = valueBackgroundColor;
             return this;
         }

@@ -43,8 +43,6 @@ public final class SVGImageGenerator {
 
     private static final String TEMPLATE_PATH = "/com/qualinsight/plugins/sonarqube/badges/ws/badge-template.svg";
 
-    public static final String DEFAULT_LABEL_BACKGROUND_COLOR = "#666";
-
     private FontProvider fontProvider;
 
     private final String templateString;
@@ -72,11 +70,13 @@ public final class SVGImageGenerator {
         final Map<String, String> replacements = new HashMap<>();
         replacements.put("{{fontFamily}}", data.fontFamily());
         replacements.put("{{labelText}}", data.labelText());
-        replacements.put("{{labelBackgroundColor}}", data.labelBackgroundColor());
+        replacements.put("{{labelBackgroundColor}}", data.labelBackgroundColor()
+            .hexColor());
         replacements.put("{{labelWidth}}", data.labelWidth());
         replacements.put("{{labelHalfWidth}}", data.labelHalfWidth());
         replacements.put("{{valueText}}", data.valueText());
-        replacements.put("{{valueBackgroundColor}}", data.valueBackgroundColor());
+        replacements.put("{{valueBackgroundColor}}", data.valueBackgroundColor()
+            .hexColor());
         replacements.put("{{valueWidth}}", data.valueWidth());
         replacements.put("{{valueHalfWidth}}", data.valueHalfWidth());
         replacements.put("{{totalWidth}}", data.totalWidth());

@@ -25,6 +25,7 @@ import java.util.EnumMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageData;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageMinimizer;
@@ -78,7 +79,7 @@ public final class QualityGateBadgeGenerator {
             LOGGER.debug("Generating SVG image for {} status, then caching it.");
             final SVGImageData data = SVGImageData.Builder.instance(this.imageGenerator.fontProvider())
                 .withLabelText(LABEL_TEXT)
-                .withLabelBackgroundColor(SVGImageGenerator.DEFAULT_LABEL_BACKGROUND_COLOR)
+                .withLabelBackgroundColor(SVGImageColor.DARK_GRAY)
                 .withValueText(status.displayText())
                 .withValueBackgroundColor(status.displayBackgroundColor())
                 .build();

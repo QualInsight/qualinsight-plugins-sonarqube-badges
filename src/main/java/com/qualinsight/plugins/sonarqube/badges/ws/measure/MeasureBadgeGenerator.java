@@ -26,6 +26,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageData;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageMinimizer;
@@ -77,7 +78,7 @@ public final class MeasureBadgeGenerator {
             LOGGER.debug("Generating SVG image for {} status, then caching it.");
             final SVGImageData data = SVGImageData.Builder.instance(this.imageGenerator.fontProvider())
                 .withLabelText(measureHolder.metricName())
-                .withLabelBackgroundColor(SVGImageGenerator.DEFAULT_LABEL_BACKGROUND_COLOR)
+                .withLabelBackgroundColor(SVGImageColor.DARK_GRAY)
                 .withValueText(measureHolder.value())
                 .withValueBackgroundColor(measureHolder.backgroundColor())
                 .build();

@@ -19,6 +19,11 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.ws.gate;
 
+import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.GRAY;
+import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.GREEN;
+import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.ORANGE;
+import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.RED;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
 /**
  * Possible badges for a SonarQube project or view. Each badge holds information about how it has to be displayed as a SVG image.
@@ -30,38 +35,38 @@ public enum QualityGateBadge {
      * No gate is active for the project or view.
      */
     NONE("not set",
-        "#969696"),
+        GRAY),
     /**
      * The project / view passes the quality gate.
      */
     OK("passing",
-        "#56D129"),
+        GREEN),
     /**
      * The project / view does not pass the quality gate due to gate warnings.
      */
     WARN("warning",
-        "#FFA500"),
+        ORANGE),
     /**
      * The project / view does not pass the quality gate due to gate errors.
      */
     ERROR("failing",
-        "#E05D44"),
+        RED),
     /**
      * The project / view could not be found on the SonarQube's server.
      */
     NOT_FOUND("not found",
-        "#E05D44"),
+        RED),
     /**
      * Access to the project / view is restricted (see issue #15)
      */
     FORBIDDEN("forbidden",
-        "#E05D44");
+        RED);
 
     private final String displayText;
 
-    private final String displayBackgroundColor;
+    private final SVGImageColor displayBackgroundColor;
 
-    private QualityGateBadge(final String displayText, final String displayBackgroundColor) {
+    private QualityGateBadge(final String displayText, final SVGImageColor displayBackgroundColor) {
         this.displayText = displayText;
         this.displayBackgroundColor = displayBackgroundColor;
     }
@@ -80,7 +85,7 @@ public enum QualityGateBadge {
      *
      * @return background color to be displayed
      */
-    public String displayBackgroundColor() {
+    public SVGImageColor displayBackgroundColor() {
         return this.displayBackgroundColor;
     }
 
