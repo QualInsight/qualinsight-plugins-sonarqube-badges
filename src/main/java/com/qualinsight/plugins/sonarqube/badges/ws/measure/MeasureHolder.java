@@ -28,6 +28,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonarqube.ws.WsMeasures.Measure;
+import org.sonarqube.ws.WsMeasures.PeriodValue;
+import org.sonarqube.ws.WsMeasures.PeriodsValue;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
 /**
@@ -44,6 +46,8 @@ public class MeasureHolder {
     private String metricName;
 
     private String value;
+
+    private SVGImageColor backgroundColor = SVGImageColor.GRAY;
 
     /**
      * Constructs a MeasureHolder from a metric key.
@@ -74,7 +78,17 @@ public class MeasureHolder {
         this.metricName = metric.getName()
             .replace(" (%)", "")
             .toLowerCase();
-        this.value = measure.getValue() + (metric.isPercentageType() ? "%" : "");
+        String tempValue = null;
+        if (!measure.hasValue()) {
+            if (measure.hasPeriods()) {
+                final PeriodsValue periods = measure.getPeriods();
+                final PeriodValue periodValue = periods.getPeriodsValue(0);
+                tempValue = periodValue.getValue();
+            }
+        } else {
+            tempValue = measure.getValue();
+        }
+        this.value = tempValue == null ? NA : tempValue + (metric.isPercentageType() ? "%" : "");
     }
 
     /**
@@ -101,7 +115,16 @@ public class MeasureHolder {
      * @return background color as HEX string
      */
     public SVGImageColor backgroundColor() {
-        return SVGImageColor.GRAY;
+        return this.backgroundColor;
+    }
+
+    /**
+     * Sets the background color used in SVG image
+     *
+     * @param backgroundColor color as a {@link SVGImageColor}
+     */
+    public void setBackgroundColor(final SVGImageColor backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     @Override
