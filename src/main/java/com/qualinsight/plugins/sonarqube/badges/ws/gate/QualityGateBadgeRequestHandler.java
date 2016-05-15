@@ -35,6 +35,7 @@ import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
 import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 
 /**
  * {@link RequestHandler} implementation that handles Quality Gate badges requests.
@@ -65,6 +66,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
     public void handle(final Request request, final Response response) throws Exception {
         if (this.settings.getBoolean(BadgesPluginProperties.GATE_BADGES_ACTIVATION_KEY)) {
             final String key = request.mandatoryParam("key");
+            final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final WsClient wsClient = WsClientFactories.getLocal()
                 .newClient(request.localConnector());
             LOGGER.debug("Retrieving quality gate status for key '{}'.", key);
@@ -85,7 +87,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
                 .setMediaType("image/svg+xml")
                 .output();
             LOGGER.debug("Retrieving SVG image for for quality gate status '{}'.", status);
-            final InputStream svgImageInputStream = this.qualityGateBadgeGenerator.svgImageInputStreamFor(status);
+            final InputStream svgImageInputStream = this.qualityGateBadgeGenerator.svgImageInputStreamFor(status, template);
             LOGGER.debug("Writing SVG image to response OutputStream.");
             IOUtils.copy(svgImageInputStream, responseOutputStream);
             responseOutputStream.close();

@@ -25,6 +25,7 @@ import org.sonar.api.server.ws.WebService.Action;
 import org.sonar.api.server.ws.WebService.Controller;
 import org.sonar.api.server.ws.WebService.NewAction;
 import org.sonar.api.server.ws.WebService.NewController;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 
 /**
  * Creates {@link Action} for measure badge {@link WebService} {@link Controller}.
@@ -68,5 +69,10 @@ public class MeasureBadgeAction {
             .setDescription("measured metric to be retrieved")
             .setExampleValue("coverage")
             .setRequired(true);
+        action.createParam("template")
+            .setDescription("Template to be used for badge generation")
+            .setPossibleValues((Object[]) SVGImageTemplate.values())
+            .setDefaultValue(SVGImageTemplate.DEFAULT)
+            .setRequired(false);
     }
 }

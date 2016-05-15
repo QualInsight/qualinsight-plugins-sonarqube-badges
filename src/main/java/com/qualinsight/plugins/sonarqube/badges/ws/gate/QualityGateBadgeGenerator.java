@@ -22,6 +22,7 @@ package com.qualinsight.plugins.sonarqube.badges.ws.gate;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumMap;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
@@ -29,6 +30,7 @@ import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageData;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageMinimizer;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 
 /**
  * Generates SVG badge based on a quality gate status. A reusable {@link InputStream} is kept in a cache for each generated image in order to decrease computation time.
@@ -42,7 +44,7 @@ public final class QualityGateBadgeGenerator {
 
     private static final String LABEL_TEXT = "quality gate";
 
-    private final EnumMap<QualityGateBadge, InputStream> qualityGateBadgesMap = new EnumMap<>(QualityGateBadge.class);
+    private final Map<SVGImageTemplate, EnumMap<QualityGateBadge, InputStream>> qualityGateBadgesMap = new EnumMap<SVGImageTemplate, EnumMap<QualityGateBadge, InputStream>>(SVGImageTemplate.class);
 
     private SVGImageGenerator imageGenerator;
 
@@ -57,6 +59,9 @@ public final class QualityGateBadgeGenerator {
     public QualityGateBadgeGenerator(final SVGImageGenerator imageGenerator, final SVGImageMinimizer fontReplacer) {
         this.imageGenerator = imageGenerator;
         this.minimizer = fontReplacer;
+        for (final SVGImageTemplate template : SVGImageTemplate.values()) {
+            this.qualityGateBadgesMap.put(template, new EnumMap<QualityGateBadge, InputStream>(QualityGateBadge.class));
+        }
         LOGGER.info("QualityGateBadgeGenerator is now ready.");
     }
 
@@ -67,17 +72,19 @@ public final class QualityGateBadgeGenerator {
      * @return {@link InputStream} holding the expected SVG image
      * @throws IOException if a IO problem occurs during streams manipulation
      */
-    public InputStream svgImageInputStreamFor(final QualityGateBadge status) throws IOException {
+    public InputStream svgImageInputStreamFor(final QualityGateBadge status, final SVGImageTemplate template) throws IOException {
         InputStream svgImageRawInputStream;
         InputStream svgImageTransformedInputStream;
         if (this.qualityGateBadgesMap.containsKey(status)) {
             LOGGER.debug("Found SVG image for {} status in cache, reusing it.");
-            svgImageTransformedInputStream = this.qualityGateBadgesMap.get(status);
+            svgImageTransformedInputStream = this.qualityGateBadgesMap.get(template)
+                .get(status);
             // we don't trust previous InpuStream user, so we reset the position of the InpuStream
             svgImageTransformedInputStream.reset();
         } else {
             LOGGER.debug("Generating SVG image for {} status, then caching it.");
             final SVGImageData data = SVGImageData.Builder.instance(this.imageGenerator.fontProvider())
+                .withTemplate(template)
                 .withLabelText(LABEL_TEXT)
                 .withLabelBackgroundColor(SVGImageColor.DARK_GRAY)
                 .withValueText(status.displayText())
@@ -89,7 +96,8 @@ public final class QualityGateBadgeGenerator {
             // mark svgImageInputStream position to make it reusable
             svgImageTransformedInputStream.mark(Integer.MAX_VALUE);
             // put it into cache
-            this.qualityGateBadgesMap.put(status, svgImageTransformedInputStream);
+            this.qualityGateBadgesMap.get(template)
+                .put(status, svgImageTransformedInputStream);
         }
         return svgImageTransformedInputStream;
     }
