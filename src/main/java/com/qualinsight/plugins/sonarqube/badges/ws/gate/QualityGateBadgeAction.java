@@ -68,7 +68,7 @@ public class QualityGateBadgeAction {
         action.createParam("template")
             .setDescription("Template to be used for badge generation")
             .setPossibleValues((Object[]) SVGImageTemplate.values())
-            .setDefaultValue(SVGImageTemplate.DEFAULT)
+            .setDefaultValue(SVGImageTemplate.ROUNDED)
             .setRequired(false);
     }
 }

@@ -25,7 +25,7 @@ import org.apache.commons.io.IOUtils;
 import com.qualinsight.plugins.sonarqube.badges.exception.TemplateLoadingError;
 
 public enum SVGImageTemplate {
-    DEFAULT("/com/qualinsight/plugins/sonarqube/badges/ws/badge-default-template.svg"),
+    ROUNDED("/com/qualinsight/plugins/sonarqube/badges/ws/badge-rounded-template.svg"),
     FLAT("/com/qualinsight/plugins/sonarqube/badges/ws/badge-flat-template.svg");
 
     private String content;
