@@ -24,12 +24,28 @@ import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import com.qualinsight.plugins.sonarqube.badges.exception.TemplateLoadingError;
 
+/**
+ * Available badge templates
+ *
+ * @author Michel Pawlak
+ */
 public enum SVGImageTemplate {
+    /**
+     * Template that generates badges with rounded corners and a linear gradient.
+     */
     ROUNDED("/com/qualinsight/plugins/sonarqube/badges/ws/badge-rounded-template.svg"),
+    /**
+     * Template that generates lightweight badges using a flat design.
+     */
     FLAT("/com/qualinsight/plugins/sonarqube/badges/ws/badge-flat-template.svg");
 
     private String content;
 
+    /**
+     * {@link SVGImageTemplate} constructor.
+     *
+     * @param templatePath path to the template file.
+     */
     SVGImageTemplate(final String templatePath) {
         final InputStream resourceStream = getClass().getResourceAsStream(templatePath);
         try {
@@ -43,6 +59,11 @@ public enum SVGImageTemplate {
         }
     }
 
+    /**
+     * Template file's content as a string.
+     *
+     * @return template content.
+     */
     public String content() {
         return this.content;
     }

@@ -68,6 +68,7 @@ public final class MeasureBadgeGenerator {
      * Returns an {@link InputStream} holding the content of the generated image for the provided {@link MeasureHolder}. All {@link InputStream}s are cached for future reuse.
      *
      * @param measureHolder measure for which the image has to be generated
+     * @param template {@link SVGImageTemplate} to be used
      * @return {@link InputStream} holding the expected SVG image
      * @throws IOException if a IO problem occurs during streams manipulation
      */

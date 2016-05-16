@@ -46,7 +46,7 @@ public class TemplateLoadingError extends Error {
     /**
      * Constructor to be used if a template file is not found.
      *
-     * @param cause cause bound to the {@link Exception}
+     * @param templatePath missing templatePath that led to the {@link Exception}
      */
     public TemplateLoadingError(final String templatePath) {
         super("Template could not be loaded: " + templatePath);
