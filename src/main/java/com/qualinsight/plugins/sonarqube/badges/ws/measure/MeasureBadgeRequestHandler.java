@@ -43,6 +43,7 @@ import org.sonarqube.ws.client.measure.ComponentWsRequest;
 import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
 import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
 
 /**
@@ -75,6 +76,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
         if (this.settings.getBoolean(BadgesPluginProperties.MEASURE_BADGES_ACTIVATION_KEY)) {
             final String key = request.mandatoryParam("key");
             final String metric = request.mandatoryParam("metric");
+            final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final WsClient wsClient = WsClientFactories.getLocal()
                 .newClient(request.localConnector());
             LOGGER.debug("Retrieving measure for key '{}' and metric {}.", key, metric);
@@ -91,7 +93,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
                 .setMediaType("image/svg+xml")
                 .output();
             LOGGER.debug("Retrieving SVG image for metric holder '{}'.", measureHolder);
-            final InputStream svgImageInputStream = this.measureBadgeGenerator.svgImageInputStreamFor(measureHolder);
+            final InputStream svgImageInputStream = this.measureBadgeGenerator.svgImageInputStreamFor(measureHolder, template);
             LOGGER.debug("Writing SVG image to response OutputStream.");
             IOUtils.copy(svgImageInputStream, responseOutputStream);
             responseOutputStream.close();

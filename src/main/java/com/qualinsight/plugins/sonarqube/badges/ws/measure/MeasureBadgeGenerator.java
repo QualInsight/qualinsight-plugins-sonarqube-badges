@@ -21,6 +21,7 @@ package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -30,6 +31,7 @@ import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageData;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageMinimizer;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 
 /**
  * Generates SVG badge based on a measure value. A reusable {@link InputStream} is kept in a cache for each generated image in order to decrease computation time.
@@ -41,7 +43,7 @@ public final class MeasureBadgeGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MeasureBadgeGenerator.class);
 
-    private final Map<MeasureHolder, InputStream> measureBadgesMap = new HashMap<>();
+    private final Map<SVGImageTemplate, Map<MeasureHolder, InputStream>> measureBadgesMap = new EnumMap<>(SVGImageTemplate.class);
 
     private SVGImageGenerator imageGenerator;
 
@@ -56,6 +58,9 @@ public final class MeasureBadgeGenerator {
     public MeasureBadgeGenerator(final SVGImageGenerator imageGenerator, final SVGImageMinimizer fontReplacer) {
         this.imageGenerator = imageGenerator;
         this.minimizer = fontReplacer;
+        for (final SVGImageTemplate template : SVGImageTemplate.values()) {
+            this.measureBadgesMap.put(template, new HashMap<MeasureHolder, InputStream>());
+        }
         LOGGER.info("MeasureBadgeGenerator is now ready.");
     }
 
@@ -63,20 +68,23 @@ public final class MeasureBadgeGenerator {
      * Returns an {@link InputStream} holding the content of the generated image for the provided {@link MeasureHolder}. All {@link InputStream}s are cached for future reuse.
      *
      * @param measureHolder measure for which the image has to be generated
+     * @param template {@link SVGImageTemplate} to be used
      * @return {@link InputStream} holding the expected SVG image
      * @throws IOException if a IO problem occurs during streams manipulation
      */
-    public InputStream svgImageInputStreamFor(final MeasureHolder measureHolder) throws IOException {
+    public InputStream svgImageInputStreamFor(final MeasureHolder measureHolder, final SVGImageTemplate template) throws IOException {
         InputStream svgImageRawInputStream;
         InputStream svgImageTransformedInputStream;
         if (this.measureBadgesMap.containsKey(measureHolder)) {
             LOGGER.debug("Found SVG image for measure holder in cache, reusing it.");
-            svgImageTransformedInputStream = this.measureBadgesMap.get(measureHolder);
+            svgImageTransformedInputStream = this.measureBadgesMap.get(template)
+                .get(measureHolder);
             // we don't trust previous InpuStream user, so we reset the position of the InpuStream
             svgImageTransformedInputStream.reset();
         } else {
             LOGGER.debug("Generating SVG image for measure holder, then caching it.");
             final SVGImageData data = SVGImageData.Builder.instance(this.imageGenerator.fontProvider())
+                .withTemplate(template)
                 .withLabelText(measureHolder.metricName())
                 .withLabelBackgroundColor(SVGImageColor.DARK_GRAY)
                 .withValueText(measureHolder.value())
@@ -88,7 +96,8 @@ public final class MeasureBadgeGenerator {
             // mark svgImageInputStream position to make it reusable
             svgImageTransformedInputStream.mark(Integer.MAX_VALUE);
             // put it into cache
-            this.measureBadgesMap.put(measureHolder, svgImageTransformedInputStream);
+            this.measureBadgesMap.get(template)
+                .put(measureHolder, svgImageTransformedInputStream);
         }
         return svgImageTransformedInputStream;
     }

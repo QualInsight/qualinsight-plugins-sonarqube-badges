@@ -48,6 +48,8 @@ public class SVGImageData {
 
     private String fontFamily;
 
+    private SVGImageTemplate template;
+
     private SVGImageData() {
     }
 
@@ -142,6 +144,15 @@ public class SVGImageData {
     }
 
     /**
+     * Returns the {@link SVGImageTemplate} to be used to generate a SVG image.
+     *
+     * @return template
+     */
+    public SVGImageTemplate template() {
+        return this.template;
+    }
+
+    /**
      * {@link SVGImageData} builder class.
      *
      * @author Michel Pawlak
@@ -156,6 +167,17 @@ public class SVGImageData {
 
         private Builder(final FontProvider fontProvider) {
             this.fontProvider = fontProvider;
+        }
+
+        /**
+         * Sets the {@link SVGImageTemplate} to be used to generate the SVG badge.
+         *
+         * @param template {@link SVGImageTemplate}
+         * @return data container
+         */
+        public Builder withTemplate(final SVGImageTemplate template) {
+            this.data.template = template;
+            return this;
         }
 
         /**

@@ -32,6 +32,8 @@ Use the ``/api/badges/gate?key=<project or view key>`` URL in order to generate 
 * [No Gate](images/no_gate.svg) indicates that no quality gate has been set for the specified project
 * [Not Found](images/not_found.svg) indicates that the project / view could not be found
 
+By default, the plugin generates badges with rounded corners. If you want to generate flat badges instead, add the optional parameter ``template`` with value ``FLAT`` as follows: ``/api/badges/gate?key=<project or view key>&template=FLAT``.
+
 #### Display the Quality Gate badge on a web page
 
 You can display Quality Gate badges using HTML or Markdown as follows.
@@ -65,6 +67,8 @@ Example:
 ### Measure badge
 
 Use the ``/api/badges/measure?key=<project or view key>&metric=<metric key>`` URL in order to generate a badge that displays any measure related to a project or view. If the measure impacts the quality gate of the project, the badge is colorized depending on the condition that has been set.
+
+As for quality gate status badges, the plugin generates by default badges with rounded corners. If you want to generate flat badges instead, add the optional parameter ``template`` with value ``FLAT`` as follows: ``/api/badges/measure?key=<project or view key>&metric=<metric key>&template=FLAT``.
 
 SonarQube's [CoreMetrics class](https://github.com/SonarSource/sonarqube/blob/master/sonar-plugin-api/src/main/java/org/sonar/api/measures/CoreMetrics.java) file lists all `metric keys` that can be used. I have listed the ones you may need to display as a badge in the following table :
 

@@ -23,7 +23,9 @@ import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.ws.WebService;
 import org.sonar.api.server.ws.WebService.Action;
 import org.sonar.api.server.ws.WebService.Controller;
+import org.sonar.api.server.ws.WebService.NewAction;
 import org.sonar.api.server.ws.WebService.NewController;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 
 /**
  * Creates {@link Action} for quality gate badge {@link WebService} {@link Controller}.
@@ -54,14 +56,19 @@ public class QualityGateBadgeAction {
      * @param controller the action needs to be added to
      */
     public void createOn(final NewController controller) {
-        controller.createAction("gate")
+        final NewAction action = controller.createAction("gate")
             .setDescription("Retrieves the quality gate status of a project as a SVG image.")
             .setHandler(this.qualityGateBadgeRequestHandler)
             .setSince(SINCE_VERSION)
-            .setResponseExample(getClass().getResource(RESPONSE_EXAMPLE_FILE))
-            .createParam("key")
+            .setResponseExample(getClass().getResource(RESPONSE_EXAMPLE_FILE));
+        action.createParam("key")
             .setDescription("Key of the project")
             .setExampleValue("org.codehaus.sonar:sonar")
             .setRequired(true);
+        action.createParam("template")
+            .setDescription("Template to be used for badge generation")
+            .setPossibleValues((Object[]) SVGImageTemplate.values())
+            .setDefaultValue(SVGImageTemplate.ROUNDED)
+            .setRequired(false);
     }
 }

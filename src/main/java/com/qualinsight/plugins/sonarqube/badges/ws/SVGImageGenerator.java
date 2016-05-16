@@ -41,11 +41,7 @@ public final class SVGImageGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SVGImageGenerator.class);
 
-    private static final String TEMPLATE_PATH = "/com/qualinsight/plugins/sonarqube/badges/ws/badge-template.svg";
-
     private FontProvider fontProvider;
-
-    private final String templateString;
 
     /**
      * {@link SVGImageGenerator} IoC constructor.
@@ -54,8 +50,6 @@ public final class SVGImageGenerator {
      */
     public SVGImageGenerator(final FontProviderLocator fontProviderLocator) throws IOException {
         this.fontProvider = fontProviderLocator.fontProvider();
-        final InputStream resourceStream = getClass().getResourceAsStream(TEMPLATE_PATH);
-        this.templateString = IOUtils.toString(resourceStream);
         LOGGER.info("SVGImageGenerator is now ready.");
     }
 
@@ -80,7 +74,8 @@ public final class SVGImageGenerator {
         replacements.put("{{valueWidth}}", data.valueWidth());
         replacements.put("{{valueHalfWidth}}", data.valueHalfWidth());
         replacements.put("{{totalWidth}}", data.totalWidth());
-        return IOUtils.toInputStream(StringUtils.replaceEach(this.templateString, replacements.keySet()
+        return IOUtils.toInputStream(StringUtils.replaceEach(data.template()
+            .content(), replacements.keySet()
             .toArray(new String[0]), replacements.values()
             .toArray(new String[0])));
     }
