@@ -60,7 +60,7 @@ public final class MeasureBadgeGenerator {
     }
 
     /**
-     * Returns an {@link InputStream} holding the content of the generated image for the provided quality gate status. All {@link InputStream}s are cached for future reuse.
+     * Returns an {@link InputStream} holding the content of the generated image for the provided {@link MeasureHolder}. All {@link InputStream}s are cached for future reuse.
      *
      * @param measureHolder measure for which the image has to be generated
      * @return {@link InputStream} holding the expected SVG image
@@ -70,12 +70,12 @@ public final class MeasureBadgeGenerator {
         InputStream svgImageRawInputStream;
         InputStream svgImageTransformedInputStream;
         if (this.measureBadgesMap.containsKey(measureHolder)) {
-            LOGGER.debug("Found SVG image for {} status in cache, reusing it.");
+            LOGGER.debug("Found SVG image for measure holder in cache, reusing it.");
             svgImageTransformedInputStream = this.measureBadgesMap.get(measureHolder);
             // we don't trust previous InpuStream user, so we reset the position of the InpuStream
             svgImageTransformedInputStream.reset();
         } else {
-            LOGGER.debug("Generating SVG image for {} status, then caching it.");
+            LOGGER.debug("Generating SVG image for measure holder, then caching it.");
             final SVGImageData data = SVGImageData.Builder.instance(this.imageGenerator.fontProvider())
                 .withLabelText(measureHolder.metricName())
                 .withLabelBackgroundColor(SVGImageColor.DARK_GRAY)
