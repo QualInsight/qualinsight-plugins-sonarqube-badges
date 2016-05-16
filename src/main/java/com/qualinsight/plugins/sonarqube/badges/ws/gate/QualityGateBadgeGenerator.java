@@ -44,7 +44,7 @@ public final class QualityGateBadgeGenerator {
 
     private static final String LABEL_TEXT = "quality gate";
 
-    private final Map<SVGImageTemplate, EnumMap<QualityGateBadge, InputStream>> qualityGateBadgesMap = new EnumMap<SVGImageTemplate, EnumMap<QualityGateBadge, InputStream>>(SVGImageTemplate.class);
+    private final Map<SVGImageTemplate, Map<QualityGateBadge, InputStream>> qualityGateBadgesMap = new EnumMap<>(SVGImageTemplate.class);
 
     private SVGImageGenerator imageGenerator;
 
