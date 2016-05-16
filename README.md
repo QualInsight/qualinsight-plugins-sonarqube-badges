@@ -66,7 +66,7 @@ Example:
 
 ### Measure badge
 
-Use the ``/api/badges/measure?key=<project or view key>&metric=<metric key>`` URL in order to generate a badge that displays any measure related to a project or view. 
+Use the ``/api/badges/measure?key=<project or view key>&metric=<metric key>`` URL in order to generate a badge that displays any measure related to a project or view. If the measure impacts the quality gate of the project, the badge is colorized depending on the condition that has been set.
 
 As for quality gate status badges, the plugin generates by default badges with rounded corners. If you want to generate flat badges instead, add the optional parameter ``template`` with value ``FLAT`` as follows: ``/api/badges/measure?key=<project or view key>&metric=<metric key>&template=FLAT``.
 
@@ -102,7 +102,7 @@ SonarQube's [CoreMetrics class](https://github.com/SonarSource/sonarqube/blob/ma
 | sqale_debt_ratio | technical debt ratio |
 | new_sqale_debt_ratio | new technical debt ratio |
 
-*Note 3*: Some `metric keys` are not usable "as is" as they return values that need interpretation (such as time, effort or ratings.) This explains why I haven't added them to the table yet.
+*Note 4*: Some `metric keys` are not usable "as is" as they return values that need interpretation (such as time, effort or ratings.) This explains why I haven't added them to the table yet.
 
 #### Display the Measure badge on a web page
 

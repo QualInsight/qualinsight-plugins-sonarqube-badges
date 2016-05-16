@@ -33,11 +33,16 @@ import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
 import org.sonarqube.ws.WsMeasures.ComponentWsResponse;
 import org.sonarqube.ws.WsMeasures.Measure;
+import org.sonarqube.ws.WsQualityGates.ProjectStatusWsResponse;
+import org.sonarqube.ws.WsQualityGates.ProjectStatusWsResponse.Condition;
+import org.sonarqube.ws.WsQualityGates.ProjectStatusWsResponse.Status;
 import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.measure.ComponentWsRequest;
+import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
 import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
 
@@ -77,19 +82,8 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
             LOGGER.debug("Retrieving measure for key '{}' and metric {}.", key, metric);
             MeasureHolder measureHolder;
             try {
-                final ComponentWsRequest wsRequest = new ComponentWsRequest();
-                wsRequest.setComponentKey(key);
-                wsRequest.setMetricKeys(ImmutableList.of(metric));
-                final ComponentWsResponse wsResponse = wsClient.measures()
-                    .component(wsRequest);
-                final List<Measure> measures = wsResponse.getComponent()
-                    .getMeasuresList();
-                if (measures.isEmpty()) {
-                    measureHolder = new MeasureHolder(metric);
-                    LOGGER.debug("No measure found ! Using '{}' value", measureHolder.value());
-                } else {
-                    measureHolder = new MeasureHolder(measures.get(0));
-                }
+                measureHolder = retrieveMeasureHolder(wsClient, key, metric);
+                measureHolder = applyQualityGateTreshold(wsClient, key, metric, measureHolder);
             } catch (final HttpException e) {
                 LOGGER.debug("No project found with key '{}': {}", key, e);
                 measureHolder = new MeasureHolder(metric);
@@ -108,5 +102,53 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
             LOGGER.warn("Received a measure badge request, but webservice is turned off.");
             response.noContent();
         }
+    }
+
+    private MeasureHolder retrieveMeasureHolder(final WsClient wsClient, final String key, final String metric) {
+        MeasureHolder measureHolder;
+        final ComponentWsRequest componentWsRequest = new ComponentWsRequest();
+        componentWsRequest.setComponentKey(key);
+        componentWsRequest.setMetricKeys(ImmutableList.of(metric));
+        final ComponentWsResponse componentWsResponse = wsClient.measures()
+            .component(componentWsRequest);
+        final List<Measure> measures = componentWsResponse.getComponent()
+            .getMeasuresList();
+        if (measures.isEmpty()) {
+            measureHolder = new MeasureHolder(metric);
+            LOGGER.debug("No measure found ! Using '{}' value", measureHolder.value());
+        } else {
+            measureHolder = new MeasureHolder(measures.get(0));
+        }
+        return measureHolder;
+    }
+
+    private MeasureHolder applyQualityGateTreshold(final WsClient wsClient, final String key, final String metric, final MeasureHolder measureHolder) {
+        final ProjectStatusWsRequest projectStatusWsRequest = new ProjectStatusWsRequest();
+        projectStatusWsRequest.setProjectKey(key);
+        final ProjectStatusWsResponse projectStatusWsResponse = wsClient.qualityGates()
+            .projectStatus(projectStatusWsRequest);
+        final List<Condition> conditions = projectStatusWsResponse.getProjectStatus()
+            .getConditionsList();
+        for (final Condition condition : conditions) {
+            if (metric.equals(condition.getMetricKey())) {
+                final Status status = condition.getStatus();
+                switch (status) {
+                    case ERROR:
+                        measureHolder.setBackgroundColor(SVGImageColor.RED);
+                        break;
+                    case OK:
+                        measureHolder.setBackgroundColor(SVGImageColor.GREEN);
+                        break;
+                    case WARN:
+                        measureHolder.setBackgroundColor(SVGImageColor.ORANGE);
+                        break;
+                    default:
+                        measureHolder.setBackgroundColor(SVGImageColor.GRAY);
+                        break;
+
+                }
+            }
+        }
+        return measureHolder;
     }
 }
