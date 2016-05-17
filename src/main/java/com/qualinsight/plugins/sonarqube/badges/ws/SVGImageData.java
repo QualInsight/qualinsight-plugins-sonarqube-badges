@@ -173,7 +173,7 @@ public class SVGImageData {
          * Sets the {@link SVGImageTemplate} to be used to generate the SVG badge.
          *
          * @param template {@link SVGImageTemplate}
-         * @return data container
+         * @return builder
          */
         public Builder withTemplate(final SVGImageTemplate template) {
             this.data.template = template;
@@ -184,7 +184,7 @@ public class SVGImageData {
          * Sets the text of the label part of a SVG badge.
          *
          * @param labelText badge's label text
-         * @return data container
+         * @return builder
          */
         public Builder withLabelText(final String labelText) {
             this.data.labelText = labelText;
@@ -195,7 +195,7 @@ public class SVGImageData {
          * Sets the text of the value part of a SVG badge.
          *
          * @param valueText badge's value text
-         * @return data container
+         * @return builder
          */
         public Builder withValueText(final String valueText) {
             this.data.valueText = valueText;
@@ -206,7 +206,7 @@ public class SVGImageData {
          * Sets the background color to be used for the label part of the SVG badge.
          *
          * @param labelBackgroundColor background color to be used
-         * @return data container
+         * @return builder
          */
         public Builder withLabelBackgroundColor(final SVGImageColor labelBackgroundColor) {
             this.data.labelBackgroundColor = labelBackgroundColor;
@@ -217,7 +217,7 @@ public class SVGImageData {
          * Sets the background color to be used for the value part of the SVG badge.
          *
          * @param valueBackgroundColor background color to be used
-         * @return data container
+         * @return builder
          */
         public Builder withValueBackgroundColor(final SVGImageColor valueBackgroundColor) {
             this.data.valueBackgroundColor = valueBackgroundColor;

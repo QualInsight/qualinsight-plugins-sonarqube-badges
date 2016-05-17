@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
@@ -45,6 +46,8 @@ public final class MeasureBadgeGenerator {
 
     private final Map<SVGImageTemplate, Map<MeasureHolder, InputStream>> measureBadgesMap = new EnumMap<>(SVGImageTemplate.class);
 
+    private final Map<SVGImageTemplate, Map<MeasureHolder, InputStream>> measureBlinkingBadgesMap = new EnumMap<>(SVGImageTemplate.class);
+
     private SVGImageGenerator imageGenerator;
 
     private SVGImageMinimizer minimizer;
@@ -60,6 +63,7 @@ public final class MeasureBadgeGenerator {
         this.minimizer = fontReplacer;
         for (final SVGImageTemplate template : SVGImageTemplate.values()) {
             this.measureBadgesMap.put(template, new HashMap<MeasureHolder, InputStream>());
+            this.measureBlinkingBadgesMap.put(template, new HashMap<MeasureHolder, InputStream>());
         }
         LOGGER.info("MeasureBadgeGenerator is now ready.");
     }
@@ -69,15 +73,22 @@ public final class MeasureBadgeGenerator {
      *
      * @param measureHolder measure for which the image has to be generated
      * @param template {@link SVGImageTemplate} to be used
+     * @param blinkingValueBackgroundColor true if the badge must be blinking in case of quality gate error
      * @return {@link InputStream} holding the expected SVG image
      * @throws IOException if a IO problem occurs during streams manipulation
      */
-    public InputStream svgImageInputStreamFor(final MeasureHolder measureHolder, final SVGImageTemplate template) throws IOException {
+    public InputStream svgImageInputStreamFor(final MeasureHolder measureHolder, final SVGImageTemplate template, final boolean blinkingValueBackgroundColor) throws IOException {
         InputStream svgImageRawInputStream;
         InputStream svgImageTransformedInputStream;
-        if (this.measureBadgesMap.containsKey(measureHolder)) {
+        Map<SVGImageTemplate, Map<MeasureHolder, InputStream>> workingMap;
+        if (blinkingValueBackgroundColor) {
+            workingMap = this.measureBadgesMap;
+        } else {
+            workingMap = this.measureBlinkingBadgesMap;
+        }
+        if (workingMap.containsKey(measureHolder)) {
             LOGGER.debug("Found SVG image for measure holder in cache, reusing it.");
-            svgImageTransformedInputStream = this.measureBadgesMap.get(template)
+            svgImageTransformedInputStream = workingMap.get(template)
                 .get(measureHolder);
             // we don't trust previous InpuStream user, so we reset the position of the InpuStream
             svgImageTransformedInputStream.reset();
@@ -91,12 +102,17 @@ public final class MeasureBadgeGenerator {
                 .withValueBackgroundColor(measureHolder.backgroundColor())
                 .build();
             svgImageRawInputStream = this.imageGenerator.generateFor(data);
+            // set parameters
+            final Map<String, Object> parameters = ImmutableMap.<String, Object> builder()
+                .put("IS_BLINKING_BADGE", Boolean.toString(blinkingValueBackgroundColor && measureHolder.backgroundColor()
+                    .equals(SVGImageColor.RED)))
+                .build();
             // minimze SVG stream
-            svgImageTransformedInputStream = this.minimizer.process(svgImageRawInputStream);
+            svgImageTransformedInputStream = this.minimizer.process(svgImageRawInputStream, parameters);
             // mark svgImageInputStream position to make it reusable
             svgImageTransformedInputStream.mark(Integer.MAX_VALUE);
             // put it into cache
-            this.measureBadgesMap.get(template)
+            workingMap.get(template)
                 .put(measureHolder, svgImageTransformedInputStream);
         }
         return svgImageTransformedInputStream;

@@ -14,7 +14,14 @@
 
   <g mask="url(#round)">
     <rect width="{{labelWidth}}" height="20" fill="{{labelBackgroundColor}}"/>
-    <rect x="{{labelWidth}}" width="{{valueWidth}}" height="20" fill="{{valueBackgroundColor}}"/>
+    <rect x="{{labelWidth}}" width="{{valueWidth}}" height="20" fill="{{valueBackgroundColor}}">
+      <animate
+        attributeType="XML"
+        attributeName="fill"
+        values="#800;{{valueBackgroundColor}};#800;#800"
+        dur="1s"
+        repeatCount="indefinite"/>
+    </rect>
     <rect width="{{totalWidth}}" height="20" fill="url(#smooth)"/>
   </g>
 

@@ -74,5 +74,10 @@ public class MeasureBadgeAction {
             .setPossibleValues((Object[]) SVGImageTemplate.values())
             .setDefaultValue(SVGImageTemplate.ROUNDED)
             .setRequired(false);
+        action.createParam("blinking")
+            .setDescription("Set to 'true' if you want measure badges to be blinking if the measure sets the quality gate status to 'ERROR'.")
+            .setBooleanPossibleValues()
+            .setDefaultValue(Boolean.FALSE)
+            .setRequired(false);
     }
 }

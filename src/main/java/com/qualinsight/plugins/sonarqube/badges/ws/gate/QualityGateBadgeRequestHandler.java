@@ -67,6 +67,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
         if (this.settings.getBoolean(BadgesPluginProperties.GATE_BADGES_ACTIVATION_KEY)) {
             final String key = request.mandatoryParam("key");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
+            final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");
             final WsClient wsClient = WsClientFactories.getLocal()
                 .newClient(request.localConnector());
             LOGGER.debug("Retrieving quality gate status for key '{}'.", key);
@@ -87,7 +88,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
                 .setMediaType("image/svg+xml")
                 .output();
             LOGGER.debug("Retrieving SVG image for for quality gate status '{}'.", status);
-            final InputStream svgImageInputStream = this.qualityGateBadgeGenerator.svgImageInputStreamFor(status, template);
+            final InputStream svgImageInputStream = this.qualityGateBadgeGenerator.svgImageInputStreamFor(status, template, blinkingValueBackgroundColor);
             LOGGER.debug("Writing SVG image to response OutputStream.");
             IOUtils.copy(svgImageInputStream, responseOutputStream);
             responseOutputStream.close();

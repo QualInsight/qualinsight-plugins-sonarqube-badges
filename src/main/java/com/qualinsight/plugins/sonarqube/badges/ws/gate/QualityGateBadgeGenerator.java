@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumMap;
 import java.util.Map;
+import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.server.ServerSide;
@@ -46,6 +47,8 @@ public final class QualityGateBadgeGenerator {
 
     private final Map<SVGImageTemplate, Map<QualityGateBadge, InputStream>> qualityGateBadgesMap = new EnumMap<>(SVGImageTemplate.class);
 
+    private final Map<SVGImageTemplate, Map<QualityGateBadge, InputStream>> qualityGateBlinkingBadgesMap = new EnumMap<>(SVGImageTemplate.class);
+
     private SVGImageGenerator imageGenerator;
 
     private SVGImageMinimizer minimizer;
@@ -61,6 +64,7 @@ public final class QualityGateBadgeGenerator {
         this.minimizer = fontReplacer;
         for (final SVGImageTemplate template : SVGImageTemplate.values()) {
             this.qualityGateBadgesMap.put(template, new EnumMap<QualityGateBadge, InputStream>(QualityGateBadge.class));
+            this.qualityGateBlinkingBadgesMap.put(template, new EnumMap<QualityGateBadge, InputStream>(QualityGateBadge.class));
         }
         LOGGER.info("QualityGateBadgeGenerator is now ready.");
     }
@@ -70,15 +74,22 @@ public final class QualityGateBadgeGenerator {
      *
      * @param status quality gate status for which the image has to be generated
      * @param template {@link SVGImageTemplate} to be used
+     * @param blinkingValueBackgroundColor true if the badge must be blinking in case of quality gate error
      * @return {@link InputStream} holding the expected SVG image
      * @throws IOException if a IO problem occurs during streams manipulation
      */
-    public InputStream svgImageInputStreamFor(final QualityGateBadge status, final SVGImageTemplate template) throws IOException {
+    public InputStream svgImageInputStreamFor(final QualityGateBadge status, final SVGImageTemplate template, final boolean blinkingValueBackgroundColor) throws IOException {
         InputStream svgImageRawInputStream;
         InputStream svgImageTransformedInputStream;
-        if (this.qualityGateBadgesMap.containsKey(status)) {
+        Map<SVGImageTemplate, Map<QualityGateBadge, InputStream>> workingMap;
+        if (blinkingValueBackgroundColor) {
+            workingMap = this.qualityGateBlinkingBadgesMap;
+        } else {
+            workingMap = this.qualityGateBadgesMap;
+        }
+        if (workingMap.containsKey(status)) {
             LOGGER.debug("Found SVG image for {} status in cache, reusing it.");
-            svgImageTransformedInputStream = this.qualityGateBadgesMap.get(template)
+            svgImageTransformedInputStream = workingMap.get(template)
                 .get(status);
             // we don't trust previous InpuStream user, so we reset the position of the InpuStream
             svgImageTransformedInputStream.reset();
@@ -92,12 +103,16 @@ public final class QualityGateBadgeGenerator {
                 .withValueBackgroundColor(status.displayBackgroundColor())
                 .build();
             svgImageRawInputStream = this.imageGenerator.generateFor(data);
+            // set parameters
+            final Map<String, Object> parameters = ImmutableMap.<String, Object> builder()
+                .put("IS_BLINKING_BADGE", Boolean.toString(blinkingValueBackgroundColor && status.equals(QualityGateBadge.ERROR)))
+                .build();
             // minimze SVG stream
-            svgImageTransformedInputStream = this.minimizer.process(svgImageRawInputStream);
+            svgImageTransformedInputStream = this.minimizer.process(svgImageRawInputStream, parameters);
             // mark svgImageInputStream position to make it reusable
             svgImageTransformedInputStream.mark(Integer.MAX_VALUE);
             // put it into cache
-            this.qualityGateBadgesMap.get(template)
+            workingMap.get(template)
                 .put(status, svgImageTransformedInputStream);
         }
         return svgImageTransformedInputStream;
