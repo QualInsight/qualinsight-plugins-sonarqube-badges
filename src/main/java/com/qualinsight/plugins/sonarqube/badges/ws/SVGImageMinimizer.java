@@ -22,6 +22,8 @@ package com.qualinsight.plugins.sonarqube.badges.ws;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
+import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -87,16 +89,20 @@ public class SVGImageMinimizer {
      * Processes font transformation on an SVG input stream.
      *
      * @param inputStream InputStream that contains the SVG image to be transformed.
+     * @param parameters parameters to set before minimization.
      * @return an InputStream with transformed content.
      * @throws SVGImageMinimizerException if a problem occurs during stream transformation.
      */
-    public InputStream process(final InputStream inputStream) throws SVGImageMinimizerException {
+    public InputStream process(final InputStream inputStream, final Map<String, Object> parameters) throws SVGImageMinimizerException {
         reset();
         try {
             final Document document = this.builder.parse(inputStream);
             final Source source = new DOMSource(document);
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             final Result result = new StreamResult(outputStream);
+            for (final Entry<String, Object> parameter : parameters.entrySet()) {
+                this.transformer.setParameter(parameter.getKey(), parameter.getValue());
+            }
             this.transformer.transform(source, result);
             return new ByteArrayInputStream(outputStream.toByteArray());
         } catch (final IOException | TransformerException | SAXException e) {

@@ -70,5 +70,10 @@ public class QualityGateBadgeAction {
             .setPossibleValues((Object[]) SVGImageTemplate.values())
             .setDefaultValue(SVGImageTemplate.ROUNDED)
             .setRequired(false);
+        action.createParam("blinking")
+            .setDescription("Set to 'true' if you want quality gate badges to be blinking if the quality gate is in 'ERROR'.")
+            .setBooleanPossibleValues()
+            .setDefaultValue(Boolean.FALSE)
+            .setRequired(false);
     }
 }

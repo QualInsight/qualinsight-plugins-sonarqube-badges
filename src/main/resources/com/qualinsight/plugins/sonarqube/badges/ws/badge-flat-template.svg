@@ -5,7 +5,14 @@
 
   <g>
     <rect width="{{labelWidth}}" height="20" fill="{{labelBackgroundColor}}"/>
-    <rect x="{{labelWidth}}" width="{{valueWidth}}" height="20" fill="{{valueBackgroundColor}}"/>
+    <rect x="{{labelWidth}}" width="{{valueWidth}}" height="20" fill="{{valueBackgroundColor}}">
+      <animate
+        attributeType="XML"
+        attributeName="fill"
+        values="#800;{{valueBackgroundColor}};#800;#800"
+        dur="1s"
+        repeatCount="indefinite"/>
+    </rect>
   </g>
 
   <g fill="#fff" text-anchor="middle" font-family="{{fontFamily}}" font-size="11">

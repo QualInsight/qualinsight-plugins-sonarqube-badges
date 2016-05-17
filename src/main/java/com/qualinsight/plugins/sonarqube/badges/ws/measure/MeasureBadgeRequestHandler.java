@@ -77,6 +77,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
             final String key = request.mandatoryParam("key");
             final String metric = request.mandatoryParam("metric");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
+            final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");
             final WsClient wsClient = WsClientFactories.getLocal()
                 .newClient(request.localConnector());
             LOGGER.debug("Retrieving measure for key '{}' and metric {}.", key, metric);
@@ -93,7 +94,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
                 .setMediaType("image/svg+xml")
                 .output();
             LOGGER.debug("Retrieving SVG image for metric holder '{}'.", measureHolder);
-            final InputStream svgImageInputStream = this.measureBadgeGenerator.svgImageInputStreamFor(measureHolder, template);
+            final InputStream svgImageInputStream = this.measureBadgeGenerator.svgImageInputStreamFor(measureHolder, template, blinkingValueBackgroundColor);
             LOGGER.debug("Writing SVG image to response OutputStream.");
             IOUtils.copy(svgImageInputStream, responseOutputStream);
             responseOutputStream.close();
