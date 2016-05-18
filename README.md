@@ -26,11 +26,11 @@ You can modify this configuration on SonarQube's administration page ("SVG Badge
 
 Use the ``/api/badges/gate?key=<project or view key>`` URL in order to generate a badge that displays the quality gate status of a project or view. Depending on the project's status and SonarQube configuration, one of the following image types will be generated :
 
-* [Passing](images/passing.svg) indicates that the project passes the quality gate (QG)
-* [Warning](images/warning.svg) indicates that the project does not pass the quality gate due to QG warnings
-* [Failing](images/failing.svg) indicates that the project does not pass the quality gate due to QG errors
-* [No Gate](images/no_gate.svg) indicates that no quality gate has been set for the specified project
-* [Not Found](images/not_found.svg) indicates that the project / view could not be found
+* [Passing](images/gate_rounded_passing.svg) indicates that the project passes the quality gate (QG)
+* [Warning](images/gate_rounded_warning.svg) indicates that the project does not pass the quality gate due to QG warnings
+* [Failing](images/gate_rounded_failing.svg) indicates that the project does not pass the quality gate due to QG errors
+* [No Gate](images/gate_rounded_notset.svg) indicates that no quality gate has been set for the specified project
+* [Not Found](images/gate_rounded_notfound.svg) indicates that the project / view could not be found
 
 By default, the plugin generates badges with rounded corners. If you want to generate flat badges instead, add the optional parameter ``template`` with value ``FLAT`` as follows: ``/api/badges/gate?key=<project or view key>&template=FLAT``.
 
