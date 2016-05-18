@@ -141,9 +141,9 @@ Webservices provided by the SVG Badges plugin are self-documented. Once installe
 
 ## Known limitations
 
-If the security option "force user authentication" is set on your SonarQube instance, then all webservices become unreachable unless the user is authenticated. As a result, badges cannot be retrieved if this option is set.
+Due to [SONAR-7628](https://jira.sonarsource.com/browse/SONAR-7628), version `2.0.x` of the SVG Badges plugin is currently not able to display quality gate badges if your SonarQube server is configured to restrict analysis execution rights [#42](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/42). This limitation will be removed in SonarQube 5.6 (begining of June). Note that, if "anybody" can execute an analysis, then quality gate badges are displayed correctly.  
 
-If you want more information about this limitation, have a look at issue [#15](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/15) and [SONAR-6948](https://jira.sonarsource.com/browse/SONAR-6948).)
+If the security option "force user authentication" is set on your SonarQube instance, then all webservices become unreachable unless the user is authenticated. As a result, badges cannot be retrieved if this option is set. If you want more information about this limitation, have a look at issue [#15](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/15) and [SONAR-6948](https://jira.sonarsource.com/browse/SONAR-6948).)
 
 Some metrics that return an array of data or data representing times or ratings cannot be correctly displayed as a measure badge for now. Maybe a future version of the plugin will handle such cases. Meantime, please stick to the list of supported metrics that is provided on this page.
 
