@@ -32,9 +32,9 @@ Use the ``/api/badges/gate?key=<project or view key>`` URL in order to generate 
 * [No Gate](images/gate_rounded_notset.svg) indicates that no quality gate has been set for the specified project
 * [Not Found](images/gate_rounded_notfound.svg) indicates that the project / view could not be found
 
-By default, the plugin generates badges with rounded corners. If you want to generate flat badges instead, add the optional parameter ``template`` with value ``FLAT`` as follows: ``/api/badges/gate?key=<project or view key>&template=FLAT``.
+By default, the plugin generates badges with rounded corners. If you want to generate flat badges instead, add the optional parameter ``template`` with value ``FLAT`` as follows: ``/api/badges/gate?key=<project or view key>&template=FLAT`` (requires version 2.1.0.)
 
-If you want the badge to be blinking if the quality gate is in `ERROR` status, add the optional parameter ``blinking`` with value ``true`` as follows: ``/api/badges/gate?key=<project or view key>&blinking=true``.
+If you want the badge to be blinking if the quality gate is in `ERROR` status, add the optional parameter ``blinking`` with value ``true`` as follows: ``/api/badges/gate?key=<project or view key>&blinking=true`` (requires version 2.1.0.)
 
 #### Display the Quality Gate badge on a web page
 
@@ -68,11 +68,13 @@ Example:
 
 ### Measure badge
 
-Use the ``/api/badges/measure?key=<project or view key>&metric=<metric key>`` URL in order to generate a badge that displays any measure related to a project or view. If the measure impacts the quality gate of the project, the badge is colorized depending on the condition that has been set.
+Use the ``/api/badges/measure?key=<project or view key>&metric=<metric key>`` URL in order to generate a badge that displays any measure related to a project or view. 
 
-As for quality gate status badges, the plugin generates by default badges with rounded corners. If you want to generate flat badges instead, add the optional parameter ``template`` with value ``FLAT`` as follows: ``/api/badges/measure?key=<project or view key>&metric=<metric key>&template=FLAT``.
+If the measure impacts the quality gate of the project, the badge is colorized depending on the condition that has been set (requires version 2.1.0.)
 
-If you want the badge to be blinking if the displayed measure causes the quality gate's `ERROR` status, add the optional parameter ``blinking`` with value ``true`` as follows: ``/api/badges/measure?key=<project or view key>&metric=<metric key>&blinking=true``.
+As for quality gate status badges, the plugin generates by default badges with rounded corners. If you want to generate flat badges instead, add the optional parameter ``template`` with value ``FLAT`` as follows: ``/api/badges/measure?key=<project or view key>&metric=<metric key>&template=FLAT`` (requires version 2.1.0.)
+
+If you want the badge to be blinking if the displayed measure causes the quality gate's `ERROR` status, add the optional parameter ``blinking`` with value ``true`` as follows: ``/api/badges/measure?key=<project or view key>&metric=<metric key>&blinking=true``  (requires version 2.1.0.)
 
 SonarQube's [CoreMetrics class](https://github.com/SonarSource/sonarqube/blob/master/sonar-plugin-api/src/main/java/org/sonar/api/measures/CoreMetrics.java) file lists all `metric keys` that can be used. I have listed the ones you may need to display as a badge in the following table :
 
