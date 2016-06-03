@@ -3,7 +3,7 @@ sudo: false
 install: true
 
 jdk:
-  - oraclejdk7
+  - oraclejdk8
 
 before_script:
   - chmod +x ./travis.sh
