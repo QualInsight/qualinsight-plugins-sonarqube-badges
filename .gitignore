@@ -18,6 +18,7 @@ target/
 .settings/
 .project
 .classpath
+bin/
 
 # IntelliJ IDEA files
 *.iws
