@@ -76,7 +76,7 @@ As for quality gate status badges, the plugin generates by default badges with r
 
 If you want the badge to be blinking if the displayed measure causes the quality gate's `ERROR` status, add the optional parameter ``blinking`` with value ``true`` as follows: ``/api/badges/measure?key=<project or view key>&metric=<metric key>&blinking=true``  (requires version `2.1.0`.)
 
-SonarQube's [CoreMetrics class](https://github.com/SonarSource/sonarqube/blob/master/sonar-plugin-api/src/main/java/org/sonar/api/measures/CoreMetrics.java) file lists all `metric keys` that can be used. I have listed the ones you may need to display as a badge in the following table :
+SonarQube's [CoreMetrics class](https://github.com/SonarSource/sonarqube/blob/master/sonar-plugin-api/src/main/java/org/sonar/api/measures/CoreMetrics.java) file lists all `metric keys` that can be used. For even more details, see the [SonarQube Metric Definitions](http://docs.sonarqube.org/display/SONAR/Metric+Definitions). I have listed the ones you may need to display as a badge in the following table :
 
 | Metric key | Description |
 |------------|-------------|
