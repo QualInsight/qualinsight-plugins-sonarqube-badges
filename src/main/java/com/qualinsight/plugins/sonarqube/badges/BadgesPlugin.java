@@ -20,12 +20,17 @@
 package com.qualinsight.plugins.sonarqube.badges;
 
 import java.util.List;
-import com.google.common.collect.ImmutableList;
+
 import org.sonar.api.SonarPlugin;
+
+import com.google.common.collect.ImmutableList;
 import com.qualinsight.plugins.sonarqube.badges.font.FontProviderLocator;
 import com.qualinsight.plugins.sonarqube.badges.ws.BadgesWebService;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageMinimizer;
+import com.qualinsight.plugins.sonarqube.badges.ws.ce.CeActivityBadgeAction;
+import com.qualinsight.plugins.sonarqube.badges.ws.ce.CeActivityBadgeGenerator;
+import com.qualinsight.plugins.sonarqube.badges.ws.ce.CeActivityBadgeRequestHandler;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeAction;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeGenerator;
 import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
@@ -54,6 +59,9 @@ public final class BadgesPlugin extends SonarPlugin {
             .add(MeasureBadgeGenerator.class)
             .add(MeasureBadgeAction.class)
             .add(BadgesWebService.class)
+            .add(CeActivityBadgeRequestHandler.class)
+            .add(CeActivityBadgeGenerator.class)
+            .add(CeActivityBadgeAction.class)
             .addAll(BadgesPluginProperties.properties())
             .build();
     }
