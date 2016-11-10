@@ -20,10 +20,8 @@
 package com.qualinsight.plugins.sonarqube.badges;
 
 import java.util.List;
-
-import org.sonar.api.SonarPlugin;
-
 import com.google.common.collect.ImmutableList;
+import org.sonar.api.SonarPlugin;
 import com.qualinsight.plugins.sonarqube.badges.font.FontProviderLocator;
 import com.qualinsight.plugins.sonarqube.badges.ws.BadgesWebService;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;

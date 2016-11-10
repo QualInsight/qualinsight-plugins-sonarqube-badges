@@ -40,7 +40,7 @@ If you want the badge to be blinking if the quality gate is in `ERROR` status, a
 
 You can display Quality Gate badges using HTML or Markdown as follows.
 
-*Note 2*: The plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for a project analyzed on Nemo, just use ``nemo.sonarqube.org`` as ``<serverBaseURL>``.
+*Note 2*: The plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for a project analyzed on SonarQube.com, just use ``https://sonarqube.com`` as ``<serverBaseURL>``.
 
 ##### HTML Link:
 
@@ -70,10 +70,10 @@ Example:
 
 Use the ``/api/badges/ce_activity?key=<project or view key>`` URL in order to generate a badge that displays the compute engine activity status of a project or view. Depending on the project's status and SonarQube configuration, one of the following image types will be generated :
 
-* [Success] indicates that last compute engine activity was succeded
-* [Failed] indicates that last compute engine activity was failed
-* [In Progress] indicates that the last compute engine activity was in progress
-* [Pending] indicates that the last compute engine activity was pending
+* [Success] indicates that last compute engine activity resulted in a success
+* [Failed] indicates that last compute engine activity resulted in a failure
+* [In Progress] indicates that the last compute engine activity is still in progress
+* [Pending] indicates that the last compute engine activity is still pending
 * [Canceled] indicates that the last compute engine activity was canceled
 * [Not Found] indicates that the project / view could not be found
 
@@ -85,7 +85,7 @@ If you want the badge to be blinking if the compute engine is in `FAILED` status
 
 You can display Compute Engine Activity badges using HTML or Markdown as follows.
 
-*Note 2*: The plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for a project analyzed on Nemo, just use ``nemo.sonarqube.org`` as ``<serverBaseURL>``.
+*Note 2*: The plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for a project analyzed on SonarQube.com, just use ``https://sonarqube.com`` as ``<serverBaseURL>``.
 
 ##### HTML Link:
 

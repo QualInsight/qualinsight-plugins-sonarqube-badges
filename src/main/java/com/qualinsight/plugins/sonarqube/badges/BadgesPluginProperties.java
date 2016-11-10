@@ -21,13 +21,12 @@ package com.qualinsight.plugins.sonarqube.badges;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 
 /**
  * Declares all properties the plugin uses.
- * 
+ *
  * @author Michel Pawlak
  */
 public final class BadgesPluginProperties {
@@ -43,11 +42,11 @@ public final class BadgesPluginProperties {
      * Key for measure badges activation.
      */
     public static final String MEASURE_BADGES_ACTIVATION_KEY = "qualinsight.badges.activation.measure";
-    
+
     /**
      * Key for compute engine activity badges activation.
      */
-    public static final String CE_ACTIVITY_ACTIVATION_KEY = "qualinsight.badges.activation.ce_activity";
+    public static final String CE_ACTIVITY_BADGES_ACTIVATION_KEY = "qualinsight.badges.activation.ce_activity";
 
     private BadgesPluginProperties() {
         // Helper class
@@ -75,7 +74,7 @@ public final class BadgesPluginProperties {
             .type(PropertyType.BOOLEAN)
             .defaultValue("false")
             .build());
-        properties.add(PropertyDefinition.builder(CE_ACTIVITY_ACTIVATION_KEY)
+        properties.add(PropertyDefinition.builder(CE_ACTIVITY_BADGES_ACTIVATION_KEY)
             .category(CATEGORY)
             .name("Enable compute engine activity badges")
             .description("Setting this property to true enables the compute engine activity badge generation webservice.")

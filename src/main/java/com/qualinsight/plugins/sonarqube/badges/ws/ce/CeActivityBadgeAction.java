@@ -25,7 +25,6 @@ import org.sonar.api.server.ws.WebService.Action;
 import org.sonar.api.server.ws.WebService.Controller;
 import org.sonar.api.server.ws.WebService.NewAction;
 import org.sonar.api.server.ws.WebService.NewController;
-
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 
 /**
@@ -36,48 +35,46 @@ import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 @ServerSide
 public class CeActivityBadgeAction {
 
-  private static final String RESPONSE_EXAMPLE_FILE = "/com/qualinsight/plugins/sonarqube/badges/ws/ceActivity/example.svg";
+    private static final String RESPONSE_EXAMPLE_FILE = "/com/qualinsight/plugins/sonarqube/badges/ws/ce/example.svg";
 
-  private static final String SINCE_VERSION = "2.1.0";
+    private static final String SINCE_VERSION = "2.1.0";
 
-  private CeActivityBadgeRequestHandler ceActivityBadgeRequestHandler;
+    private CeActivityBadgeRequestHandler ceActivityBadgeRequestHandler;
 
-  /**
-   * {@link CeActivityBadgeAction} IoC constructor
-   *
-   * @param ceActivityBadgeRequestHandler
-   *          request handler to be bound to the action
-   */
-  public CeActivityBadgeAction(final CeActivityBadgeRequestHandler ceActivityBadgeRequestHandler) {
-    this.ceActivityBadgeRequestHandler = ceActivityBadgeRequestHandler;
-  }
+    /**
+     * {@link CeActivityBadgeAction} IoC constructor
+     *
+     * @param ceActivityBadgeRequestHandler request handler to be bound to the action
+     */
+    public CeActivityBadgeAction(final CeActivityBadgeRequestHandler ceActivityBadgeRequestHandler) {
+        this.ceActivityBadgeRequestHandler = ceActivityBadgeRequestHandler;
+    }
 
-  /**
-   * Adds the action to a provided controller
-   *
-   * @param controller
-   *          the action needs to be added to
-   */
-  public void createOn(final NewController controller) {
-    final NewAction action = controller.createAction("ce_activity")
-      .setDescription("Retrieves the ce activity status of a project as a SVG image.")
-      .setHandler(this.ceActivityBadgeRequestHandler)
-      .setSince(SINCE_VERSION)
-      .setResponseExample(getClass().getResource(RESPONSE_EXAMPLE_FILE));
-    action.createParam("key")
-      .setDescription("Key of the project")
-      .setExampleValue("org.codehaus.sonar:sonar")
-      .setRequired(true);
-    action.createParam("template")
-      .setDescription("Template to be used for badge generation")
-      .setPossibleValues((Object[]) SVGImageTemplate.values())
-      .setDefaultValue(SVGImageTemplate.ROUNDED)
-      .setRequired(false);
-    action.createParam("blinking")
-      .setDescription("Set to 'true' if you want ce activity badges to be blinking if the ce activity is in 'ERROR'.")
-      .setBooleanPossibleValues()
-      .setDefaultValue(Boolean.FALSE)
-      .setRequired(false);
-  }
+    /**
+     * Adds the action to a provided controller
+     *
+     * @param controller the action needs to be added to
+     */
+    public void createOn(final NewController controller) {
+        final NewAction action = controller.createAction("ce_activity")
+            .setDescription("Retrieves the compute engine activity status of a project as a SVG image.")
+            .setHandler(this.ceActivityBadgeRequestHandler)
+            .setSince(SINCE_VERSION)
+            .setResponseExample(getClass().getResource(RESPONSE_EXAMPLE_FILE));
+        action.createParam("key")
+            .setDescription("Key of the project")
+            .setExampleValue("org.codehaus.sonar:sonar")
+            .setRequired(true);
+        action.createParam("template")
+            .setDescription("Template to be used for badge generation")
+            .setPossibleValues((Object[]) SVGImageTemplate.values())
+            .setDefaultValue(SVGImageTemplate.ROUNDED)
+            .setRequired(false);
+        action.createParam("blinking")
+            .setDescription("Set to 'true' if you want ce activity badges to be blinking if the ce activity is in 'ERROR'.")
+            .setBooleanPossibleValues()
+            .setDefaultValue(Boolean.FALSE)
+            .setRequired(false);
+    }
 
 }

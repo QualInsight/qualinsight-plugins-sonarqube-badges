@@ -23,7 +23,6 @@ import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.GRAY;
 import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.GREEN;
 import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.ORANGE;
 import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.RED;
-
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
 /**
@@ -31,55 +30,61 @@ import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
  *
  */
 public enum CeActivityBadge {
-  /**
-   * The compute engine activity was canceled.
-   */
-  CANCELED("canceled", GRAY),
-  /**
-   * The compute engine activity failed.
-   */
-  FAILED("failed", RED),
-  /**
-   * The compute engine activity is in progress.
-   */
-  IN_PROGRESS("in progress", ORANGE),
-  /**
-   * The compute engine activity is queued.
-   */
-  PENDING("pending", GRAY),
-  /**
-   * The compute engine activity is success.
-   */
-  SUCCESS("success", GREEN),
-  /**
-   * The project / view could not be found on the SonarQube's server.
-   */
-  NOT_FOUND("not found", RED);
+    /**
+     * The compute engine activity was canceled.
+     */
+    CANCELED("canceled",
+        GRAY),
+    /**
+     * The compute engine activity failed.
+     */
+    FAILED("failed",
+        RED),
+    /**
+     * The compute engine activity is in progress.
+     */
+    IN_PROGRESS("in progress",
+        ORANGE),
+    /**
+     * The compute engine activity is queued.
+     */
+    PENDING("pending",
+        GRAY),
+    /**
+     * The compute engine activity is success.
+     */
+    SUCCESS("success",
+        GREEN),
+    /**
+     * The project / view could not be found on the SonarQube's server.
+     */
+    NOT_FOUND("not found",
+        RED);
 
-  private final String displayText;
+    private final String displayText;
 
-  private final SVGImageColor displayBackgroundColor;
+    private final SVGImageColor displayBackgroundColor;
 
-  private CeActivityBadge(final String displayText, final SVGImageColor displayBackgroundColor) {
-    this.displayText = displayText;
-    this.displayBackgroundColor = displayBackgroundColor;
-  }
+    private CeActivityBadge(final String displayText, final SVGImageColor displayBackgroundColor) {
+        this.displayText = displayText;
+        this.displayBackgroundColor = displayBackgroundColor;
+    }
 
-  /**
-   * Text to be displayed for the badge type
-   *
-   * @return text to be displayed
-   */
-  public String displayText() {
-    return this.displayText;
-  }
+    /**
+     * Text to be displayed for the badge type
+     *
+     * @return text to be displayed
+     */
+    public String displayText() {
+        return this.displayText;
+    }
 
-  /**
-   * Background color to be displayed for the badge type
-   *
-   * @return background color to be displayed
-   */
-  public SVGImageColor displayBackgroundColor() {
-    return this.displayBackgroundColor;
-  }
+    /**
+     * Background color to be displayed for the badge type
+     *
+     * @return background color to be displayed
+     */
+    public SVGImageColor displayBackgroundColor() {
+        return this.displayBackgroundColor;
+    }
 }
