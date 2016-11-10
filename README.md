@@ -1,11 +1,19 @@
 # SVG Badges plugin for SonarQube
 Plugin for SonarQube that generates badges (SVG images) displaying information about projects' or views' quality. Two types of badges are currently available: `quality gate` badges and `measure` badges. You can see a running example of a `quality gate` badge on the line below.
 
-![Travis build status](https://travis-ci.org/QualInsight/qualinsight-plugins-sonarqube-badges.svg?branch=master) [![Quality Gate](http://nemo.sonarqube.org/api/badges/gate?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)](http://nemo.sonarqube.org/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges) [![javadoc.io](https://javadoc-emblem.rhcloud.com/doc/com.qualinsight.plugins.sonarqube/qualinsight-plugins-sonarqube-badges/badge.svg)](http://www.javadoc.io/doc/com.qualinsight.plugins.sonarqube/qualinsight-plugins-sonarqube-badges)
+![Travis build status](https://travis-ci.org/QualInsight/qualinsight-plugins-sonarqube-badges.svg?branch=master) [![Quality Gate](https://sonarqube.com/api/badges/gate?key=com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges)](https://sonarqube.com/dashboard/index/com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-badges) [![javadoc.io](https://javadoc-emblem.rhcloud.com/doc/com.qualinsight.plugins.sonarqube/qualinsight-plugins-sonarqube-badges/badge.svg)](http://www.javadoc.io/doc/com.qualinsight.plugins.sonarqube/qualinsight-plugins-sonarqube-badges)
 
 ## Installation 
 
 In order to use this plugin on your SonarQube server instance, you need first to install it. The plugin is available in SonarQube's update center under the name "SVG Badges". 
+
+### Requirements and Compatibility Matrix
+
+| SVG Badges Plugin | SonarQube         | Main Features                                               |
+|-------------------|-------------------|-------------------------------------------------------------| 
+| 1.2.x             | 4.5.4 up to 5.1.x | Quality Gate Badges                                         |
+| 2.0.x             | 5.5.x and above   | Measures Badges                                             |
+| 2.1.x             | 5.5.x and above   | CE Activity Badges, Flat badges, Blinking and color effects |
 
 ## Configuration
 
@@ -13,6 +21,7 @@ By default, the plugin is configured as follows:
 
 * quality gate badges webservice is activated 
 * measures badges webservice is deactivated 
+* compute engine activity badges webservice is activated 
 
 You can modify this configuration on SonarQube's administration page ("SVG Badges" section.)
 
@@ -188,7 +197,7 @@ Webservices provided by the SVG Badges plugin are self-documented. Once installe
 
 ## Known limitations
 
-Due to [SONAR-7628](https://jira.sonarsource.com/browse/SONAR-7628), version `2.0.x` of the SVG Badges plugin is currently not able to display quality gate badges if your SonarQube server is configured to restrict analysis execution rights [#42](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/42). This limitation will be removed in SonarQube 5.6 (begining of June). Note that, if "anybody" can execute an analysis, then quality gate badges are displayed correctly.  
+Due to [SONAR-7628](https://jira.sonarsource.com/browse/SONAR-7628), the SVG Badges plugin is currently not able to display quality gate badges if your SonarQube server is configured to restrict analysis execution rights [#42](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/42). Note that, if "anybody" can execute an analysis, then quality gate badges are displayed correctly.  
 
 If the security option "force user authentication" is set on your SonarQube instance, then all webservices become unreachable unless the user is authenticated. As a result, badges cannot be retrieved if this option is set. If you want more information about this limitation, have a look at issue [#15](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/issues/15) and [SONAR-6948](https://jira.sonarsource.com/browse/SONAR-6948).)
 
@@ -198,8 +207,10 @@ Some metrics that return an array of data or data representing times or ratings 
 
 If you want to contribute to this project, please have a look at the [developer toolset page](https://github.com/QualInsight/qualinsight-developer-toolset). It provides contribution guidelines I ask you to follow. Thanks in advance for your help !
 
+Thank you to the [contributors](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/graphs/contributors) and to the people who provided a feedback !
+
 ## Conclusion
 
-New feature ideas and contributions are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-badges) named [SVG Badges](https://groups.google.com/forum/#!forum/svg-badges) has been created in order to facilitate discussions about this plugin. This project's quality can be followed on [Nemo](https://nemo.sonarqube.org/overview?id=com.qualinsight.plugins.sonarqube%3Aqualinsight-plugins-sonarqube-badges).
+New feature ideas and contributions are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-badges) named [SVG Badges](https://groups.google.com/forum/#!forum/svg-badges) has been created in order to facilitate discussions about this plugin. This project's quality can be followed on [SonarQube.com](https://sonarqube.com/overview?id=com.qualinsight.plugins.sonarqube%3Aqualinsight-plugins-sonarqube-badges).
 
 
