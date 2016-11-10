@@ -9,11 +9,11 @@ In order to use this plugin on your SonarQube server instance, you need first to
 
 ### Requirements and Compatibility Matrix
 
-| SVG Badges Plugin | SonarQube         | Main Features                                               |
-|-------------------|-------------------|-------------------------------------------------------------| 
-| 1.2.x             | 4.5.4 up to 5.1.x | Quality Gate Badges                                         |
-| 2.0.x             | 5.5.x and above   | Measures Badges                                             |
-| 2.1.x             | 5.5.x and above   | CE Activity Badges, Flat badges, Blinking and color effects |
+| SVG Badges Plugin | SonarQube             | Main Features                                               |
+|-------------------|-----------------------|-------------------------------------------------------------| 
+| 1.2.x             | 4.5.4 LTS up to 5.1.x | Quality Gate Badges                                         |
+| 2.0.x             | 5.5.x and above       | Measures Badges                                             |
+| 2.1.x             | 5.6.x LTS and above   | CE Activity Badges, Flat badges, Blinking and color effects |
 
 ## Configuration
 
