@@ -53,7 +53,7 @@ public class CeActivityBadgeGenerator {
     private SVGImageMinimizer minimizer;
 
     /**
-     * {@link ceActivityBadgeGenerator} IoC constructor.
+     * {@link CeActivityBadgeGenerator} IoC constructor.
      *
      * @param imageGenerator {@link SVGImageGenerator} service to be used.
      * @param fontReplacer {@link SVGImageMinimizer} service to be used.

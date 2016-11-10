@@ -47,6 +47,7 @@ public final class SVGImageGenerator {
      * {@link SVGImageGenerator} IoC constructor.
      *
      * @param fontProviderLocator {@link FontProviderLocator} that will give access to a {@link FontProvider}.
+     * @throws IOException if a font provider exception occurs
      */
     public SVGImageGenerator(final FontProviderLocator fontProviderLocator) throws IOException {
         this.fontProvider = fontProviderLocator.fontProvider();
@@ -75,9 +76,11 @@ public final class SVGImageGenerator {
         replacements.put("{{valueHalfWidth}}", data.valueHalfWidth());
         replacements.put("{{totalWidth}}", data.totalWidth());
         return IOUtils.toInputStream(StringUtils.replaceEach(data.template()
-            .content(), replacements.keySet()
-            .toArray(new String[0]), replacements.values()
-            .toArray(new String[0])));
+            .content(),
+            replacements.keySet()
+                .toArray(new String[0]),
+            replacements.values()
+                .toArray(new String[0])));
     }
 
     /**
