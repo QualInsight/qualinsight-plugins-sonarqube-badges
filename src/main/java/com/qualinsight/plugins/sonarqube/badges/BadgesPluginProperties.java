@@ -72,7 +72,7 @@ public final class BadgesPluginProperties {
             .description(
                 "Setting this property to true enables the measures badge generation webservice. Note that this type of badges can be resource consuming and scalability hasn't been tested yet.")
             .type(PropertyType.BOOLEAN)
-            .defaultValue("false")
+            .defaultValue("true")
             .build());
         properties.add(PropertyDefinition.builder(CE_ACTIVITY_BADGES_ACTIVATION_KEY)
             .category(CATEGORY)
