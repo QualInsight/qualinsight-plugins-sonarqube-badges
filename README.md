@@ -13,21 +13,19 @@ In order to use this plugin on your SonarQube server instance, you need first to
 |-------------------|-----------------------|-------------------------------------------------------------| 
 | 1.2.x             | 4.5.4 LTS up to 5.1.x | Quality Gate Badges                                         |
 | 2.0.x             | 5.5.x and above       | Measures Badges                                             |
-| 2.1.x             | 5.6.x LTS and above   | CE Activity Badges, Flat badges, Blinking and color effects |
+| 3.0.x             | 5.6.x LTS and above   | CE Activity Badges, Flat badges, Blinking and color effects |
 
 ## Configuration
 
 By default, the plugin is configured as follows: 
 
 * quality gate badges webservice is activated 
-* measures badges webservice is deactivated 
+* measures badges webservice is activated 
 * compute engine activity badges webservice is activated 
 
 You can modify this configuration on SonarQube's administration page ("SVG Badges" section.)
 
 ![Configuration screen](images/configuration.png)
-
-*Note 1*: Measures badge webservice is currently deactivated due to lack of evaluation of the impact of its execution on both performance and resources consumption. I need to run some load tests in order to make sure that this web service scales nicely. Until then, please use this option carefully and do not hesitate to create an issue in GitHub if you detect a problem or if you want to help me in this task. 
 
 ## Usage
 
@@ -49,7 +47,7 @@ If you want the badge to be blinking if the quality gate is in `ERROR` status, a
 
 You can display Quality Gate badges using HTML or Markdown as follows.
 
-*Note 2*: The plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for a project analyzed on SonarQube.com, just use ``https://sonarqube.com`` as ``<serverBaseURL>``.
+*Note 1*: The plugin is currently installed on SonarQube.com public instance. If you want to display a badge for a project analyzed on SonarQube.com, just use ``https://sonarqube.com`` as ``<serverBaseURL>``.
 
 ##### HTML Link:
 
@@ -94,7 +92,7 @@ If you want the badge to be blinking if the compute engine is in `FAILED` status
 
 You can display Compute Engine Activity badges using HTML or Markdown as follows.
 
-*Note 2*: The plugin is currently installed on SonarQube's Nemo public instance. If you want to display a badge for a project analyzed on SonarQube.com, just use ``https://sonarqube.com`` as ``<serverBaseURL>``.
+*Note 2*: The plugin is currently installed on SonarQube.com public instance. If you want to display a badge for a project analyzed on SonarQube.com, just use ``https://sonarqube.com`` as ``<serverBaseURL>``.
 
 ##### HTML Link:
 
@@ -162,7 +160,7 @@ SonarQube's [CoreMetrics class](https://github.com/SonarSource/sonarqube/blob/ma
 | sqale_debt_ratio | technical debt ratio |
 | new_sqale_debt_ratio | new technical debt ratio |
 
-*Note 4*: Some `metric keys` are not usable "as is" as they return values that need interpretation (such as time, effort or ratings.) This explains why I haven't added them to the table yet.
+*Note 3*: Some `metric keys` are not usable "as is" as they return values that need interpretation (such as time, effort or ratings.) This explains why I haven't added them to the table yet.
 
 #### Display the Measure badge on a web page
 
