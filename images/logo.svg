@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="logo.svg">
+  <defs
+     id="defs4">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3381">
+      <rect
+         style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="rect3383"
+         width="155.71428"
+         height="94.285713"
+         x="90"
+         y="158.07649"
+         rx="4.5009999"
+         ry="4.6303802"
+         transform="scale(1,-1)" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3387">
+      <rect
+         style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="rect3389"
+         width="275"
+         height="117.85714"
+         x="245.71428"
+         y="46.647919"
+         rx="4.5009999"
+         ry="4.6303802"
+         transform="scale(1,-1)" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3397">
+      <rect
+         style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1.69436455px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="rect3399"
+         width="131.94849"
+         height="128.59135"
+         x="-212.93854"
+         y="147.70938"
+         rx="22.770367"
+         ry="4.6055112"
+         transform="scale(-1,-1)" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3405">
+      <rect
+         style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="rect3407"
+         width="227.85715"
+         height="101.07143"
+         x="278.92856"
+         y="51.826664"
+         rx="4.5009999"
+         ry="4.6303802"
+         transform="scale(1,-1)" />
+    </clipPath>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter3417">
+      <feGaussianBlur
+         stdDeviation="2 2"
+         result="blur"
+         id="feGaussianBlur3419" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter3421">
+      <feGaussianBlur
+         stdDeviation="2 2"
+         result="blur"
+         id="feGaussianBlur3423" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="232.59762"
+     inkscape:cy="785.74744"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:window-width="1436"
+     inkscape:window-height="855"
+     inkscape:window-x="4"
+     inkscape:window-y="1"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       position="430.35715,827.85716"
+       orientation="0,1"
+       id="guide3375" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <g
+       id="g3425"
+       transform="matrix(0.91916594,0,0,0.92407666,6.6964845,18.504793)">
+      <rect
+         clip-path="url(#clipPath3405)"
+         style="fill:#e6e6e6;fill-rule:evenodd;stroke:#000000;stroke-width:0.91304642px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="rect3377"
+         width="391.01599"
+         height="74.838242"
+         x="100.97177"
+         y="-140.23795"
+         rx="8"
+         ry="8"
+         transform="matrix(1,0,0,-1,-68.571428,103.03555)" />
+      <rect
+         rx="8"
+         ry="8"
+         clip-path="url(#clipPath3397)"
+         transform="scale(1,-1)"
+         y="-243.2735"
+         x="100.97177"
+         height="74.838242"
+         width="391.01599"
+         id="rect3336"
+         style="fill:#808080;fill-rule:evenodd;stroke:#000000;stroke-width:0.91304642px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:52.5px;line-height:125%;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter3421)"
+         x="112.66718"
+         y="226.50507"
+         id="text3409"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3411"
+           x="112.66718"
+           y="226.50507">SVG</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3353"
+         y="224.50507"
+         x="110.66718"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:52.5px;line-height:125%;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="224.50507"
+           x="110.66718"
+           id="tspan3355"
+           sodipodi:role="line">SVG</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:52.5px;line-height:125%;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter3417)"
+         x="227.38406"
+         y="226.50507"
+         id="text3413"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3415"
+           x="227.38406"
+           y="226.50507">BADGES</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3353-7"
+         y="224.50507"
+         x="225.38406"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:52.5px;line-height:125%;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="224.50507"
+           x="225.38406"
+           id="tspan3355-9"
+           sodipodi:role="line">BADGES</tspan></text>
+    </g>
+  </g>
+</svg>
