@@ -1,4 +1,6 @@
-# SVG Badges plugin for SonarQube
+![logo](/images/logo.png)
+
+# SVG Badges plugin for SonarQube 
 This SonarQube plugin generates badges (SVG images) displaying information about projects' or views' quality. 
 
 Three types of badges are currently available: [`quality gate`](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/wiki/Quality-Gate-status-badges) badges, [`measure`](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/wiki/Measure-badges) badges and [`ce engine activity`](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/wiki/Compute-Engine-Activity-badges) badges. Are you wondering what a generated badge looks like? You can see a running example of a `quality gate` badge and of a `technical debt ratio` badge on the line below. 
