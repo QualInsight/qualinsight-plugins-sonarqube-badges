@@ -19,9 +19,7 @@
  */
 package com.qualinsight.plugins.sonarqube.badges;
 
-import java.util.List;
-import com.google.common.collect.ImmutableList;
-import org.sonar.api.SonarPlugin;
+import org.sonar.api.Plugin;
 import com.qualinsight.plugins.sonarqube.badges.font.FontProviderLocator;
 import com.qualinsight.plugins.sonarqube.badges.ws.BadgesWebService;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageGenerator;
@@ -41,26 +39,25 @@ import com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBadgeRequestHa
  *
  * @author Michel Pawlak
  */
-public final class BadgesPlugin extends SonarPlugin {
+public final class BadgesPlugin implements Plugin {
 
-    @SuppressWarnings("rawtypes")
     @Override
-    public List getExtensions() {
-        return ImmutableList.builder()
-            .add(FontProviderLocator.class)
-            .add(SVGImageMinimizer.class)
-            .add(SVGImageGenerator.class)
-            .add(QualityGateBadgeRequestHandler.class)
-            .add(QualityGateBadgeGenerator.class)
-            .add(QualityGateBadgeAction.class)
-            .add(MeasureBadgeRequestHandler.class)
-            .add(MeasureBadgeGenerator.class)
-            .add(MeasureBadgeAction.class)
-            .add(BadgesWebService.class)
-            .add(CeActivityBadgeRequestHandler.class)
-            .add(CeActivityBadgeGenerator.class)
-            .add(CeActivityBadgeAction.class)
-            .addAll(BadgesPluginProperties.properties())
-            .build();
+    public void define(final Context context) {
+        context.addExtension(FontProviderLocator.class);
+        context.addExtension(SVGImageMinimizer.class);
+        context.addExtension(SVGImageGenerator.class);
+        context.addExtension(QualityGateBadgeRequestHandler.class);
+        context.addExtension(QualityGateBadgeGenerator.class);
+        context.addExtension(QualityGateBadgeAction.class);
+        context.addExtension(MeasureBadgeRequestHandler.class);
+        context.addExtension(MeasureBadgeGenerator.class);
+        context.addExtension(MeasureBadgeAction.class);
+        context.addExtension(BadgesWebService.class);
+        context.addExtension(CeActivityBadgeRequestHandler.class);
+        context.addExtension(CeActivityBadgeGenerator.class);
+        context.addExtension(CeActivityBadgeAction.class);
+        context.addExtension(BadgesWebService.class);
+        context.addExtensions(BadgesPluginProperties.properties());
+
     }
 }
