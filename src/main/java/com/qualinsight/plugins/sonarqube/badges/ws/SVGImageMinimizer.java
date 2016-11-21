@@ -109,9 +109,7 @@ public class SVGImageMinimizer {
         try (final InputStream xslInputStream = getClass().getClassLoader()
             .getResourceAsStream(SVG_MINIMIZER_XSL)) {
             final Transformer transformer = this.transformerFactory.newTransformer(new StreamSource(xslInputStream));
-            parameters.forEach((key, value) -> {
-                transformer.setParameter(key, value);
-            });
+            parameters.forEach(transformer::setParameter);
             transformer.transform(source, result);
         }
     }
