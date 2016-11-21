@@ -23,14 +23,12 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -50,9 +48,11 @@ import com.qualinsight.plugins.sonarqube.badges.exception.SVGImageMinimizerExcep
 @ServerSide
 public class SVGImageMinimizer {
 
-    private final DocumentBuilder builder;
+    private static final String SVG_MINIMIZER_XSL = "com/qualinsight/plugins/sonarqube/badges/ws/svg-minimizer.xsl";
 
-    private final Transformer transformer;
+    private final DocumentBuilderFactory builderFactory;
+
+    private final TransformerFactory transformerFactory;
 
     /**
      * IoC constructor
@@ -61,26 +61,15 @@ public class SVGImageMinimizer {
      */
     public SVGImageMinimizer() throws SVGImageMinimizerException {
         try {
-            InputStream xslInputStream = null;
-            try {
-                xslInputStream = getClass().getClassLoader()
-                    .getResourceAsStream("com/qualinsight/plugins/sonarqube/badges/ws/svg-minimizer.xsl");
-                final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                this.transformer = transformerFactory.newTransformer(new StreamSource(xslInputStream));
-            } finally {
-                if (null != xslInputStream) {
-                    xslInputStream.close();
-                }
-            }
-            final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-            builderFactory.setValidating(false);
-            builderFactory.setNamespaceAware(true);
-            builderFactory.setFeature("http://xml.org/sax/features/namespaces", false);
-            builderFactory.setFeature("http://xml.org/sax/features/validation", false);
-            builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-            builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-            this.builder = builderFactory.newDocumentBuilder();
-        } catch (final IOException | TransformerConfigurationException | ParserConfigurationException e) {
+            this.transformerFactory = TransformerFactory.newInstance();
+            this.builderFactory = DocumentBuilderFactory.newInstance();
+            this.builderFactory.setValidating(false);
+            this.builderFactory.setNamespaceAware(true);
+            this.builderFactory.setFeature("http://xml.org/sax/features/namespaces", false);
+            this.builderFactory.setFeature("http://xml.org/sax/features/validation", false);
+            this.builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+            this.builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        } catch (final ParserConfigurationException e) {
             throw new SVGImageMinimizerException(e);
         }
     }
@@ -94,26 +83,37 @@ public class SVGImageMinimizer {
      * @throws SVGImageMinimizerException if a problem occurs during stream transformation.
      */
     public InputStream process(final InputStream inputStream, final Map<String, Object> parameters) throws SVGImageMinimizerException {
-        reset();
         try {
-            final Document document = this.builder.parse(inputStream);
+            final DocumentBuilder builder = this.builderFactory.newDocumentBuilder();
+            final Document document = builder.parse(inputStream);
             final Source source = new DOMSource(document);
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             final Result result = new StreamResult(outputStream);
-            for (final Entry<String, Object> parameter : parameters.entrySet()) {
-                this.transformer.setParameter(parameter.getKey(), parameter.getValue());
-            }
-            this.transformer.transform(source, result);
+            transform(source, result, parameters);
             return new ByteArrayInputStream(outputStream.toByteArray());
-        } catch (final IOException | TransformerException | SAXException e) {
+        } catch (final IOException | TransformerException | SAXException | ParserConfigurationException e) {
             throw new SVGImageMinimizerException(e);
         }
     }
 
-    private void reset() {
-        this.transformer.clearParameters();
-        this.transformer.reset();
-        this.builder.reset();
+    /**
+     * Transforms XML source to result using a set of parameters.
+     *
+     * @param source SVG source
+     * @param result SVG result
+     * @param parameters parameters to be used by the XSL transformer
+     * @throws TransformerException if a problem occurs during stream transformation.
+     * @throws IOException if a problem occurs when accessing XSL file
+     */
+    private void transform(final Source source, final Result result, final Map<String, Object> parameters) throws TransformerException, IOException {
+        try (final InputStream xslInputStream = getClass().getClassLoader()
+            .getResourceAsStream(SVG_MINIMIZER_XSL)) {
+            final Transformer transformer = this.transformerFactory.newTransformer(new StreamSource(xslInputStream));
+            parameters.forEach((key, value) -> {
+                transformer.setParameter(key, value);
+            });
+            transformer.transform(source, result);
+        }
     }
 
 }
