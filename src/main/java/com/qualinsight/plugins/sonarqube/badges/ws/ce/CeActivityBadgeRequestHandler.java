@@ -29,11 +29,13 @@ import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.RequestHandler;
 import org.sonar.api.server.ws.Response;
+import org.sonarqube.ws.WsCe.ActivityResponse;
 import org.sonarqube.ws.WsCe.Task;
 import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.ce.ActivityWsRequest;
+import org.sonarqube.ws.client.ce.CeService;
 import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 
@@ -78,30 +80,31 @@ public class CeActivityBadgeRequestHandler implements RequestHandler {
                 final ActivityWsRequest wsRequest = new ActivityWsRequest();
                 wsRequest.setQuery(key);
 
-                // The task are ordered by date. 0 is the most recent.
-                final Task task = wsClient.ce()
-                    .activity(wsRequest)
-                    .getTasks(0);
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("CeActivity Task Information");
-                    LOGGER.debug("CeActivity Task - id: " + task.getId());
-                    LOGGER.debug("CeActivity Task - type: " + task.getType());
-                    LOGGER.debug("CeActivity Task - componentId: " + task.getComponentId());
-                    LOGGER.debug("CeActivity Task - componentKey: " + task.getComponentKey());
-                    LOGGER.debug("CeActivity Task - componentName: " + task.getComponentName());
-                    LOGGER.debug("CeActivity Task - componentQualifier: " + task.getComponentQualifier());
-                    LOGGER.debug("CeActivity Task - analysisId: " + task.getAnalysisId());
-                    LOGGER.debug("CeActivity Task - status: " + task.getStatus());
-                    LOGGER.debug("CeActivity Task - submittedAt: " + task.getSubmittedAt());
-                    LOGGER.debug("CeActivity Task - submitterLogin: " + task.getSubmitterLogin());
-                    LOGGER.debug("CeActivity Task - startedAt: " + task.getStartedAt());
-                    LOGGER.debug("CeActivity Task - executedAt: " + task.getExecutedAt());
-                    LOGGER.debug("CeActivity Task - executionTimeMs: " + task.getExecutionTimeMs());
+                final CeService ceService = wsClient.ce();
+                final ActivityResponse activityResponse = ceService.activity(wsRequest);
+                if (activityResponse.getTasksCount() >= 1) {
+                    // The task are ordered by date. 0 is the most recent.
+                    final Task task = activityResponse.getTasks(0);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("CeActivity Task Information");
+                        LOGGER.debug("CeActivity Task - id: " + task.getId());
+                        LOGGER.debug("CeActivity Task - type: " + task.getType());
+                        LOGGER.debug("CeActivity Task - componentId: " + task.getComponentId());
+                        LOGGER.debug("CeActivity Task - componentKey: " + task.getComponentKey());
+                        LOGGER.debug("CeActivity Task - componentName: " + task.getComponentName());
+                        LOGGER.debug("CeActivity Task - componentQualifier: " + task.getComponentQualifier());
+                        LOGGER.debug("CeActivity Task - analysisId: " + task.getAnalysisId());
+                        LOGGER.debug("CeActivity Task - status: " + task.getStatus());
+                        LOGGER.debug("CeActivity Task - submittedAt: " + task.getSubmittedAt());
+                        LOGGER.debug("CeActivity Task - submitterLogin: " + task.getSubmitterLogin());
+                        LOGGER.debug("CeActivity Task - startedAt: " + task.getStartedAt());
+                        LOGGER.debug("CeActivity Task - executedAt: " + task.getExecutedAt());
+                        LOGGER.debug("CeActivity Task - executionTimeMs: " + task.getExecutionTimeMs());
+                    }
+                    // status of the activity
+                    status = CeActivityBadge.valueOf(task.getStatus()
+                        .toString());
                 }
-                // status of the activity
-                status = CeActivityBadge.valueOf(task.getStatus()
-                    .toString());
-
             } catch (final HttpException e) {
                 LOGGER.debug("No project found with key '{}': {}", key, e);
             }
