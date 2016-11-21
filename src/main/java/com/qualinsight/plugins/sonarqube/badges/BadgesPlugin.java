@@ -52,12 +52,10 @@ public final class BadgesPlugin implements Plugin {
         context.addExtension(MeasureBadgeRequestHandler.class);
         context.addExtension(MeasureBadgeGenerator.class);
         context.addExtension(MeasureBadgeAction.class);
-        context.addExtension(BadgesWebService.class);
         context.addExtension(CeActivityBadgeRequestHandler.class);
         context.addExtension(CeActivityBadgeGenerator.class);
         context.addExtension(CeActivityBadgeAction.class);
         context.addExtension(BadgesWebService.class);
         context.addExtensions(BadgesPluginProperties.properties());
-
     }
 }
