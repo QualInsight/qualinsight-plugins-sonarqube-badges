@@ -116,7 +116,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
             .getMeasuresList();
         if (measures.isEmpty()) {
             measureHolder = new MeasureHolder(metric);
-            LOGGER.debug("No measure found ! Using '{}' value", measureHolder.value());
+            LOGGER.debug("No measure found for metric key '{}'", metric);
         } else {
             measureHolder = new MeasureHolder(measures.get(0));
         }
