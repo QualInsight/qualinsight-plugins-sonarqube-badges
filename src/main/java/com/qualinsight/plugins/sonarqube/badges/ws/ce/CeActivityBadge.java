@@ -21,12 +21,11 @@ package com.qualinsight.plugins.sonarqube.badges.ws.ce;
 
 import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.GRAY;
 import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.GREEN;
-import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.ORANGE;
 import static com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor.RED;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
 /**
- * Possible badges for a SonarQube project or view. Each badge holds information about how it has to be displayed as a SVG image.
+ * Possible badges for a SonarQube project or view. Each badge holds information about how it has to be displayed as a SVG image. Note: badges can only be generated for finished CE engine execution.
  *
  */
 public enum CeActivityBadge {
@@ -40,16 +39,6 @@ public enum CeActivityBadge {
      */
     FAILED("failed",
         RED),
-    /**
-     * The compute engine activity is in progress.
-     */
-    IN_PROGRESS("in progress",
-        ORANGE),
-    /**
-     * The compute engine activity is queued.
-     */
-    PENDING("pending",
-        GRAY),
     /**
      * The compute engine activity is success.
      */

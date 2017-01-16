@@ -95,6 +95,7 @@ public class CeActivityBadgeRequestHandler implements RequestHandler {
                 .newClient(request.localConnector());
             final ActivityWsRequest wsRequest = new ActivityWsRequest();
             wsRequest.setQuery(key);
+            wsRequest.setOnlyCurrents(true);
             final CeService ceService = wsClient.ce();
             final ActivityResponse activityResponse = ceService.activity(wsRequest);
             if (activityResponse.getTasksCount() >= 1) {
