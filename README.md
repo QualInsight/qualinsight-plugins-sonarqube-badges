@@ -9,6 +9,6 @@ Three types of badges are currently available: [`quality gate`](https://github.c
 
 Installation and usage Documentation is available on [the project's wiki](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/wiki).
 
-New feature ideas and [contributions](https://github.com/QualInsight/qualinsight-plugins-sonarqube-badges/wiki/Contributing) are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-badges) named [SVG Badges](https://groups.google.com/forum/#!forum/svg-badges) has been created in order to facilitate discussions about this plugin.
+New feature ideas and [contributions](https://github.com/QualInsight/qualinsight-contribution-guidelines/wiki) are more than welcome. A [Google group](https://groups.google.com/forum/#!forum/svg-badges) named [SVG Badges](https://groups.google.com/forum/#!forum/svg-badges) has been created in order to facilitate discussions about this plugin.
 
 
