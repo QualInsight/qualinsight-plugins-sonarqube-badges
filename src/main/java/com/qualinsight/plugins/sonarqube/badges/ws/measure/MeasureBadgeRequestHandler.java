@@ -76,6 +76,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
         if (this.settings.getBoolean(BadgesPluginProperties.MEASURE_BADGES_ACTIVATION_KEY)) {
             final String key = request.mandatoryParam("key");
             final String metric = request.mandatoryParam("metric");
+            final int requestedPeriod = request.hasParam("period")? request.paramAsInt("period") : 0;
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");
             final WsClient wsClient = WsClientFactories.getLocal()
@@ -83,7 +84,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
             LOGGER.debug("Retrieving measure for key '{}' and metric {}.", key, metric);
             MeasureHolder measureHolder;
             try {
-                measureHolder = retrieveMeasureHolder(wsClient, key, metric);
+                measureHolder = retrieveMeasureHolder(wsClient, key, metric, requestedPeriod);
                 measureHolder = applyQualityGateTreshold(wsClient, key, metric, measureHolder);
             } catch (final HttpException e) {
                 LOGGER.debug("No project found with key '{}': {}", key, e);
@@ -105,7 +106,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
         }
     }
 
-    private MeasureHolder retrieveMeasureHolder(final WsClient wsClient, final String key, final String metric) {
+    private MeasureHolder retrieveMeasureHolder(final WsClient wsClient, final String key, final String metric, int requestedPeriod) {
         MeasureHolder measureHolder;
         final ComponentWsRequest componentWsRequest = new ComponentWsRequest();
         componentWsRequest.setComponentKey(key);
@@ -117,7 +118,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
         if (measures.isEmpty()) {
             measureHolder = new MeasureHolder(metric);
         } else {
-            measureHolder = new MeasureHolder(measures.get(0));
+            measureHolder = new MeasureHolder(measures.get(0), requestedPeriod);
         }
         return measureHolder;
     }
