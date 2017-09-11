@@ -21,7 +21,10 @@ package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -36,9 +39,7 @@ import org.sonarqube.ws.WsMeasures.Measure;
 import org.sonarqube.ws.WsQualityGates.ProjectStatusWsResponse;
 import org.sonarqube.ws.WsQualityGates.ProjectStatusWsResponse.Condition;
 import org.sonarqube.ws.WsQualityGates.ProjectStatusWsResponse.Status;
-import org.sonarqube.ws.client.HttpException;
-import org.sonarqube.ws.client.WsClient;
-import org.sonarqube.ws.client.WsClientFactories;
+import org.sonarqube.ws.client.*;
 import org.sonarqube.ws.client.measure.ComponentWsRequest;
 import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
 import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
@@ -84,7 +85,8 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
             LOGGER.debug("Retrieving measure for key '{}' and metric {}.", key, metric);
             MeasureHolder measureHolder;
             try {
-                measureHolder = retrieveMeasureHolder(wsClient, key, metric, requestedPeriod);
+                measureHolder = retrieveMeasureHolder(wsClient, key, metric, requestedPeriod,
+                        retrievePeriodProperties(requestedPeriod));
                 measureHolder = applyQualityGateTreshold(wsClient, key, metric, measureHolder);
             } catch (final HttpException e) {
                 LOGGER.debug("No project found with key '{}': {}", key, e);
@@ -106,7 +108,21 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
         }
     }
 
-    private MeasureHolder retrieveMeasureHolder(final WsClient wsClient, final String key, final String metric, int requestedPeriod) {
+    private Map<String, String> retrievePeriodProperties(int requestedPeriod) {
+        if (requestedPeriod > 0) {
+            String periodPropertiesValue = this.settings.getString("sonar.timemachine.period" + requestedPeriod);
+
+            if (periodPropertiesValue != null) {
+                Map<String, String> map = new HashMap<>();
+                map.put(Integer.toString(requestedPeriod), periodPropertiesValue);
+                return map;
+            }
+        }
+        return new HashMap<>();
+    }
+
+    private MeasureHolder retrieveMeasureHolder(final WsClient wsClient, final String key, final String metric, int requestedPeriod,
+                                                Map<String, String> periodMap) {
         MeasureHolder measureHolder;
         final ComponentWsRequest componentWsRequest = new ComponentWsRequest();
         componentWsRequest.setComponentKey(key);
@@ -118,7 +134,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
         if (measures.isEmpty()) {
             measureHolder = new MeasureHolder(metric);
         } else {
-            measureHolder = new MeasureHolder(measures.get(0), requestedPeriod);
+            measureHolder = new MeasureHolder(measures.get(0), requestedPeriod, periodMap);
         }
         return measureHolder;
     }

@@ -22,6 +22,7 @@ package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -34,6 +35,8 @@ import org.sonarqube.ws.WsMeasures.PeriodValue;
 import org.sonarqube.ws.WsMeasures.PeriodsValue;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
+import static com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBagdeMetricNameFormatter.getMetricNameWithPeriod;
+
 /**
  * Holds measure badge data.
  *
@@ -44,6 +47,8 @@ public class MeasureHolder {
     private static final Logger LOGGER = LoggerFactory.getLogger(MeasureHolder.class);
 
     private static final String NA = "N/A";
+
+    private Map<String, String> periodMap;
 
     private String metricName;
 
@@ -80,10 +85,8 @@ public class MeasureHolder {
      */
     public MeasureHolder(final String metricKey) {
         try {
-            this.metricName = CoreMetrics.getMetric(metricKey)
-                .getName()
-                .replace(" (%)", "")
-                .toLowerCase();
+            this.metricName = getMetricNameWithPeriod(CoreMetrics.getMetric(metricKey).getName(), "");
+
         } catch (final NoSuchElementException e) {
             LOGGER.debug("Metric '{}' is not referenced in CoreMetrics.", metricKey, e);
             this.metricName = metricKey;
@@ -93,28 +96,27 @@ public class MeasureHolder {
 
     /**
      * Constructs a MeasureHolder from a Measure object.
-     *
-     * @param measure used to retrieve the metric name for which the MeasureHolder is built
+     *  @param measure used to retrieve the metric name for which the MeasureHolder is built
      * @param requestedPeriod used to retrieve which period requested for which value will be constructed
+     * @param periodMap
      */
     @SuppressWarnings("unchecked")
-    public MeasureHolder(final Measure measure, int requestedPeriod) {
+    public MeasureHolder(final Measure measure, int requestedPeriod, Map<String, String> periodMap) {
         final DecimalFormat valueDf = new DecimalFormat("#.##");
         valueDf.setRoundingMode(RoundingMode.CEILING);
         final DecimalFormat periodValueDf = new DecimalFormat("+#.##;-#.##");
         periodValueDf.setRoundingMode(RoundingMode.CEILING);
 
+        this.periodMap = periodMap;
+
         final Metric<Serializable> metric = CoreMetrics.getMetric(measure.getMetric());
-        this.metricName = metric.getName()
-            .replace(" (%)", "")
-            .toLowerCase();
+
         String tempValue = null;
         String periodTempValue = null;
         if (measure.hasPeriods() && requestedPeriod > 0) {
             periodTempValue = this.getPeriodValueByPeriodIndex(measure.getPeriods(), requestedPeriod);
         }
         tempValue = measure.getValue();
-
         tempValue = tempValue != null ? valueDf.format(Double.parseDouble(tempValue)) : null;
         periodTempValue = periodTempValue != null ? periodValueDf.format(Double.parseDouble(periodTempValue)) : null;
 
@@ -129,6 +131,16 @@ public class MeasureHolder {
             this.value = tempValue + (metric.isPercentageType() ? "%" : "");
             this.value = this.value + (periodTempValue != null ? " " + "(" + periodTempValue + ")" : "");
         }
+        this.metricName = getMetricNameWithPeriod(metric.getName(), this.periodMap().get(Integer.toString(requestedPeriod)));
+    }
+
+    /**
+     * Map of Periods
+     *
+     * @return map of periods
+     */
+    public Map<String, String> periodMap() {
+        return this.periodMap;
     }
 
     /**
@@ -186,5 +198,4 @@ public class MeasureHolder {
             .append(this.backgroundColor, other.backgroundColor)
             .isEquals();
     }
-
 }
