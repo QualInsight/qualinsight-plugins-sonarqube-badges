@@ -66,9 +66,13 @@ public class MeasureBadgeAction {
             .setExampleValue("org.codehaus.sonar:sonar")
             .setRequired(true);
         action.createParam("metric")
-            .setDescription("measured metric to be retrieved")
-            .setExampleValue("coverage")
-            .setRequired(true);
+                .setDescription("measured metric to be retrieved")
+                .setExampleValue("coverage")
+                .setRequired(true);
+        action.createParam("period")
+                .setDescription("period of said measure")
+                .setExampleValue("1")
+                .setRequired(false);
         action.createParam("template")
             .setDescription("Template to be used for badge generation")
             .setPossibleValues((Object[]) SVGImageTemplate.values())
