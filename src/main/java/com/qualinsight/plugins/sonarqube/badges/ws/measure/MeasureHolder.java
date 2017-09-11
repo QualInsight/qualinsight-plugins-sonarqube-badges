@@ -20,6 +20,9 @@
 package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
 import java.io.Serializable;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -32,6 +35,8 @@ import org.sonarqube.ws.WsMeasures.PeriodValue;
 import org.sonarqube.ws.WsMeasures.PeriodsValue;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
+import static com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBagdeMetricNameFormatter.getMetricNameWithPeriod;
+
 /**
  * Holds measure badge data.
  *
@@ -43,11 +48,35 @@ public class MeasureHolder {
 
     private static final String NA = "N/A";
 
+    private Map<String, String> periodMap;
+
     private String metricName;
 
     private String value;
 
     private SVGImageColor backgroundColor = SVGImageColor.GRAY;
+
+    /**
+     * Get period value by period index
+     *
+     * @param periods PeriodsValue obtained from {@link Metric}
+     * @param periodIndex Period Index that wants to be obtained. Possible values are 1, 2, or 3.
+     *
+     * @return String of metric value or <i>null</i>
+     */
+    private String getPeriodValueByPeriodIndex(PeriodsValue periods, int periodIndex) {
+        String periodTempValue = null;
+        for (PeriodValue periodvalue : periods.getPeriodsValueList()) {
+            if (periodvalue.hasIndex() && periodvalue.getIndex() == periodIndex) {
+                periodTempValue = periodvalue.getValue();
+                break;
+            }
+        }
+        if (periodTempValue == null) {
+            periodTempValue = periods.getPeriodsValue(0).getValue();
+        }
+        return periodTempValue;
+    }
 
     /**
      * Constructs a MeasureHolder from a metric key.
@@ -56,10 +85,8 @@ public class MeasureHolder {
      */
     public MeasureHolder(final String metricKey) {
         try {
-            this.metricName = CoreMetrics.getMetric(metricKey)
-                .getName()
-                .replace(" (%)", "")
-                .toLowerCase();
+            this.metricName = getMetricNameWithPeriod(CoreMetrics.getMetric(metricKey).getName(), "");
+
         } catch (final NoSuchElementException e) {
             LOGGER.debug("Metric '{}' is not referenced in CoreMetrics.", metricKey, e);
             this.metricName = metricKey;
@@ -69,26 +96,51 @@ public class MeasureHolder {
 
     /**
      * Constructs a MeasureHolder from a Measure object.
-     *
-     * @param measure used to retrieve the metric name for which the MeasureHolder is built
+     *  @param measure used to retrieve the metric name for which the MeasureHolder is built
+     * @param requestedPeriod used to retrieve which period requested for which value will be constructed
+     * @param periodMap
      */
     @SuppressWarnings("unchecked")
-    public MeasureHolder(final Measure measure) {
+    public MeasureHolder(final Measure measure, int requestedPeriod, Map<String, String> periodMap) {
+        final DecimalFormat valueDf = new DecimalFormat("#.##");
+        valueDf.setRoundingMode(RoundingMode.CEILING);
+        final DecimalFormat periodValueDf = new DecimalFormat("+#.##;-#.##");
+        periodValueDf.setRoundingMode(RoundingMode.CEILING);
+
+        this.periodMap = periodMap;
+
         final Metric<Serializable> metric = CoreMetrics.getMetric(measure.getMetric());
-        this.metricName = metric.getName()
-            .replace(" (%)", "")
-            .toLowerCase();
+
         String tempValue = null;
-        if (!measure.hasValue()) {
-            if (measure.hasPeriods()) {
-                final PeriodsValue periods = measure.getPeriods();
-                final PeriodValue periodValue = periods.getPeriodsValue(0);
-                tempValue = periodValue.getValue();
-            }
-        } else {
-            tempValue = measure.getValue();
+        String periodTempValue = null;
+        if (measure.hasPeriods() && requestedPeriod > 0) {
+            periodTempValue = this.getPeriodValueByPeriodIndex(measure.getPeriods(), requestedPeriod);
         }
-        this.value = tempValue == null ? NA : tempValue + (metric.isPercentageType() ? "%" : "");
+        tempValue = measure.getValue();
+        tempValue = tempValue != null ? valueDf.format(Double.parseDouble(tempValue)) : null;
+        periodTempValue = periodTempValue != null ? periodValueDf.format(Double.parseDouble(periodTempValue)) : null;
+
+        // Build value
+        // If metric has no value, period's value will be treated as value
+        // If metric has value, period's value will be treated as delta
+
+        if (tempValue == null) {
+            String percentage = metric.isPercentageType() ? "%" : "";
+            this.value = periodTempValue == null ? NA : periodTempValue + percentage;
+        } else {
+            this.value = tempValue + (metric.isPercentageType() ? "%" : "");
+            this.value = this.value + (periodTempValue != null ? " " + "(" + periodTempValue + ")" : "");
+        }
+        this.metricName = getMetricNameWithPeriod(metric.getName(), this.periodMap().get(Integer.toString(requestedPeriod)));
+    }
+
+    /**
+     * Map of Periods
+     *
+     * @return map of periods
+     */
+    public Map<String, String> periodMap() {
+        return this.periodMap;
     }
 
     /**
@@ -146,5 +198,4 @@ public class MeasureHolder {
             .append(this.backgroundColor, other.backgroundColor)
             .isEquals();
     }
-
 }
