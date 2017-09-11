@@ -35,7 +35,7 @@ import org.sonarqube.ws.WsMeasures.PeriodValue;
 import org.sonarqube.ws.WsMeasures.PeriodsValue;
 import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
 
-import static com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBagdeMetricNameFormatter.getMetricNameWithPeriod;
+import static com.qualinsight.plugins.sonarqube.badges.ws.measure.MeasureBadgeMetricNameFormatter.getMetricNameWithPeriod;
 
 /**
  * Holds measure badge data.
