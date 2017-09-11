@@ -17,7 +17,6 @@ import java.util.Date;
  * 'previous_version' to compare to the previous version in the project history
  * A version, for example '1.2' or 'BASELINE'
  *
- * @author WillyPT
  */
 public class MeasureBagdeMetricNameFormatter {
 
