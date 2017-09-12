@@ -117,8 +117,8 @@ public class MeasureHolder {
             periodTempValue = this.getPeriodValueByPeriodIndex(measure.getPeriods(), requestedPeriod);
         }
         tempValue = measure.getValue();
-        tempValue = tempValue != null ? valueDf.format(Double.parseDouble(tempValue)) : null;
-        periodTempValue = periodTempValue != null ? periodValueDf.format(Double.parseDouble(periodTempValue)) : null;
+        tempValue = tempValue != null && tempValue.length() > 0 ? valueDf.format(Double.parseDouble(tempValue)) : null;
+        periodTempValue = periodTempValue != null && periodTempValue.length() > 0 ? periodValueDf.format(Double.parseDouble(periodTempValue)) : null;
 
         // Build value
         // If metric has no value, period's value will be treated as value
