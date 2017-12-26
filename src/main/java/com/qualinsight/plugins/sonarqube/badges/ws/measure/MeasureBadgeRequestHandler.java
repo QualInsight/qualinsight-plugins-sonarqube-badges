@@ -143,7 +143,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
                         measureHolder.setBackgroundColor(SVGImageColor.ORANGE);
                         break;
                     default:
-                        measureHolder.setBackgroundColor(SVGImageColor.GRAY);
+                        measureHolder.setBackgroundColor(SVGImageColor.SONARCLOUD_BLUE);
                         break;
 
                 }

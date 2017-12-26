@@ -31,7 +31,8 @@ public enum SVGImageColor {
     GREEN("#6c3"),
     ORANGE("#f90"),
     DARK_GRAY("#444"),
-    GRAY("#999");
+    GRAY("#999"),
+    SONARCLOUD_BLUE("#4b9fd5");
 
     private String hexColor;
 
