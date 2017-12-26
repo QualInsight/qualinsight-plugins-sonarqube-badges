@@ -47,7 +47,7 @@ public class MeasureHolder {
 
     private String value;
 
-    private SVGImageColor backgroundColor = SVGImageColor.GRAY;
+    private SVGImageColor backgroundColor = SVGImageColor.SONARCLOUD_BLUE;
 
     /**
      * Constructs a MeasureHolder from a metric key.
