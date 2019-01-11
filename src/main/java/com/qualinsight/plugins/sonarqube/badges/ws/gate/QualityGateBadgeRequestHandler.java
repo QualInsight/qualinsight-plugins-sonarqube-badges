@@ -19,8 +19,9 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.ws.gate;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
+import com.qualinsight.plugins.sonarqube.badges.ws.GitlabProjectPathKeyResolver;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +35,9 @@ import org.sonarqube.ws.client.HttpException;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
-import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
+
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * {@link RequestHandler} implementation that handles Quality Gate badges requests.
@@ -55,7 +57,7 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
      * {@link QualityGateBadgeRequestHandler} IoC constructor
      *
      * @param qualityGateBadgeGenerator helper extension that generate quality gate badges
-     * @param settings SonarQube properties
+     * @param settings                  SonarQube properties
      */
     public QualityGateBadgeRequestHandler(final QualityGateBadgeGenerator qualityGateBadgeGenerator, final Settings settings) {
         this.qualityGateBadgeGenerator = qualityGateBadgeGenerator;
@@ -65,28 +67,34 @@ public class QualityGateBadgeRequestHandler implements RequestHandler {
     @Override
     public void handle(final Request request, final Response response) throws Exception {
         if (this.settings.getBoolean(BadgesPluginProperties.GATE_BADGES_ACTIVATION_KEY)) {
-            final String key = request.mandatoryParam("key");
+            String key = request.mandatoryParam("key");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");
+            boolean gitlabBadgeSplitProjectName = request.mandatoryParamAsBoolean("gitlab");
+
+            if (gitlabBadgeSplitProjectName) {
+                key = GitlabProjectPathKeyResolver.getGitlabProjectNameByPath(key);
+            }
+
             final WsClient wsClient = WsClientFactories.getLocal()
-                .newClient(request.localConnector());
+                    .newClient(request.localConnector());
             LOGGER.debug("Retrieving quality gate status for key '{}'.", key);
             QualityGateBadge status = QualityGateBadge.NOT_FOUND;
             try {
                 final ProjectStatusWsRequest wsRequest = new ProjectStatusWsRequest();
                 wsRequest.setProjectKey(key);
                 final ProjectStatusWsResponse wsResponse = wsClient.qualityGates()
-                    .projectStatus(wsRequest);
+                        .projectStatus(wsRequest);
                 status = QualityGateBadge.valueOf(wsResponse.getProjectStatus()
-                    .getStatus()
-                    .toString());
+                        .getStatus()
+                        .toString());
             } catch (final HttpException e) {
                 LOGGER.debug("No project found with key '{}': {}", key, e);
             }
             // we prepare the response OutputStream
             final OutputStream responseOutputStream = response.stream()
-                .setMediaType("image/svg+xml")
-                .output();
+                    .setMediaType("image/svg+xml")
+                    .output();
             LOGGER.debug("Retrieving SVG image for for quality gate status '{}'.", status);
             final InputStream svgImageInputStream = this.qualityGateBadgeGenerator.svgImageInputStreamFor(status, template, blinkingValueBackgroundColor);
             LOGGER.debug("Writing SVG image to response OutputStream.");

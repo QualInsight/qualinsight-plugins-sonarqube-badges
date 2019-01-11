@@ -19,8 +19,9 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.ws.ce;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
+import com.qualinsight.plugins.sonarqube.badges.ws.GitlabProjectPathKeyResolver;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,12 +37,12 @@ import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.ce.ActivityWsRequest;
 import org.sonarqube.ws.client.ce.CeService;
-import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
+
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * {@link RequestHandler} implementation that handles Compute Engine Activity badges requests.
- *
  */
 @ServerSide
 public class CeActivityBadgeRequestHandler implements RequestHandler {
@@ -56,7 +57,7 @@ public class CeActivityBadgeRequestHandler implements RequestHandler {
      * {@link CeActivityBadgeRequestHandler} IoC constructor
      *
      * @param ceActivityBadgeGenerator helper extension that generate compute engine activity badges
-     * @param settings SonarQube properties
+     * @param settings                 SonarQube properties
      */
     public CeActivityBadgeRequestHandler(final CeActivityBadgeGenerator ceActivityBadgeGenerator, final Settings settings) {
         this.ceActivityBadgeGenerator = ceActivityBadgeGenerator;
@@ -66,16 +67,22 @@ public class CeActivityBadgeRequestHandler implements RequestHandler {
     @Override
     public void handle(final Request request, final Response response) throws Exception {
         if (this.settings.getBoolean(BadgesPluginProperties.CE_ACTIVITY_BADGES_ACTIVATION_KEY)) {
-            final String key = request.mandatoryParam("key");
+            String key = request.mandatoryParam("key");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");
+            boolean gitlabBadgeSplitProjectName = request.mandatoryParamAsBoolean("gitlab");
+
+            if (gitlabBadgeSplitProjectName) {
+                key = GitlabProjectPathKeyResolver.getGitlabProjectNameByPath(key);
+            }
+
             LOGGER.debug("Retrieving compute engine activity status for key '{}'.", key);
             final CeActivityBadge ceActivityBadge = retrieveCeActivityBadge(request, key);
 
             // we prepare the response OutputStream
             final OutputStream responseOutputStream = response.stream()
-                .setMediaType("image/svg+xml")
-                .output();
+                    .setMediaType("image/svg+xml")
+                    .output();
             LOGGER.debug("Retrieving SVG image for for compute engine activity '{}'.", ceActivityBadge);
             final InputStream svgImageInputStream = this.ceActivityBadgeGenerator.svgImageInputStreamFor(ceActivityBadge, template, blinkingValueBackgroundColor);
             LOGGER.debug("Writing SVG image to response OutputStream.");
@@ -92,7 +99,7 @@ public class CeActivityBadgeRequestHandler implements RequestHandler {
         CeActivityBadge ceActivityBadge = CeActivityBadge.NOT_FOUND;
         try {
             final WsClient wsClient = WsClientFactories.getLocal()
-                .newClient(request.localConnector());
+                    .newClient(request.localConnector());
             final ActivityWsRequest wsRequest = new ActivityWsRequest();
             wsRequest.setQuery(key);
             wsRequest.setOnlyCurrents(true);
@@ -119,7 +126,7 @@ public class CeActivityBadgeRequestHandler implements RequestHandler {
                 }
                 // status of the activity
                 ceActivityBadge = CeActivityBadge.valueOf(task.getStatus()
-                    .toString());
+                        .toString());
             }
         } catch (final HttpException e) {
             LOGGER.debug("No project found with key '{}': {}", key, e);
