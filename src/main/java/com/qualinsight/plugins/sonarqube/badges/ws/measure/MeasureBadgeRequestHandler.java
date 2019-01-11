@@ -19,10 +19,12 @@
  */
 package com.qualinsight.plugins.sonarqube.badges.ws.measure;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
 import com.google.common.collect.ImmutableList;
+import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
+import com.qualinsight.plugins.sonarqube.badges.ws.GitlabProjectPathKeyResolver;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
+import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
+import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,10 +43,10 @@ import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
 import org.sonarqube.ws.client.measure.ComponentWsRequest;
 import org.sonarqube.ws.client.qualitygate.ProjectStatusWsRequest;
-import com.qualinsight.plugins.sonarqube.badges.BadgesPluginProperties;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageColor;
-import com.qualinsight.plugins.sonarqube.badges.ws.SVGImageTemplate;
-import com.qualinsight.plugins.sonarqube.badges.ws.gate.QualityGateBadgeRequestHandler;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
 
 /**
  * {@link RequestHandler} implementation that handles measure badges requests.
@@ -64,7 +66,7 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
      * {@link QualityGateBadgeRequestHandler} IoC constructor
      *
      * @param measureBadgeGenerator helper extension that generate measure badges
-     * @param settings SonarQube properties
+     * @param settings              SonarQube properties
      */
     public MeasureBadgeRequestHandler(final MeasureBadgeGenerator measureBadgeGenerator, final Settings settings) {
         this.measureBadgeGenerator = measureBadgeGenerator;
@@ -74,12 +76,18 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
     @Override
     public void handle(final Request request, final Response response) throws Exception {
         if (this.settings.getBoolean(BadgesPluginProperties.MEASURE_BADGES_ACTIVATION_KEY)) {
-            final String key = request.mandatoryParam("key");
+            String key = request.mandatoryParam("key");
             final String metric = request.mandatoryParam("metric");
             final SVGImageTemplate template = request.mandatoryParamAsEnum("template", SVGImageTemplate.class);
             final boolean blinkingValueBackgroundColor = request.mandatoryParamAsBoolean("blinking");
+            boolean gitlabBadgeSplitProjectName = request.mandatoryParamAsBoolean("gitlab");
+
+            if (gitlabBadgeSplitProjectName) {
+                key = GitlabProjectPathKeyResolver.getGitlabProjectNameByPath(key);
+            }
+
             final WsClient wsClient = WsClientFactories.getLocal()
-                .newClient(request.localConnector());
+                    .newClient(request.localConnector());
             LOGGER.debug("Retrieving measure for key '{}' and metric {}.", key, metric);
             MeasureHolder measureHolder;
             try {
@@ -91,8 +99,8 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
             }
             // we prepare the response OutputStream
             final OutputStream responseOutputStream = response.stream()
-                .setMediaType("image/svg+xml")
-                .output();
+                    .setMediaType("image/svg+xml")
+                    .output();
             LOGGER.debug("Retrieving SVG image for metric holder '{}'.", measureHolder);
             final InputStream svgImageInputStream = this.measureBadgeGenerator.svgImageInputStreamFor(measureHolder, template, blinkingValueBackgroundColor);
             LOGGER.debug("Writing SVG image to response OutputStream.");
@@ -111,9 +119,9 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
         componentWsRequest.setComponentKey(key);
         componentWsRequest.setMetricKeys(ImmutableList.of(metric));
         final ComponentWsResponse componentWsResponse = wsClient.measures()
-            .component(componentWsRequest);
+                .component(componentWsRequest);
         final List<Measure> measures = componentWsResponse.getComponent()
-            .getMeasuresList();
+                .getMeasuresList();
         if (measures.isEmpty()) {
             measureHolder = new MeasureHolder(metric);
         } else {
@@ -126,9 +134,9 @@ public class MeasureBadgeRequestHandler implements RequestHandler {
         final ProjectStatusWsRequest projectStatusWsRequest = new ProjectStatusWsRequest();
         projectStatusWsRequest.setProjectKey(key);
         final ProjectStatusWsResponse projectStatusWsResponse = wsClient.qualityGates()
-            .projectStatus(projectStatusWsRequest);
+                .projectStatus(projectStatusWsRequest);
         final List<Condition> conditions = projectStatusWsResponse.getProjectStatus()
-            .getConditionsList();
+                .getConditionsList();
         for (final Condition condition : conditions) {
             if (metric.equals(condition.getMetricKey())) {
                 final Status status = condition.getStatus();
