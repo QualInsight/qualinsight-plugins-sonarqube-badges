@@ -75,6 +75,11 @@ public class CeActivityBadgeAction {
             .setBooleanPossibleValues()
             .setDefaultValue(Boolean.FALSE)
             .setRequired(false);
+        action.createParam("gitlab")
+                .setDescription("Set to 'true' if you want to using it at gitlab badges.")
+                .setBooleanPossibleValues()
+                .setDefaultValue(Boolean.FALSE)
+                .setRequired(false);
     }
 
 }
